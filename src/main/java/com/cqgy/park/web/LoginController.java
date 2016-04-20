@@ -30,8 +30,14 @@ public class LoginController {
 	@RequestMapping(value="/login/login.do", method=RequestMethod.POST)
 	public String login(String login_code,String login_password,HttpServletRequest req){
 		
-		List<SysUser> users = SysUserRepository.findByLoginCodeAndLoginPassword(login_code,login_password);
+		List<SysUser> users = sysUserRepository.findByLoginCodeAndLoginPassword(login_code,login_password);
 		
-		return "login/login";
+		if(users.isEmpty()){
+			return "login/login";
+		}else{
+			
+			return "index/index";
+		}
+		
 	}
 }
