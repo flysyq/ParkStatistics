@@ -1,0 +1,18 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="/theme/home :: header"></head>
+<body>
+	<div th:replace="/theme/home :: menu"/>
+</body>
+<footer th:replace="/theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script language="Javascript">
+	$(function() {
+		$('li.dropdown').mouseover(function() {
+			$(this).addClass('open');
+		}).mouseout(function() {
+			$(this).removeClass('open');
+		});
+	});
+</script>
+</html>

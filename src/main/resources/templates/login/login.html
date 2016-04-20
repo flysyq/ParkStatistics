@@ -1,25 +1,27 @@
-<html xmlns="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head th:include="theme/home :: header"></head>
 <body>
-	<br/>
-	<br/>
+	<br />
+	<br />
 	<div>
-		<form name="myform" method=post action="login/login.do">
+		<form name="myform" method="post" action="/login/login.do">
 			<div class="row">
-				<div class="col-md-offset-4 col-md-2">��¼����</div>
+				<div class="col-md-offset-5 col-md-1">登录名：</div>
 				<div class="col-md-2">
-					<input type=text class="form-control" name="login_code"/>
+					<input type="text" class="form-control" name="login_code" />
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-offset-4 col-md-2">���룺</div>
+				<div class="col-md-offset-5 col-md-1">密码：</div>
 				<div class="col-md-2">
-					<input type=text class="form-control" name="login_"/>
+					<input type="text" class="form-control" name="login_" />
 				</div>
 			</div>
+			<br/>
 			<div class="row">
 				<div class="col-md-offset-6 col-md-2">
-					<button class="btn btn-default">��¼</button>
+					<button class="btn btn-default form-control">登录</button>
 				</div>
 			</div>
 		</form>
