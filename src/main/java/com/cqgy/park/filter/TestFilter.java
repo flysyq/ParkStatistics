@@ -38,6 +38,7 @@ public class TestFilter implements Filter {
 		
 		System.out.println("uri="+request.getRequestURI());
 		System.out.println("url="+request.getRequestURL());
+		System.out.println("context path:"+request.getContextPath());
 		chain.doFilter(req, res);
 
 	}

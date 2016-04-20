@@ -17,7 +17,7 @@ public class IndexController {
 	
 	@RequestMapping("/")
 	String index(){
-		return "index";
+		return "login";
 	}
 	
 }

@@ -43,7 +43,7 @@ public class PersonController {
 		return p;
 	}
 	
-	@RequestMapping("/q1")
+	@RequestMapping("/a/q1.do")
 	public List<Person> q1(String address){
 		System.out.println("Hello q1");
 		List<Person> people = personRepository.findByAddress(address);

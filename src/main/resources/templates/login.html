@@ -1,0 +1,32 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="theme/home :: header"></head>
+<body>
+	<br/>
+	<br/>
+	<div>
+		<form name="myform" method=post action="login/login.do">
+			<div class="row">
+				<div class="col-md-offset-4 col-md-2">µÇÂ¼Ãû£º</div>
+				<div class="col-md-2">
+					<input type=text class="form-control" name="login_code"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-offset-4 col-md-2">ÃÜÂë£º</div>
+				<div class="col-md-2">
+					<input type=text class="form-control" name="login_"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-offset-6 col-md-2">
+					<button class="btn btn-default">µÇÂ¼</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{static/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+</html>

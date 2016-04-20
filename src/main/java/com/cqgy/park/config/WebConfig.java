@@ -9,6 +9,22 @@
  */
 package com.cqgy.park.config;
 
-public class WebConfig {
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+import com.cqgy.park.filter.TestFilter;
+
+@Configuration
+public class WebConfig {
+	
+	@Bean
+	public FilterRegistrationBean filterRegistrationBean(TestFilter tfilter){
+		FilterRegistrationBean  filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(tfilter);
+		filterRegistrationBean.setEnabled(true);
+		filterRegistrationBean.addUrlPatterns("*.do");
+		return filterRegistrationBean;
+		
+	}
 }
