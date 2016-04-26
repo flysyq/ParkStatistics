@@ -12,6 +12,7 @@ package com.cqgy.park.domain;
 import javax.persistence.Entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 @Entity
@@ -30,9 +31,9 @@ public class SysAuthority {
 	private String sortLevel;
 
 	private Integer createUser;
-	private Date createTime;
+	private Timestamp createTime;
 	private Integer updateUser;
-	private Date updateTime;
+	private Timestamp updateTime;
 	
 	public Long getId() {
 		return Id;
@@ -94,10 +95,10 @@ public class SysAuthority {
 	public void setCreateUser(Integer createUser) {
 		this.createUser = createUser;
 	}
-	public Date getCreateTime() {
+	public Timestamp getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
 	public Integer getUpdateUser() {
@@ -106,10 +107,10 @@ public class SysAuthority {
 	public void setUpdateUser(Integer updateUser) {
 		this.updateUser = updateUser;
 	}
-	public Date getUpdateTime() {
+	public Timestamp getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}	
 	
