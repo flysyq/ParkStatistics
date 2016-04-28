@@ -9,9 +9,7 @@
  */
 package com.cqgy.park.domain;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -27,9 +25,11 @@ public class SysRole {
 	private String remark;
 
 	private Long createUser;
-	private Timestamp createTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
 	private Long updateUser;
-	private Timestamp updateTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
 	public Long getId() {
 		return Id;
 	}
@@ -59,23 +59,27 @@ public class SysRole {
 	}
 	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
-	}
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
+	}	
 	public Long getUpdateUser() {
 		return updateUser;
 	}
 	public void setUpdateUser(Long updateUser) {
 		this.updateUser = updateUser;
 	}
-	public Timestamp getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(Timestamp updateTime) {
+	
+	public SysRole(Long id, String code, String name, String remark, Long createUser, Date createTime, Long updateUser,
+			Date updateTime) {
+		Id = id;
+		this.code = code;
+		this.name = name;
+		this.remark = remark;
+		this.createUser = createUser;
+		this.createTime = createTime;
+		this.updateUser = updateUser;
 		this.updateTime = updateTime;
+	}
+	public SysRole() {
+		super();
 	}	
+	
 }

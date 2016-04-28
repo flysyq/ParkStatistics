@@ -9,9 +9,7 @@
  */
 package com.cqgy.park.domain;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -27,9 +25,11 @@ public class SysUser {
 	private String loginPassword;
 	private Integer enabled;
 	private Long createUser;
-	private Timestamp createTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
 	private Long updateUser;
-	private Timestamp updateTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
 	public Long getId() {
 		return Id;
 	}
@@ -65,23 +65,42 @@ public class SysUser {
 	}
 	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
-	}
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
+	}	
 	public Long getUpdateUser() {
 		return updateUser;
 	}
 	public void setUpdateUser(Long updateUser) {
 		this.updateUser = updateUser;
+	}	
+	
+	public Date getCreateTime() {
+		return createTime;
 	}
-	public Timestamp getUpdateTime() {
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
-	}	
+	}
+	
+	
+	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled, Long createUser,
+			Date createTime, Long updateUser, Date updateTime) {
+		Id = id;
+		this.loginCode = loginCode;
+		this.name = name;
+		this.loginPassword = loginPassword;
+		this.enabled = enabled;
+		this.createUser = createUser;
+		this.createTime = createTime;
+		this.updateUser = updateUser;
+		this.updateTime = updateTime;
+	}
+	
+	public SysUser() {
+		super();
+	}		
 }

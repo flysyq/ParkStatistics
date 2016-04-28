@@ -9,7 +9,7 @@
  */
 package com.cqgy.park.domain;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -21,9 +21,50 @@ public class SysUserAuthoritys {
 	private Long Id;
 	
 	private Long UserId;
-	private Long authority_id;
+	private Long authorityId;
 	
 	private Integer createUser;
-	private Timestamp createTime;
-	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
+	public Long getId() {
+		return Id;
+	}
+	public void setId(Long id) {
+		Id = id;
+	}
+	public Long getUserId() {
+		return UserId;
+	}
+	public void setUserId(Long userId) {
+		UserId = userId;
+	}	
+	public Long getAuthorityId() {
+		return authorityId;
+	}
+	public void setAuthorityId(Long authorityId) {
+		this.authorityId = authorityId;
+	}
+	public Integer getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(Integer createUser) {
+		this.createUser = createUser;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}	
+	public SysUserAuthoritys(Long id, Long userId, Long authorityId, Integer createUser, Date createTime) {
+		super();
+		Id = id;
+		UserId = userId;
+		this.authorityId = authorityId;
+		this.createUser = createUser;
+		this.createTime = createTime;
+	}
+	public SysUserAuthoritys() {
+		super();
+	}
 }

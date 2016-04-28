@@ -9,10 +9,7 @@
  */
 package com.cqgy.park.domain;
 
-import javax.persistence.Entity;
-
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
 @Entity
@@ -23,17 +20,19 @@ public class SysAuthority {
 	
 	private String title;
 	private String code;
-	private Integer flag;
-	private Integer grade;
+	private Integer flag;// 1 菜单， 2 非菜单
+	private Integer grade; // 1 一级 ，2 二级
 	private String uri;
 	private String remark;
 	private Integer fatherId;
 	private String sortLevel;
 
 	private Integer createUser;
-	private Timestamp createTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
 	private Integer updateUser;
-	private Timestamp updateTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
 	
 	public Long getId() {
 		return Id;
@@ -95,23 +94,43 @@ public class SysAuthority {
 	public void setCreateUser(Integer createUser) {
 		this.createUser = createUser;
 	}
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
 	public Integer getUpdateUser() {
 		return updateUser;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	public void setUpdateUser(Integer updateUser) {
 		this.updateUser = updateUser;
 	}
-	public Timestamp getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(Timestamp updateTime) {
+	public SysAuthority(Long id, String title, String code, Integer flag, Integer grade, String uri, String remark,
+			Integer fatherId, String sortLevel, Integer createUser, Date createTime, Integer updateUser,
+			Date updateTime) {
+		Id = id;
+		this.title = title;
+		this.code = code;
+		this.flag = flag;
+		this.grade = grade;
+		this.uri = uri;
+		this.remark = remark;
+		this.fatherId = fatherId;
+		this.sortLevel = sortLevel;
+		this.createUser = createUser;
+		this.createTime = createTime;
+		this.updateUser = updateUser;
 		this.updateTime = updateTime;
-	}	
+	}
+	public SysAuthority() {
+		super();
+	}
 	
 }
