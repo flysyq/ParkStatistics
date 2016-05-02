@@ -19,4 +19,5 @@ public interface SysAuthorityRepository extends JpaRepository<SysAuthority, Long
 	
 	List<SysAuthority> findByGradeOrderBySortLevel(Integer grade);
 	List<SysAuthority> findByfatherIdOrderBySortLevel(Integer fatherId);
+	SysAuthority findOne(Long id);
 }

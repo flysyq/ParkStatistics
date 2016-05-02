@@ -132,5 +132,16 @@ public class SysAuthority {
 	public SysAuthority() {
 		super();
 	}
-	
+	public SysAuthority(Long id, String title, String code, Integer flag, Integer grade, String uri, String remark,
+			Integer fatherId, String sortLevel) {
+		Id = id;
+		this.title = title;
+		this.code = code;
+		this.flag = flag;
+		this.grade = grade;
+		this.uri = uri;
+		this.remark = remark;
+		this.fatherId = fatherId;
+		this.sortLevel = sortLevel;
+	}	
 }

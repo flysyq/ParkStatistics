@@ -38,5 +38,7 @@ public class AuthorityListForm {
 		this.grade = grade;
 		this.title = title;
 	}
-	
+	public AuthorityListForm() {
+		super();
+	}	
 }
