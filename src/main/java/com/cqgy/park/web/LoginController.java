@@ -12,6 +12,7 @@ package com.cqgy.park.web;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,20 +39,19 @@ public class LoginController {
 	@RequestMapping(value="/login/login.do", method=RequestMethod.POST)
 	public String login(String login_code,String login_password,HttpServletRequest req) throws Exception{
 		
-		List<SysUser> users = sysUserRepository.findByLoginCodeAndLoginPassword(login_code,shaEncode(login_password));
+		SysUser user = sysUserRepository.findByLoginCodeAndLoginPassword(login_code,shaEncode(login_password));
 		
-		Date date = new Date();
-		ActionLog actionLog = new ActionLog(null,login_code,1,date);
-		
-		actionLogRepository.save(actionLog);
-		if(users.isEmpty()){
+		if(Objects.isNull(user)){
 			return "login/login";
-		}else{			
+		}else{	
+			Date date = new Date();
+			ActionLog actionLog = new ActionLog(null,login_code,1,date);
+			actionLogRepository.save(actionLog);
 			HttpSession session = req.getSession();
+			session.setAttribute("login_id", user.getId());
 			session.setAttribute("loginCode", login_code);
 			session.setAttribute("loginTime", date);
 			return "index/index";
-		}
-		
+		}		
 	}
 }

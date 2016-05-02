@@ -2,41 +2,50 @@
 <head th:include="/theme/home :: header"></head>
 <body>
 	<div th:replace="/theme/home :: menu" />
-	<form name="myform" method="get">
-	<input type="hidden" name="del_id" value=""/>
+	<form name="myform" method="get" id="myform">
+		<input type="hidden" name="del_id" id="del_id" value="" />
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<td>编号</td>
-								<td>标题</td>
-								<td>uri</td>
-								<td>级别</td>
-								<td>类型</td>
-								<td>操作</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="sysAuthority,iterStat : ${sysAuthoritys}">
-								<td th:text="${iterStat.index}"></td>
-								<td th:text="${sysAuthority.title}"></td>
-								<td th:text="${sysAuthority.uri}"></td>
-								<td th:text="${sysAuthority.grade}"></td>
-								<td th:text="${sysAuthority.flag}"></td>
-								<td><a target="_blank" th:href="'edit.do?id='+${sysAuthority.id}" class="btn btn-primary">修改</a>
-								<button class="btn btn-primary" data-value="${sysAuthority.id}" th:id="'del' + ${sysAuthority.id}">删除</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading">
+							菜单信息
+						</div>
+						<table class="table table-bordered table-hover">
+							<thead class="thead_success">
+								<tr>
+									<td>编号</td>
+									<td>标题</td>
+									<td>uri</td>
+									<td>级别</td>
+									<td>类型</td>
+									<td>操作</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="sysAuthority,iterStat : ${sysAuthoritys}">
+									<td th:text="${iterStat.count}"></td>
+									<td th:text="${sysAuthority.title}"></td>
+									<td th:text="${sysAuthority.uri}"></td>
+									<td th:text="${sysAuthority.grade}"></td>
+									<td th:text="${sysAuthority.flag}"></td>
+									<td><a target="_blank"
+										th:href="'edit.do?id='+${sysAuthority.Id}"
+										class="btn btn-primary">修改</a>
+										<button class="btn btn-primary"
+											th:id="'ddel' + ${sysAuthority.Id}">删除</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<br />
 			<div class="row">
 				<div class="col-md-2 col-md-offset-5">
-				<a target="_blank" href="edit.do" class="btn btn-primary form-control">增加</a>
+					<a target="_blank" href="edit.do"
+						class="btn btn-primary form-control">增加</a>
 				</div>
 			</div>
 		</div>
@@ -51,6 +60,12 @@
 			$(this).addClass('open');
 		}).mouseout(function() {
 			$(this).removeClass('open');
+		});
+		$("[id^=ddel]").click(function(e){
+			e.preventDefault();
+			$v = $(this).attr("id");
+			$("#del_id").val($v.substring(4));
+			$("#myform").submit();
 		});
 	});
 </script>
