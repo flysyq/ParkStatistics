@@ -9,10 +9,12 @@
  */
 package com.cqgy.park.web;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,11 @@ public class SysAuthorityController {
 	@Autowired
 	SysAuthorityRepository sysAuthorityRepository;
 	@RequestMapping(value="/authority/list.do",method=RequestMethod.GET)
-	public String list(AuthorityListForm authorityListForm,HttpServletRequest request,Model model){
+	public String list(AuthorityListForm authorityListForm,Long del_id,HttpServletRequest request,Model model){
+		if(!Objects.isNull(del_id)){
+			sysAuthorityRepository.delete(del_id);
+		}
+		
 		Integer flag = authorityListForm.getFlag();
 		Integer grade = authorityListForm.getGrade();
 		String title = authorityListForm.getTitle();
@@ -92,5 +98,32 @@ public class SysAuthorityController {
 			fsysAuthoritys=sysAuthorityRepository.findByfatherIdOrderBySortLevel(father_id);
 		}
 		return fsysAuthoritys;
+	}
+	
+	@RequestMapping(value="/authority/save.do",method=RequestMethod.GET)
+	public String save(Long id,String title,String remark,String sort_level,
+			Integer flag,Integer grade,Integer father_id,String uri,Model model,HttpServletRequest request){
+		
+		SysAuthority sysAuthority = new SysAuthority();
+		sysAuthority.setId(id);
+		HttpSession session = request.getSession();
+		if(id == 0){
+			sysAuthority.setId(null);
+			sysAuthority.setCreateTime(new Date());
+			sysAuthority.setCreateUser((Integer)session.getAttribute("login_id"));
+		}
+		sysAuthority.setFatherId(father_id);
+		sysAuthority.setFlag(flag);
+		sysAuthority.setGrade(grade);
+		sysAuthority.setSortLevel(sort_level);
+		sysAuthority.setTitle(title);
+		sysAuthority.setRemark(remark);
+		sysAuthority.setUri(uri);
+		sysAuthority.setUpdateTime(new Date());
+		sysAuthority.setUpdateUser((Integer)session.getAttribute("login_id"));
+		sysAuthorityRepository.save(sysAuthority);
+		model.addAttribute("result", "创建菜单成功！");
+		String forword="/display/result";
+		return forword;
 	}
 }

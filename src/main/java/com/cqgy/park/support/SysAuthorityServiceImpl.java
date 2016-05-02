@@ -32,17 +32,18 @@ public class SysAuthorityServiceImpl implements SysAuthorityService{
 			@Override
 			public SysAuthority mapRow(ResultSet rs, int Rownum) throws SQLException {
 				SysAuthority sysAuthority = new SysAuthority();
+				sysAuthority.setId(rs.getLong("id"));
 				sysAuthority.setCode(rs.getString("code"));
-				sysAuthority.setCreateTime(rs.getTimestamp("createTime"));
-				sysAuthority.setCreateUser(rs.getInt("createUser"));
-				sysAuthority.setFatherId(rs.getInt("fatherId"));
+				sysAuthority.setCreateTime(rs.getTimestamp("create_time"));
+				sysAuthority.setCreateUser(rs.getInt("create_user"));
+				sysAuthority.setFatherId(rs.getInt("father_id"));
 				sysAuthority.setFlag(rs.getInt("flag"));
 				sysAuthority.setGrade(rs.getInt("grade"));
 				sysAuthority.setRemark(rs.getString("remark"));
-				sysAuthority.setSortLevel(rs.getString("sortLevel"));
+				sysAuthority.setSortLevel(rs.getString("sort_level"));
 				sysAuthority.setTitle(rs.getString("title"));
-				sysAuthority.setUpdateTime(rs.getTimestamp("updateTime"));
-				sysAuthority.setUpdateUser(rs.getInt("updateUser"));
+				sysAuthority.setUpdateTime(rs.getTimestamp("update_time"));
+				sysAuthority.setUpdateUser(rs.getInt("update_user"));
 				sysAuthority.setUri(rs.getString("uri"));
 				return sysAuthority;
 			}

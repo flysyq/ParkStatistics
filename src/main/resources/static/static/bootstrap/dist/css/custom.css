@@ -1,0 +1,298 @@
+@charset "utf-8";
+/* CSS Document */
+.masthead {
+  border-top: solid 2px #ffffff;
+  color: #999999;
+}
+.navbar {
+  background: #ffffff;
+}
+.banner {
+  height: 460px;
+  background: #f0f0f0;
+  line-height: 460px;
+  max-width: 100%;
+  border-bottom: solid 1px #e2e2e2;
+}
+.banner img {
+  max-width: 100%;
+}
+h4 {
+  font-family: "微软雅黑";
+  color: #ffffff;
+}
+p {
+  font-size: 12px;
+}
+.yisheng {
+  text-align: center;
+  background-color: #f0f0f0;
+}
+.yisheng img {
+  vertical-align: middle;
+}
+.login {
+  background: #ffffff;
+  border-top: solid 4px #ffffff;
+  padding: 20px;
+}
+.submit_1 {
+  padding: 0;
+  margin: 0;
+  font-family: "微软雅黑";
+  font-size: 14px;
+  border: none;
+  background: #ffffff;
+  width: 100%;
+  height: 40px;
+  line-height: 40xp;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
+  color: #ffffff;
+}
+.submit_2 {
+  width: 100px;
+}
+.input_1 {
+  padding: 0;
+  margin: 0;
+  border: solid 1px #cccccc;
+  height: 28px;
+  line-height: 28px;
+  background: #f1f1f1;
+  font-family: "微软雅黑";
+  font-size: 12px;
+  color: #333;
+  padding: 0 3px;
+}
+.input_1:focus {
+  border-color: #000;
+}
+.textarea_1 {
+  padding: 0;
+  margin: 0;
+  widows: 100px;
+  height: 100px;
+  font-family: "微软雅黑";
+  font-size: 12px;
+  color: #333;
+  padding: 0 3px;
+  line-height: 24px;
+}
+a {
+  color: #999;
+}
+a:hover {
+  color: #000000;
+  text-decoration: none;
+}
+.navbar {
+  border-radius: 0px;
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFF;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #fbb240;
+}
+.btn-toolbar > .btn,
+.btn-toolbar > .btn-group,
+.btn-toolbar > .input-group {
+  margin-right: 20px;
+}
+.content a {
+  color: #666;
+}
+.content a:hover {
+  color: #fbb240;
+}
+.btn-default {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color:#000000;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #000000;
+  background-color: #499c00;
+  border-color: #ffffff;
+}
+.form-horizontal .control-label {
+  margin-bottom: 0;
+  padding-top: 7px;
+  text-align: right;
+  color: #333;
+  font-weight: normal;
+}
+/*模版增加的内容*/
+.main {
+  font-family: "微软雅黑";
+  color: #333;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.navbar {
+  border-radius: 0;
+  background: none repeat scroll 0 0 #ffffff;
+}
+.navbar-inverse .navbar-nav > li {
+  margin-left: 20px;
+}
+.navbar-inverse .navbar-nav > li > a {
+  font-family: "微软雅黑";
+  font-weight: bold;
+  color: #ffffff;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+.div_sample {
+  height: 2em;
+  width: 20%;
+  background-color: #ffffff;
+  border: solid 1px #ffffff;
+}
+.div_code {
+  border: solid 1px #888888;
+}
+.div_main {
+  min-height: 50em;
+}
+/* 菜单处理*/
+.dropdown-menu,
+dropdown {
+  background-color: #ffffff;
+}
+.dropdown-menu > li > a {
+  margin-bottom: 10px;
+  color: #000000;
+  font-weight: bold;
+}
+.dropdown > a {
+  font-weight: bold;
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: #ffffff;
+  color: #000000;
+}
+/*左侧菜单*/
+.panel-success .panel-heading {
+  background-color: #ffffff;
+}
+.panel-heading a {
+  color: #ffffff;
+}
+.panel-heading a:hover {
+  color: #000;
+}
+.panel-body a {
+  color: #333;
+  font-size: 14px;
+}
+.panel-body a:hover {
+  position: relative;
+  left: 5px;
+}
+/*表格*/
+.thead_success {
+  background: #b9def0;
+  color: #000;
+}
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+.tr_odd {
+  background-color: #e2e2e2;
+}
+.tr_hover {
+  background-color: #f7fd77;
+}
+/*组合框 */
+.comb-button {
+  border: solid 1px;
+  border-color: #ccc;
+  border-radius: 50px;
+  height: auto;
+  min-width: 100px;
+  width: auto;
+  margin-left: 15px;
+  padding-left: 5px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+.comb-button-focus {
+  border-color: #66afe9;
+}
+.comb-input {
+  height: 2.6em;
+  min-width: 19em;
+  border: 0;
+  border-color: #ffffff;
+  vertical-align: middle;
+  border-radius: 50px;
+}
+.comb-input:focus {
+  outline: none;
+}
+.comb-label {
+  padding-top: 0.8em;
+}
+.input-select {
+  font-size: 14px;
+  min-width: 4em;
+  height: 2.5em;
+}
+.input-high {
+  height: 3em;
+}
+.btn-radius {
+  border-radius: 50px;
+}
+.input-comb {
+  height: 2.6em;
+  min-width: 20em;
+  border: solid 1px;
+  border-color: #ffffff;
+  vertical-align: middle;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.input-comb:focus {
+  outline: none;
+}
+.btn-comb {
+  height: 2.58em;
+  border-radius: 0px;
+  vertical-align: middle;
+  position: relative;
+  left: -5px;
+}
+.btn-comb-1 {
+  height: 2.58em;
+  border-radius: 50px;
+  vertical-align: middle;
+  position: relative;
+  left: 2px;
+  top: -1px;
+}
+#弹出框 model .model-dialog {
+  width: 900px;
+}
+.model-content {
+  width: 900px;
+  margin-left: -150px;
+}
+.modal-footer {
+  text-align: center;
+}
+/*# sourceMappingURL=kfxiaowu.css.map */

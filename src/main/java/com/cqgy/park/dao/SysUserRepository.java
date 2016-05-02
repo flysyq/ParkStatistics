@@ -18,5 +18,5 @@ import com.cqgy.park.domain.SysUser;
 public interface SysUserRepository extends JpaRepository<SysUser, Long> {
 	
 	List<SysUser> findByLoginCode(String loginCode);
-	List<SysUser> findByLoginCodeAndLoginPassword(String loginCode,String loginPassword);
+	SysUser findByLoginCodeAndLoginPassword(String loginCode,String loginPassword);
 }
