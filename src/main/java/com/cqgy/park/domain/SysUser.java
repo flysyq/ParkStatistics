@@ -100,6 +100,15 @@ public class SysUser {
 		this.updateTime = updateTime;
 	}
 	
+	
+	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled) {
+		super();
+		Id = id;
+		this.loginCode = loginCode;
+		this.name = name;
+		this.loginPassword = loginPassword;
+		this.enabled = enabled;
+	}
 	public SysUser() {
 		super();
 	}		
