@@ -7,10 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
 
 import com.cqgy.park.dao.SysRoleService;
 import com.cqgy.park.domain.SysRole;
-
+@Service
 public class SysRoleServiceImpt implements SysRoleService {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
