@@ -92,7 +92,7 @@ public class SysUserController {
 			sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
 			sysUserRepository.save(sysUser);
 			model.addAttribute("result", "创建用户成功！");
-			String a = "1";
+			String a = "1111";
 		String foward="display/result";
 		return foward;
 	}
