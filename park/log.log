@@ -7934,6 +7934,7 @@ org.thymeleaf.exceptions.TemplateInputException: Error resolving template "/disl
 2016-05-02 23:24:41.746  INFO 5252 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
 2016-05-02 23:24:41.746  INFO 5252 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
 2016-05-02 23:24:41.749  INFO 5252 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 3 ms
+<<<<<<< HEAD
 2016-05-03 14:01:36.731  INFO 9096 --- [restartedMain] com.cqgy.park.ParkStatisticsApplication  : Starting ParkStatisticsApplication on Venus with PID 9096 (D:\git\ParkStatistics\target\classes started by xiaopeng in D:\git\ParkStatistics)
 2016-05-03 14:01:36.775  INFO 9096 --- [restartedMain] com.cqgy.park.ParkStatisticsApplication  : The following profiles are active: dev
 2016-05-03 14:01:37.407  INFO 9096 --- [restartedMain] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3fae67e9: startup date [Tue May 03 14:01:37 CST 2016]; root of context hierarchy
@@ -12926,3 +12927,5 @@ Caused by: org.thymeleaf.exceptions.TemplateInputException: Error resolving temp
 2016-05-03 17:57:12.751  INFO 7692 --- [RMI TCP Connection(2)-192.168.1.6] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3fae67e9: startup date [Tue May 03 17:43:35 CST 2016]; root of context hierarchy
 2016-05-03 17:57:12.761  INFO 7692 --- [RMI TCP Connection(2)-192.168.1.6] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
 2016-05-03 17:57:12.769  INFO 7692 --- [RMI TCP Connection(2)-192.168.1.6] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+=======
+>>>>>>> branch 'master' of https://ligw@192.168.1.239:8443/r/ParkStatistics.git
