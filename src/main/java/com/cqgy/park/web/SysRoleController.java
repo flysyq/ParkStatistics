@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class SysRoleController {
 	SysRoleRepository sysRoleRepository;
 	@RequestMapping(value="/sysrole/rolelist.do",method=RequestMethod.GET)
 	public String list(SysRoleListForm sysRoleListForm,Long del_id,HttpServletRequest request,Model model){
-		if (Objects.isNull(del_id)) {
+		if (!Objects.isNull(del_id)) {
 			sysRoleRepository.delete(del_id);
 		}
 		String code=sysRoleListForm.getCode();
@@ -33,14 +34,14 @@ public class SysRoleController {
 		String remark=sysRoleListForm.getRemark();
 		String select = "select * from sys_role";
 		String where = "";
-		if (Strings.isNullOrEmpty(code)) {
+		if (!Strings.isNullOrEmpty(code)) {
 			where+="and code="+code;
 		}
-		if (Strings.isNullOrEmpty(name)) {
+		if (!Strings.isNullOrEmpty(name)) {
 			where+=" and name like '%"+name+"%'";
 		}
-		if (Strings.isNullOrEmpty(remark)) {
-			where+="and remark+"+remark;
+		if (!Strings.isNullOrEmpty(remark)) {
+			where+=" and remark+"+remark;
 		}
 		if(where.startsWith(" and")){
 			where = where.substring(4);
@@ -53,6 +54,34 @@ public class SysRoleController {
 		List<SysRole> sysRoles = sysRoleService.getRoles(sql);
 		model.addAttribute("sysRoles", sysRoles);
 		String foward="/sysrole/rolelist";
-		return null;
+		return foward;
+	}
+	@RequestMapping(value="/sysrole/roleedit.do",method=RequestMethod.GET)
+	public String edit(Long id,Model model){
+		SysRole sysRole=new SysRole(new Integer(0).longValue(), "", "", "");
+		if (!Objects.isNull(id)) {
+			sysRole=sysRoleRepository.findOne(id);
+		}
+		model.addAttribute("sysRole", sysRole);
+		String foward="/sysrole/roleedit";
+		return foward;
+		}
+	@RequestMapping(value="/sysrole/rolesave.do",method=RequestMethod.GET)
+	public String save(Long id,String code,String name,String remark,Model model,HttpServletRequest request){
+		SysRole sysRole=new SysRole();
+		sysRole.setId(id);
+		HttpSession session = request.getSession();
+		if (id==0) {
+			sysRole.setId(null);
+			sysRole.setCreateUser((Long) request.getAttribute("login_code"));
+		}
+		sysRole.setCode(code);
+		sysRole.setName(name);
+		sysRole.setRemark(remark);
+		sysRole.setUpdateUser((Long) request.getAttribute("login_code"));
+		sysRoleRepository.save(sysRole);
+		model.addAttribute("result", "创建角色成功！");
+		String result="/display/result";
+		return result;
 	}
 }
