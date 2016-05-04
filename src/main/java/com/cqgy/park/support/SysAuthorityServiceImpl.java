@@ -35,7 +35,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService{
 				sysAuthority.setId(rs.getLong("id"));
 				sysAuthority.setCode(rs.getString("code"));
 				sysAuthority.setCreateTime(rs.getTimestamp("create_time"));
-				sysAuthority.setCreateUser(rs.getInt("create_user"));
+				sysAuthority.setCreateUser(rs.getLong("create_user"));
 				sysAuthority.setFatherId(rs.getInt("father_id"));
 				sysAuthority.setFlag(rs.getInt("flag"));
 				sysAuthority.setGrade(rs.getInt("grade"));
@@ -43,7 +43,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService{
 				sysAuthority.setSortLevel(rs.getString("sort_level"));
 				sysAuthority.setTitle(rs.getString("title"));
 				sysAuthority.setUpdateTime(rs.getTimestamp("update_time"));
-				sysAuthority.setUpdateUser(rs.getInt("update_user"));
+				sysAuthority.setUpdateUser(rs.getLong("update_user"));
 				sysAuthority.setUri(rs.getString("uri"));
 				return sysAuthority;
 			}
