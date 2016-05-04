@@ -67,6 +67,14 @@ public class SysRole {
 		this.updateUser = updateUser;
 	}
 	
+	
+	public SysRole(Long id, String code, String name, String remark) {
+		super();
+		Id = id;
+		this.code = code;
+		this.name = name;
+		this.remark = remark;
+	}
 	public SysRole(Long id, String code, String name, String remark, Long createUser, Date createTime, Long updateUser,
 			Date updateTime) {
 		Id = id;
