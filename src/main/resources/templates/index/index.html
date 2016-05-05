@@ -2,6 +2,8 @@
 <head th:include="/theme/home :: header"></head>
 <body>
 	<div th:replace="/theme/home :: menu"/>
+	<p th:text="${session.login_id}"></p>
+	
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>

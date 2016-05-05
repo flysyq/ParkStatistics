@@ -60,6 +60,13 @@ public class SysUserRoles {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	
+	public SysUserRoles(Long id, Long userId, Long roleId) {
+		super();
+		Id = id;
+		this.userId = userId;
+		this.roleId = roleId;
+	}
 	public SysUserRoles(Long id, Long userId, Long roleId, Long createUser, Date createTime) {
 		Id = id;
 		this.userId = userId;
