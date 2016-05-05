@@ -4,9 +4,10 @@
 	<br />
 	<br />
 	<form name="myform" method="get" action="save.do">
-		<input type="hidden" name="id" th:value="${sysAuthority.id}" />
-		<input type="hidden" id="hgrade" name="grade" th:value="${sysAuthority.grade}" />
-		<input type="hidden" id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
+		<input type="hidden" name="id" th:value="${sysAuthority.id}" /> <input
+			type="hidden" id="hgrade" name="grade"
+			th:value="${sysAuthority.grade}" /> <input type="hidden"
+			id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">鏍囬</div>
 			<div class="col-md-2">
@@ -40,6 +41,7 @@
 			<div class="col-md-1 col-md-offset-5">绾у埆</div>
 			<div class="col-md-3">
 				<div class="btn-group" role="group">
+<<<<<<< HEAD
 					<button id="bgrade" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						涓�绾�<span class="caret"></span>
@@ -48,15 +50,26 @@
 						<li><a href="#" id="grade1" data-value="涓�绾�" data-value1="1">涓�绾�</a></li>
 						<li><a href="#" id="grade2" data-value="浜岀骇" data-value1="2">浜岀骇</a></li>
 						<li><a href="#" id="grade3" data-value="涓夌骇" data-value1="3">涓夌骇</a></li>
+=======
+					<button id="bgrade" type="button"
+						class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						一级<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
+						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
+>>>>>>> 23aff1d1062d1009f3d8b81c285a2f47e1aa3130
 					</ul>
 				</div>
 			</div>
 		</div>
-		<br/>
+		<br />
 		<div class="form-group" id="father_div">
 			<div class="col-md-1 col-md-offset-5">涓婄骇鑿滃崟</div>
 			<div class="col-md-5">
 				<div class="btn-group" role="group">
+<<<<<<< HEAD
 					<button id="father1" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						涓�绾�<span class="caret"></span>
@@ -76,6 +89,14 @@
 						<li><a href="#" id="grade1" data-value="涓�绾�" data-value1="1">涓�绾�</a></li>
 						<li><a href="#" id="grade2" data-value="浜岀骇" data-value1="2">浜岀骇</a></li>
 						<li><a href="#" id="grade3" data-value="涓夌骇" data-value1="3">涓夌骇</a></li>
+=======
+					<button id="father1" type="button"
+						class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						系统管理<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" id="father_list">
+>>>>>>> 23aff1d1062d1009f3d8b81c285a2f47e1aa3130
 					</ul>
 				</div>
 			</div>
@@ -92,8 +113,8 @@
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">璇存槑</div>
 			<div class="col-md-4">
-				<textarea class="form-control" name="remark"  rows="3"
-					th:text="${sysAuthority.remark}" ></textarea>
+				<textarea class="form-control" name="remark" rows="3"
+					th:text="${sysAuthority.remark}"></textarea>
 			</div>
 		</div>
 		<br />
@@ -109,16 +130,58 @@
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
+
+
 <script>
-	$(function(){
+	/*<![CDATA[*/
+	$(function() {
 		$("#father_div").hide();
-		autosize($("textarea"));
-		$("[id^=grade]").click(function(e){
-			$grade = $(this).attr("data-value1");
-			$("#hgrade").val($grade);
-			$bgrade = $(this).attr("data-value")+'<span class="caret"></span>';
-			$("#bgrade").html($bgrade);
+		$("#grade1").click(function() {
+			$("#father_div").hide();
 		});
+		$("#grade2")
+				.click(
+						function() {
+							$("#father_div").show();
+							$
+									.ajax({
+										type : "get",
+										url : "/authority/father.do",
+										contentType : "application/json; charset=utf-8",
+										dataType : "json",
+										success : function(data) {
+											for (var i = 0; i < data.length; i++) {
+												var li = "<li><a href='#' id='fatherId"+data[i].fatherId+"' data-value='"+data[i].title+"' data-value1='"+data[i].sortLevel+"'>"
+														+ data[i].title
+														+ "</a></li>";
+												$("#father_list").append(li);
+											}
+
+										}
+									});
+						});
+		autosize($("textarea"));
+		$("[id^=grade]").click(
+				function(e) {
+					$grade = $(this).attr("data-value1");
+					$("#hgrade").val($grade);
+					$bgrade = $(this).attr("data-value")
+							+ '<span class="caret"></span>';
+					$("#bgrade").html($bgrade);
+				});
+		$("body").on(
+				"click",
+				"[id^=fatherId]",
+				function(e) {
+					$fatherId = $(this).attr("data-value1");
+					$("#father_id").val($fatherId);
+					$father1 = $(this).attr("data-value")
+							+ '<span class="caret"></span>';			
+					$("#father1").html($father1);
+				});
+
 	});
+	/*]]>*/
 </script>
+
 </html>

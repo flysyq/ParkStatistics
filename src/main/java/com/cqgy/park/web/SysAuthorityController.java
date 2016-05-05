@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @作者 admin
  * @时间 2016年4月20日 下午5:06:58
  * @类名 SysAuthorityController.java
@@ -96,7 +96,7 @@ public class SysAuthorityController {
 		}		
 		if(!Objects.isNull(father_id)){
 			fsysAuthoritys=sysAuthorityRepository.findByfatherIdOrderBySortLevel(father_id);
-		}
+
 		return fsysAuthoritys;
 	}
 	
