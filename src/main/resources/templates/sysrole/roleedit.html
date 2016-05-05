@@ -1,0 +1,44 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="/theme/home :: header"></head>
+<body>
+	<br />
+	<br />
+	<form name="myform" method="get" action="rolesave.do">
+		<input type="hidden" name="id" th:value="${sysRole.id}" />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">代号</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="code"
+					th:value="${sysRole.code}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">名称</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="name"
+					th:value="${sysRole.name}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">说明</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="remark"
+					th:value="${sysRole.remark}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-2 col-md-offset-6">
+				<button class="btn btn-primary form-control">提交</button>
+			</div>
+		</div>
+		<br />
+	</form>
+</body>
+<footer th:replace="/theme/home :: footer"></footer>
+<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
+</html>
