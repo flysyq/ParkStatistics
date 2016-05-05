@@ -1,3 +1,4 @@
 /target/
-
 /park/
+/park/*.log
+/.settings/
