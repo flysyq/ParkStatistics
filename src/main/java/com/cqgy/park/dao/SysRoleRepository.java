@@ -10,4 +10,5 @@ public interface SysRoleRepository extends JpaRepository<SysRole, Long>{
 	List<SysRole> findByCode(String code);
 	List<SysRole> findByName(String name);
 	List<SysRole> findByCodeAndName(String code,String name);
+	SysRole findOne(Long id);
 }

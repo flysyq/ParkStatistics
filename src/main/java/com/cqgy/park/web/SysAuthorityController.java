@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @作者 admin
  * @时间 2016年4月20日 下午5:06:58
  * @类名 SysAuthorityController.java
@@ -97,6 +97,7 @@ public class SysAuthorityController {
 		if(!Objects.isNull(father_id)){
 			fsysAuthoritys=sysAuthorityRepository.findByfatherIdOrderBySortLevel(father_id);
 		}
+		fsysAuthoritys.get(0);
 		return fsysAuthoritys;
 	}
 	
@@ -110,7 +111,7 @@ public class SysAuthorityController {
 		if(id == 0){
 			sysAuthority.setId(null);
 			sysAuthority.setCreateTime(new Date());
-			sysAuthority.setCreateUser((Integer)session.getAttribute("login_id"));
+			sysAuthority.setCreateUser((Long)session.getAttribute("login_id"));
 		}
 		sysAuthority.setFatherId(father_id);
 		sysAuthority.setFlag(flag);
@@ -120,7 +121,7 @@ public class SysAuthorityController {
 		sysAuthority.setRemark(remark);
 		sysAuthority.setUri(uri);
 		sysAuthority.setUpdateTime(new Date());
-		sysAuthority.setUpdateUser((Integer)session.getAttribute("login_id"));
+		sysAuthority.setUpdateUser((Long)session.getAttribute("login_id"));
 		sysAuthorityRepository.save(sysAuthority);
 		model.addAttribute("result", "创建菜单成功！");
 		String forword="/display/result";
