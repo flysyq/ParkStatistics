@@ -1,2 +1,9 @@
+<<<<<<< HEAD
 /target/
 /park/
+=======
+/target/
+/park/
+/park/*.log
+/.settings/
+>>>>>>> refs/heads/dev

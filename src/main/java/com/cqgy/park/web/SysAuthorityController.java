@@ -97,7 +97,6 @@ public class SysAuthorityController {
 		if(!Objects.isNull(father_id)){
 			fsysAuthoritys=sysAuthorityRepository.findByfatherIdOrderBySortLevel(father_id);
 		}
-		fsysAuthoritys.get(0);
 		return fsysAuthoritys;
 	}
 	
