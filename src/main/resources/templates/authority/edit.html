@@ -8,7 +8,7 @@
 		<input type="hidden" id="hgrade" name="grade" th:value="${sysAuthority.grade}" />
 		<input type="hidden" id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">标题</div>
+			<div class="col-md-1 col-md-offset-5">鏍囬</div>
 			<div class="col-md-2">
 				<input type="text" class="form-control" name="title"
 					th:value="${sysAuthority.title}" />
@@ -24,65 +24,65 @@
 		</div>
 		<br />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">类型</div>
+			<div class="col-md-1 col-md-offset-5">绫诲瀷</div>
 			<div class="col-md-3">
 				<div class="radio">
 					<label> <input type="radio" name="flag" id="id_flag1"
-						value="1" checked="1" /> 菜单
+						value="1" checked="1" /> 鑿滃崟
 					</label> <label> <input type="radio" name="flag" id="id_flag2"
-						value="2" /> 功能
+						value="2" /> 鍔熻兘
 					</label>
 				</div>
 			</div>
 		</div>
 		<br />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">级别</div>
+			<div class="col-md-1 col-md-offset-5">绾у埆</div>
 			<div class="col-md-3">
 				<div class="btn-group" role="group">
 					<button id="bgrade" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						一级<span class="caret"></span>
+						涓�绾�<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
-						<li><a href="#" id="grade3" data-value="三级" data-value1="3">三级</a></li>
+						<li><a href="#" id="grade1" data-value="涓�绾�" data-value1="1">涓�绾�</a></li>
+						<li><a href="#" id="grade2" data-value="浜岀骇" data-value1="2">浜岀骇</a></li>
+						<li><a href="#" id="grade3" data-value="涓夌骇" data-value1="3">涓夌骇</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<br/>
 		<div class="form-group" id="father_div">
-			<div class="col-md-1 col-md-offset-5">上级菜单</div>
+			<div class="col-md-1 col-md-offset-5">涓婄骇鑿滃崟</div>
 			<div class="col-md-5">
 				<div class="btn-group" role="group">
 					<button id="father1" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						一级<span class="caret"></span>
+						涓�绾�<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" id="father1_list">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
-						<li><a href="#" id="grade3" data-value="三级" data-value1="3">三级</a></li>
+						<li><a href="#" id="grade1" data-value="涓�绾�" data-value1="1">涓�绾�</a></li>
+						<li><a href="#" id="grade2" data-value="浜岀骇" data-value1="2">浜岀骇</a></li>
+						<li><a href="#" id="grade3" data-value="涓夌骇" data-value1="3">涓夌骇</a></li>
 					</ul>
 				</div>
 				<div class="btn-group" role="group">
 					<button id="father2" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						一级<span class="caret"></span>
+						涓�绾�<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" id="father2_list">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
-						<li><a href="#" id="grade3" data-value="三级" data-value1="3">三级</a></li>
+						<li><a href="#" id="grade1" data-value="涓�绾�" data-value1="1">涓�绾�</a></li>
+						<li><a href="#" id="grade2" data-value="浜岀骇" data-value1="2">浜岀骇</a></li>
+						<li><a href="#" id="grade3" data-value="涓夌骇" data-value1="3">涓夌骇</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<br />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">排序</div>
+			<div class="col-md-1 col-md-offset-5">鎺掑簭</div>
 			<div class="col-md-2">
 				<input type="text" class="form-control" name="sort_level"
 					th:value="${sysAuthority.sortLevel}" />
@@ -90,7 +90,7 @@
 		</div>
 		<br />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">说明</div>
+			<div class="col-md-1 col-md-offset-5">璇存槑</div>
 			<div class="col-md-4">
 				<textarea class="form-control" name="remark"  rows="3"
 					th:text="${sysAuthority.remark}" ></textarea>
@@ -99,7 +99,7 @@
 		<br />
 		<div class="form-group">
 			<div class="col-md-2 col-md-offset-6">
-				<button class="btn btn-primary form-control">提交</button>
+				<button class="btn btn-primary form-control">鎻愪氦</button>
 			</div>
 		</div>
 		<br />
