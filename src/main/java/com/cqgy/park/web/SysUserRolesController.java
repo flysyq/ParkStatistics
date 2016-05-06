@@ -52,6 +52,7 @@ public class SysUserRolesController {
 		sysUserRoles.setRoleId(role_id);
 		sysUserRolesRepository.save(sysUserRoles);
 		model.addAttribute("result", "角色分配成功！");
+		String aa="aa";
 		String forword="/display/result";
 		return forword;
 	}
