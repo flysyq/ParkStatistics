@@ -124,6 +124,7 @@ public class SysAuthorityController {
 		sysAuthorityRepository.save(sysAuthority);
 		model.addAttribute("result", "创建菜单成功！");
 		String forword="/display/result";
+		String a="lgw11";
 		return forword;
 	}
 }

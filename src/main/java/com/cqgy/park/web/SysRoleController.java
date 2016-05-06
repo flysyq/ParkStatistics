@@ -82,6 +82,7 @@ public class SysRoleController {
 		sysRoleRepository.save(sysRole);
 		model.addAttribute("result", "创建角色成功！");
 		String forword="/display/result";
+		String a="lgw11";
 		return forword;
 	}
 }

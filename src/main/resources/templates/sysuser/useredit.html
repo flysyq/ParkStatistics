@@ -1,8 +1,7 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
-	<br />
-	<br />
+
 	<form name="myform" method="get" action="usersave.do">
 		<input type="hidden" name="id" th:value="${sysUser.id}" /> <input
 			type="hidden" id="hgrade" name="enbled" th:value="${sysUser.enabled}" />
