@@ -53,8 +53,8 @@ public class SysRoleController {
 		String sql = select+where;
 		List<SysRole> sysRoles = sysRoleService.getRoles(sql);
 		model.addAttribute("sysRoles", sysRoles);
-		String foward="/sysrole/rolelist";
-		return foward;
+		String forword="/sysrole/rolelist";
+		return forword;
 	}
 	@RequestMapping(value="/sysrole/roleedit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
@@ -63,8 +63,8 @@ public class SysRoleController {
 			sysRole=sysRoleRepository.findOne(id);
 		}
 		model.addAttribute("sysRole", sysRole);
-		String foward="/sysrole/roleedit";
-		return foward;
+		String forword="/sysrole/roleedit";
+		return forword;
 		}
 	@RequestMapping(value="/sysrole/rolesave.do",method=RequestMethod.GET)
 	public String save(Long id,String code,String name,String remark,Model model,HttpServletRequest request){
@@ -81,7 +81,8 @@ public class SysRoleController {
 		sysRole.setUpdateUser((Long) request.getAttribute("login_code"));
 		sysRoleRepository.save(sysRole);
 		model.addAttribute("result", "创建角色成功！");
-		String result="/display/result";
-		return result;
+		String forword="/display/result";
+		String a="lgw111";
+		return forword;
 	}
 }

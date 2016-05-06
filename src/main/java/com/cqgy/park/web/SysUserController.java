@@ -56,8 +56,8 @@ public class SysUserController {
 		String sql = select+where;
 		List<SysUser> sysUsers=sysUserService.getSysUsers(sql);
 		model.addAttribute("sysUsers", sysUsers);
-		String foword="/sysuser/userlist";
-		return foword;	
+		String forword="/sysuser/userlist";
+		return forword;	
 	}
 	@RequestMapping(value="/sysuser/useredit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
@@ -66,8 +66,8 @@ public class SysUserController {
 			sysUser=sysUserRepository.findOne(id);
 		}
 		model.addAttribute("sysUser", sysUser);
-		String foward="/sysuser/useredit";
-		return foward;	
+		String forword="/sysuser/useredit";
+		return forword;	
 	}
 	@RequestMapping(value="/sysuser/usersave.do",method=RequestMethod.GET)
 	public String sava(Long id,String logincode,String loginpassword,String name,Integer enabled,Model model,HttpServletRequest request){
@@ -92,8 +92,8 @@ public class SysUserController {
 			sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
 			sysUserRepository.save(sysUser);
 			model.addAttribute("result", "创建用户成功！");
-			String a="lgw11";
-		String foward="display/result";
-		return foward;
+			String aa="lgw11";
+		String forword="display/result";
+		return forword;
 	}
 }

@@ -1,99 +1,30 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
-	<br />
-	<br />
-	<form name="myform" method="get" action="save.do">
-		<input type="hidden" name="id" th:value="${sysUser.id}" />
-		<input type="hidden" id="hgrade" name="grade" th:value="${sysAuthority.grade}" />
-		<input type="hidden" id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
+
+	<form name="myform" method="get" action="usersave.do">
+		<input type="hidden" name="id" th:value="${sysUser.id}" /> <input
+			type="hidden" id="hgrade" name="enbled" th:value="${sysUser.enabled}" />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">标题</div>
+			<div class="col-md-1 col-md-offset-5" >用户名</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" name="title"
-					th:value="${sysAuthority.title}" />
+				<input type="text" class="form-control" name="logincode"
+					th:value="${sysUser.loginCode}" />
 			</div>
 		</div>
 		<br />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">URI</div>
-			<div class="col-md-3">
-				<input type="text" class="form-control" name="uri"
-					th:value="${sysAuthority.uri}" />
-			</div>
-		</div>
-		<br />
-		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">类型</div>
-			<div class="col-md-3">
-				<div class="radio">
-					<label> <input type="radio" name="flag" id="id_flag1"
-						value="1" checked="1" /> 菜单
-					</label> <label> <input type="radio" name="flag" id="id_flag2"
-						value="2" /> 功能
-					</label>
-				</div>
-			</div>
-		</div>
-		<br />
-		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">级别</div>
-			<div class="col-md-3">
-				<div class="btn-group" role="group">
-					<button id="bgrade" type="button" class="btn btn-default dropdown-toggle"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						一级<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
-						<li><a href="#" id="grade3" data-value="三级" data-value1="3">三级</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="form-group" id="father_div">
-			<div class="col-md-1 col-md-offset-5">上级菜单</div>
-			<div class="col-md-5">
-				<div class="btn-group" role="group">
-					<button id="father1" type="button" class="btn btn-default dropdown-toggle"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						一级<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" id="father1_list">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
-						<li><a href="#" id="grade3" data-value="三级" data-value1="3">三级</a></li>
-					</ul>
-				</div>
-				<div class="btn-group" role="group">
-					<button id="father2" type="button" class="btn btn-default dropdown-toggle"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						一级<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" id="father2_list">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
-						<li><a href="#" id="grade3" data-value="三级" data-value1="3">三级</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<br />
-		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">排序</div>
+			<div class="col-md-1 col-md-offset-5">密码</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" name="sort_level"
-					th:value="${sysAuthority.sortLevel}" />
+				<input type="password" class="form-control" name="loginpassword" />
 			</div>
 		</div>
 		<br />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">说明</div>
-			<div class="col-md-4">
-				<textarea class="form-control" name="remark"  rows="3"
-					th:text="${sysAuthority.remark}" ></textarea>
+			<div class="col-md-1 col-md-offset-5">姓名</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="name"
+					th:value="${sysUser.name}" />
 			</div>
 		</div>
 		<br />
@@ -109,16 +40,4 @@
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
-<script>
-	$(function(){
-		$("#father_div").hide();
-		autosize($("textarea"));
-		$("[id^=grade]").click(function(e){
-			$grade = $(this).attr("data-value1");
-			$("#hgrade").val($grade);
-			$bgrade = $(this).attr("data-value")+'<span class="caret"></span>';
-			$("#bgrade").html($bgrade);
-		});
-	});
-</script>
 </html>
