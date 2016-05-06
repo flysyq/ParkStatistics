@@ -46,13 +46,25 @@ public class SysUserRolesController {
 	public String save(Long id,Long user_id,Long role_id,Model model,HttpServletRequest request){
 		SysUserRoles sysUserRoles=new SysUserRoles();
 		HttpSession session = request.getSession();
-		sysUserRoles.setCreateTime(new Date());
-		sysUserRoles.setCreateUser((Long) session.getAttribute("login_id"));
-		sysUserRoles.setUserId(user_id);
-		sysUserRoles.setRoleId(role_id);
-		sysUserRolesRepository.save(sysUserRoles);
-		model.addAttribute("result", "角色分配成功！");
-		String aa="aa";
+		if (role_id!=0) {
+			sysUserRoles.setCreateTime(new Date());
+			sysUserRoles.setCreateUser((Long) session.getAttribute("login_id"));
+			sysUserRoles.setUserId(user_id);
+			sysUserRoles.setRoleId(role_id);
+			sysUserRolesRepository.save(sysUserRoles);
+			model.addAttribute("result", "用户角色分配成功！");
+		}else {
+			List<SysUserRoles> findByUserId = sysUserRolesRepository.findByUserId(user_id);
+			if (!findByUserId.isEmpty()) {
+				sysUserRoles = findByUserId.get(0);
+				sysUserRolesRepository.delete(sysUserRoles.getId());
+				model.addAttribute("result", "取消用户角色成功！");
+			}else {
+				model.addAttribute("result", "未分配用户角色！");
+			}
+		}
+		
+		
 		String forword="/display/result";
 		return forword;
 	}

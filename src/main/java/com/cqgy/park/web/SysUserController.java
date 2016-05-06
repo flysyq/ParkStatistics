@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.SysUserRepository;
+import com.cqgy.park.dao.SysUserRolesRepository;
 import com.cqgy.park.dao.SysUserService;
 import com.cqgy.park.domain.SysUser;
+import com.cqgy.park.domain.SysUserRoles;
 import com.cqgy.park.form.UserListForm;
 import com.cqgy.park.tool.SHAUtil;
 import com.google.common.base.Strings;
@@ -26,10 +28,17 @@ public class SysUserController {
 	SysUserService sysUserService;
 	@Autowired
 	SysUserRepository sysUserRepository;
+	@Autowired
+	SysUserRolesRepository sysUserRolesRepository;
 	@RequestMapping(value="/sysuser/userlist.do",method=RequestMethod.GET)
 	public String list(UserListForm userListForm,Long del_id,HttpServletRequest request,Model model){
 		if(!Objects.isNull(del_id)){
 			sysUserRepository.delete(del_id);
+			List<SysUserRoles> findByUserId = sysUserRolesRepository.findByUserId(del_id);	
+			if (!findByUserId.isEmpty()) {
+				SysUserRoles sysUserRoles = findByUserId.get(0);
+				sysUserRolesRepository.delete(sysUserRoles.getId());
+			}  		
 		}
 		String logincode=userListForm.getLoginCode();
 		String name=userListForm.getName();
