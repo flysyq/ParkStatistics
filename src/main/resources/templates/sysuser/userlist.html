@@ -17,7 +17,6 @@
 								<tr>
 									<td>编号</td>
 									<td>用户名</td>
-									<td>密码</td>
 									<td>姓名</td>
 									<td>操作</td>
 								</tr>
@@ -26,7 +25,6 @@
 								<tr th:each="sysUser,iterStat : ${sysUsers}">
 									<td th:text="${iterStat.count}"></td>
 									<td th:text="${sysUser.loginCode}"></td>
-									<td th:text="${sysUser.loginPassword}"></td>
 									<td th:text="${sysUser.name}"></td>
 									<td><a target="_blank"
 										th:href="'useredit.do?id='+${sysUser.Id}"

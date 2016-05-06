@@ -7,7 +7,7 @@
 		<input type="hidden" name="id" th:value="${sysUser.id}" /> <input
 			type="hidden" id="hgrade" name="enbled" th:value="${sysUser.enabled}" />
 		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">用户名</div>
+			<div class="col-md-1 col-md-offset-5" >用户名</div>
 			<div class="col-md-2">
 				<input type="text" class="form-control" name="logincode"
 					th:value="${sysUser.loginCode}" />
@@ -17,8 +17,7 @@
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">密码</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" name="loginpassword"
-					th:value="${sysUser.loginPassword}" />
+				<input type="password" class="form-control" name="loginpassword" />
 			</div>
 		</div>
 		<br />

@@ -6,7 +6,8 @@
 	<form name="myform" method="get" action="save.do">
 		<input type="hidden" name="id" th:value="${sysAuthority.id}" /> <input
 			type="hidden" id="hgrade" name="grade"
-			th:value="${sysAuthority.grade}" /> <input type="hidden"
+			th:value="${sysAuthority.grade}" /> 
+			<input type="hidden"
 			id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">标题</div>

@@ -1,23 +1,22 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
+	<br />
+	<br />
+	<form name="myform" method="get" action="sysuserrolessave.do">
+		<input type="hidden" id="role_id" name="role_id" th:value="${roleid}" />
+		<input type="hidden" id="user_id" name="user_id"
+			th:value="${sysuser.Id}" />
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">用户名</div>
 			<div class="col-md-3">
 				<div class="btn-group" role="group">
-					<div class="col-md-1 col-md-offset-5" th:text="${sysuser.loginCode}"></div>
+					<div class="col-md-1 col-md-offset-5"
+						th:text="${sysuser.loginCode}"></div>
 				</div>
 			</div>
 		</div>
-		<br/>
-		<div class="form-group">
-			<div class="col-md-1 col-md-offset-5">姓名</div>
-			<div class="col-md-3">
-				<div class="btn-group" role="group">
-					<div class="col-md-1 col-md-offset-5" th:text="${sysuser.name}"></div>
-				</div>
-			</div>
-		</div>		
+		<br /> <br />
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">角色</div>
 			<div class="col-md-3">
@@ -25,23 +24,49 @@
 					<button id="broles" type="button"
 						class="btn btn-default dropdown-toggle" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false">
-						无<span class="caret"></span>
+						请选择<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
-						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
+					<ul class="dropdown-menu" id="roles_list">
 					</ul>
 				</div>
 			</div>
 		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-2 col-md-offset-6">
+				<button class="btn btn-primary form-control">提交</button>
+			</div>
+		</div>
+		<br />
+	</form>
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
-<script type="text/javascript">
+<script>
+	/*<![CDATA[*/
+	$
+			.ajax({
+				type : "get",
+				url : "/sysuserroles/getroles.do",
+				contentType : "json",
+				success : function(data) {
+					for (var i = 0; i < data.length; i++) {
+						var li = "<li><a href='#' id='roleId"+data[i].Id+"' data-value='"+data[i].name+"' data-value1='"+data[i].id+"'>"
+								+ data[i].name + "</a></li>";
+						$("#roles_list").append(li);
+					}
 
-
-
+				}
+			});
+	autosize($("textarea"));
+	$("body").on("click", "[id^=roleId]", function(e) {
+		$roleId = $(this).attr("data-value1");
+		$("#role_id").val($roleId);
+		$broles = $(this).attr("data-value") + '<span class="caret"></span>';
+		$("#broles").html($broles);
+	});
+	/*]]>*/
 </script>
 </html>
