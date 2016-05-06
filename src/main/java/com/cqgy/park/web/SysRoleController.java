@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.SysRoleRepository;
 import com.cqgy.park.dao.SysRoleService;
+import com.cqgy.park.dao.SysUserRolesRepository;
 import com.cqgy.park.domain.SysRole;
+import com.cqgy.park.domain.SysUserRoles;
 import com.cqgy.park.form.SysRoleListForm;
 import com.google.common.base.Strings;
 
@@ -24,10 +26,15 @@ public class SysRoleController {
 	SysRoleService sysRoleService;
 	@Autowired
 	SysRoleRepository sysRoleRepository;
+	@Autowired
+	SysUserRolesRepository sysUserRolesRepository;
 	@RequestMapping(value="/sysrole/rolelist.do",method=RequestMethod.GET)
 	public String list(SysRoleListForm sysRoleListForm,Long del_id,HttpServletRequest request,Model model){
 		if (!Objects.isNull(del_id)) {
-			sysRoleRepository.delete(del_id);
+			sysRoleRepository.delete(del_id);;
+			List<SysUserRoles> findByRoleId = sysUserRolesRepository.findByRoleId(del_id);
+			SysUserRoles sysUserRoles = findByRoleId.get(0);
+			sysUserRolesRepository.delete(sysUserRoles.getId());
 		}
 		String code=sysRoleListForm.getCode();
 		String name=sysRoleListForm.getName();
