@@ -47,7 +47,7 @@ public class SysAuthorityController {
 		Integer grade = authorityListForm.getGrade();
 		String title = authorityListForm.getTitle();
 		
-		String select = "select * from sys_authority";
+		String select = "select *, if(father_id=0,id,father_id) fid from sys_authority order by fid,grade,sort_level;";
 		String where = "";
 		if(!Objects.isNull(flag)){
 			where += " flag = "+flag;

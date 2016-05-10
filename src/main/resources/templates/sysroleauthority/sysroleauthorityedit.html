@@ -1,0 +1,64 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="/theme/home :: header"></head>
+
+<body>
+	<br />
+	<br />
+	<form name="myform" method="get" action="sysroleauthoritysave.do">
+		<input type="hidden" id="role_id" name="role_id" th:value="${role_id}" />
+		<input type="hidden" id="authority_id" name="authority_id" th:value="${authority_id}" />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">添加权限</div>
+			<div class="col-md-3">
+				<div class="btn-group" role="group">
+					<button id="bauthoritys" type="button"
+						class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						请选择<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" id="authortiy_list">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-2 col-md-offset-6">
+				<button class="btn btn-primary form-control">提交</button>
+			</div>
+		</div>
+		<br />
+	</form>
+</body>
+<footer th:replace="/theme/home :: footer"></footer>
+<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$
+			.ajax({
+				type : "get",
+				url : "/sysroleauthority/getauthority.do",
+				contentType : "json",
+				data:{"role_id":[[${role_id}]]},
+				success : function(d) {
+					for(var i=0;i<d.length;i++){
+						var li= "<li><a href='#' id='authorityId"+d[i].id+"' data-value='"+d[i].title+"' data-value1='"+d[i].id+"'>"
+						+ d[i].title + "</a></li>";
+						$("#authortiy_list").append(li);
+					}
+				}
+			});
+	autosize($("textarea"));
+	$("body").on("click", "[id^=authorityId]", function(e) {
+		$authorityId = $(this).attr("data-value1");
+		$("#authority_id").val($authorityId);
+		
+		$bauthoritys = $(this).attr("data-value") + '<span class="caret"></span>';
+		$("#bauthoritys").html($bauthoritys);
+		
+	});
+	/*]]>*/
+</script>
+</html>

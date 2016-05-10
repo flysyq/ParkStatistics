@@ -4,11 +4,9 @@
 	<br />
 	<br />
 	<form name="myform" method="get" action="save.do">
-		<input type="hidden" name="id" th:value="${sysAuthority.id}" /> <input
-			type="hidden" id="hgrade" name="grade"
-			th:value="${sysAuthority.grade}" /> 
-			<input type="hidden"
-			id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
+		<input type="hidden" name="id" th:value="${sysAuthority.id}" /> 
+		<input type="hidden" id="hgrade" name="grade" th:value="${sysAuthority.grade}" /> 
+		<input type="hidden" id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">标题</div>
 			<div class="col-md-2">
@@ -100,7 +98,7 @@
 <script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
 
 
-<script>
+<script th:inline="javascript">
 	/*<![CDATA[*/
 	$(function() {
 		$("#father_div").hide();
@@ -119,7 +117,7 @@
 										dataType : "json",
 										success : function(data) {
 											for (var i = 0; i < data.length; i++) {
-												var li = "<li><a href='#' id='fatherId"+data[i].fatherId+"' data-value='"+data[i].title+"' data-value1='"+data[i].sortLevel+"'>"
+												var li = "<li><a href='#' id='fatherId"+data[i].fatherId+"' data-value='"+data[i].title+"' data-value1='"+data[i].id+"'>"
 														+ data[i].title
 														+ "</a></li>";
 												$("#father_list").append(li);
@@ -142,6 +140,7 @@
 				"[id^=fatherId]",
 				function(e) {
 					$fatherId = $(this).attr("data-value1");
+					alert($fatherId);
 					$("#father_id").val($fatherId);
 					$father1 = $(this).attr("data-value")
 							+ '<span class="caret"></span>';			

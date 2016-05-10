@@ -4,37 +4,31 @@
 	<div th:replace="/theme/home :: menu" />
 	<form name="myform" method="get" id="myform">
 		<input type="hidden" name="del_id" id="del_id" value="" />
+		<input type="hidden" name="id" id="id" value=""/>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<!-- Default panel contents -->
 						<div class="panel-heading">
-							菜单信息
+							权限信息
 						</div>
 						<table class="table table-bordered table-hover">
 							<thead class="thead_success">
 								<tr>
 									<td>编号</td>
-									<td>标题</td>
-									<td>uri</td>
-									<td>级别</td>
-									<td>类型</td>
+									<td>权限</td>
 									<td>操作</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="sysAuthority,iterStat : ${sysAuthoritys}">
+								<tr th:each="sysRoleAuthority,iterStat : ${sysRoleAuthorityList}">
 									<td th:text="${iterStat.count}"></td>
-									<td th:text="${sysAuthority.title}"></td>
-									<td th:text="${sysAuthority.uri}"></td>
-									<td th:text="${sysAuthority.grade}"></td>
-									<td th:text="${sysAuthority.flag}"></td>
-									<td><a target="_blank"
-										th:href="'edit.do?id='+${sysAuthority.Id}"
-										class="btn btn-primary">修改</a>
+									<td th:text="${sysRoleAuthority.title}"></td>
+									<td>
 										<button class="btn btn-primary"
-											th:id="'ddel' + ${sysAuthority.Id}">删除</button></td>
+											th:id="'ddel' + ${sysRoleAuthority.id}">删除</button>
+											</td>
 								</tr>
 							</tbody>
 						</table>
@@ -44,8 +38,8 @@
 			<br />
 			<div class="row">
 				<div class="col-md-2 col-md-offset-5">
-					<a target="_blank" href="edit.do"
-						class="btn btn-primary form-control">增加</a>
+					<a target="_blank" th:href="'sysroleauthorityedit.do?id='+${role_id}"
+						 th:id="'roleId'+${role_id}" class="btn btn-primary form-control">增加</a>
 				</div>
 			</div>
 		</div>
@@ -65,8 +59,10 @@
 			e.preventDefault();
 			$v = $(this).attr("id");
 			$("#del_id").val($v.substring(4));
+			$roleId=$("[id^=roleId]").attr("id")
+			$("#id").val($roleId.substring(6));
 			$("#myform").submit();
 		});
 	});
 </script>
-</html>
+</html>s
