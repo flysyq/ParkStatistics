@@ -6,7 +6,7 @@
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script language="Javascript">
+<script th:inline="javascript">
 	$(function() {
 		$('li.dropdown').mouseover(function() {
 			$(this).addClass('open');
