@@ -2,6 +2,8 @@
 <head th:include="/theme/home :: header"></head>
 <body>
 	<div th:replace="/theme/home :: menu"/>
+	<a th:href="'changepasswordedit.do?id='+${session.login_id}">修改密码</a>
+	
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
