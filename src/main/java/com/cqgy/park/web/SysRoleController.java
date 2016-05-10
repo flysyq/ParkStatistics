@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +29,22 @@ public class SysRoleController {
 	SysRoleRepository sysRoleRepository;
 	@Autowired
 	SysUserRolesRepository sysUserRolesRepository;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/sysrole/rolelist.do",method=RequestMethod.GET)
 	public String list(SysRoleListForm sysRoleListForm,Long del_id,HttpServletRequest request,Model model){
 		if (!Objects.isNull(del_id)) {
-			sysRoleRepository.delete(del_id);;
+			//sysRoleRepository.delete(del_id);
+			String delRole="delete from sys_role where id="+del_id;
+			jdbcTemplate.update(delRole);
 			List<SysUserRoles> findByRoleId = sysUserRolesRepository.findByRoleId(del_id);
-			SysUserRoles sysUserRoles = findByRoleId.get(0);
-			sysUserRolesRepository.delete(sysUserRoles.getId());
+			if (!findByRoleId.isEmpty()) {
+				SysUserRoles sysUserRoles = findByRoleId.get(0);
+				Long user_role_id=sysUserRoles.getId();
+				String delUserRole="delete from sys_user_roles where id="+user_role_id;
+				jdbcTemplate.update(delUserRole);
+			}
+			
 		}
 		String code=sysRoleListForm.getCode();
 		String name=sysRoleListForm.getName();
