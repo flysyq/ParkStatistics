@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,18 +30,18 @@ import com.cqgy.park.domain.SysUser;
 import static com.cqgy.park.tool.SHAUtil.shaEncode;
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	SysUserRepository sysUserRepository;
-	
+
 	@Autowired
 	ActionLogRepository actionLogRepository;
-	
+
 	@RequestMapping(value="/login/login.do", method=RequestMethod.POST)
 	public String login(String login_code,String login_password,HttpServletRequest req) throws Exception{
-		
+
 		SysUser user = sysUserRepository.findByLoginCodeAndLoginPassword(login_code,shaEncode(login_password));
-		
+
 		if(Objects.isNull(user)){
 			return "login/login";
 		}else{	
@@ -53,5 +54,28 @@ public class LoginController {
 			session.setAttribute("loginTime", date);
 			return "index/index";
 		}		
+	}
+	@RequestMapping(value="/login/changepasswordedit",method=RequestMethod.GET)
+	public String changePasswordEdit(Long id,Model model){
+		model.addAttribute("login_id",id);
+		String forword="index/changepasswordedit";
+		return forword;
+	}
+	@RequestMapping(value="/login/savenewpassword.do",method=RequestMethod.POST)
+	public String changePasswordSave(Long login_id,String login_password,String new_password,Model model) throws Exception{
+		SysUser user = sysUserRepository.findOne(login_id);
+		String loginPassword=user.getLoginPassword();
+		if (shaEncode(login_password).equals(loginPassword)) {
+			user.setLoginPassword(shaEncode(new_password));
+			sysUserRepository.save(user);
+			model.addAttribute("result", "密码修改成功");
+			String forword="/display/result";
+			return forword;
+		}else{
+			model.addAttribute("result", "原密码错误");
+			String forword="/display/result";
+			return forword;
+		}
+	
 	}
 }
