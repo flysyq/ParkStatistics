@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,10 +38,14 @@ public class SysAuthorityController {
 	
 	@Autowired
 	SysAuthorityRepository sysAuthorityRepository;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/authority/list.do",method=RequestMethod.GET)
 	public String list(AuthorityListForm authorityListForm,Long del_id,HttpServletRequest request,Model model){
 		if(!Objects.isNull(del_id)){
-			sysAuthorityRepository.delete(del_id);
+			//sysAuthorityRepository.delete(del_id);
+			String delAuthority="delete from sys_authority where id="+del_id;
+			jdbcTemplate.update(delAuthority);
 		}
 		
 		Integer flag = authorityListForm.getFlag();
