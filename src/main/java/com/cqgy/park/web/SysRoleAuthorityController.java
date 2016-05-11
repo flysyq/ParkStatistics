@@ -35,12 +35,7 @@ public class SysRoleAuthorityController {
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/sysrole/sysroleauthoritylist.do",method=RequestMethod.GET)
 	public String list(Long id,Long del_id,HttpServletRequest request,Model model){
-		if (!Objects.isNull(del_id)) {
-			//sysRoleAuthorityRepository.delete(del_id);
-			String delRoleAuthority="delete from sys_role_authoritys where id="+del_id;
-			jdbcTemplate.update(delRoleAuthority);
-		}
-		String sql="SELECT sa.title,sra.* FROM sys_authority sa INNER JOIN sys_role_authoritys sra WHERE sa.id=sra.authority_id AND sra.role_id="+id;
+		String sql="SELECT *,IF(father_id=0,sa.id,father_id) fid  FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id AND sra.role_id="+id+" ORDER BY fid,grade,sort_level";
 		List<Map<String, Object>> sysRoleAuthorityList = jdbcTemplate.queryForList(sql);
 		//List<SysRoleAuthoritys> roleAuthoritys = sysRoleAuthorityService.getRoleAuthoritys(sql);
 		model.addAttribute("sysRoleAuthorityList", sysRoleAuthorityList);
