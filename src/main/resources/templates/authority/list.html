@@ -15,7 +15,6 @@
 						<table class="table table-bordered table-hover">
 							<thead class="thead_success">
 								<tr>
-									<td>编号</td>
 									<td>标题</td>
 									<td>uri</td>
 									<td>级别</td>
@@ -24,13 +23,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="sysAuthority,iterStat : ${sysAuthoritys}">
-									<td th:text="${iterStat.count}"></td>
-									<td th:text="${sysAuthority.title}"></td>
-									<td th:text="${sysAuthority.uri}"></td>
-									<td th:text="${sysAuthority.grade}"></td>
-									<td th:text="${sysAuthority.flag}"></td>
-									<td><a target="_blank"
+								<tr  name="grade" class="grade" th:id="'grade'+${sysAuthority.grade}" th:each="sysAuthority,iterStat : ${sysAuthoritys}">
+									<td  class="text" th:text="${sysAuthority.title}"></td>
+									<td   th:text="${sysAuthority.uri}"></td>
+									<td  th:text="${sysAuthority.grade}"></td>
+									<td  th:text="${sysAuthority.flag}"></td>
+									<td ><a target="_blank"
 										th:href="'edit.do?id='+${sysAuthority.Id}"
 										class="btn btn-primary">修改</a>
 										<button class="btn btn-primary"
@@ -66,6 +64,13 @@
 			$v = $(this).attr("id");
 			$("#del_id").val($v.substring(4));
 			$("#myform").submit();
+		});
+		$(".grade").each(function() {
+			if($(this).attr("id").substring(5)==1){
+				$(this).css("background-color","#DCDCDC");
+			}else{
+				$(this).children("td.text").css("text-indent","1em");
+			}
 		});
 	});
 </script>
