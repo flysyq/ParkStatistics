@@ -53,6 +53,7 @@
 		}).mouseout(function() {
 			$(this).removeClass('open');
 		});
+		//全选/全不选
 		$("#allchecked").click(function() {
 			if (this.checked) {
 				$("input[name='role']").prop("checked", true).val(""+[[${role_id}]]+"");
@@ -73,7 +74,7 @@
 				$("[id^=fatherId"+$grade1fid+"]").prev().children("input").prop("checked",false).val(null);
 			}
 		});
-		//全选/全不选
+		//单选并传值到roleid
 		$("input[name='role']").click(function(){
 			if(this.checked){
 				$(this).prop("checked", true).val(""+[[${role_id}]]+"");
@@ -82,7 +83,7 @@
 			}
 		});
 		
-		//单选并传值到roleid
+		//如果已有权限，则打勾
 		$("input[name='role']").each(function() {
 			if ($(this).val() == "1") {
 				$(this).prop("checked", true);
