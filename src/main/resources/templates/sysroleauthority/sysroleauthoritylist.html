@@ -2,8 +2,9 @@
 <head th:include="/theme/home :: header"></head>
 <body>
 	<div th:replace="/theme/home :: menu" />
-	<form name="myform" method="get" id="myform">
-		<input type="hidden" name="role_id" id="role_id" value="${role_id}" />
+	<form name="myform" method="get" id="myform"
+		action="sysroleauthoritysave.do">
+		<input type="hidden" name="role_id" id="role_id" th:value="${role_id}" />
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -23,9 +24,12 @@
 									th:id="'grade'+${sysRoleAuthority.grade}"
 									th:each="sysRoleAuthority: ${sysRoleAuthorityList}">
 									<td><input type="checkbox"
-										id="roleId+${sysRoleAuthority.role_id}" name="role"
-										th:value="${sysRoleAuthority.role_id}" /></td>
-									<td th:text="${sysRoleAuthority.title}"  th:value="${sysRoleAuthority.fid}" class="fid" name="fid" th:id="'fatherId'+${sysRoleAuthority.fid}"></td>
+										th:id="'roleId'+${sysRoleAuthority.role_id}"
+										name="authority_id" class="authority_id"
+										th:value="${sysRoleAuthority.id}" /></td>
+									<td th:text="${sysRoleAuthority.title}"
+										th:value="${sysRoleAuthority.fid}" class="fid" name="fid"
+										th:id="'fatherId'+${sysRoleAuthority.fid}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -33,11 +37,9 @@
 				</div>
 			</div>
 			<br />
-			<div class="row">
-				<div class="col-md-2 col-md-offset-5">
-					<a target="_blank"
-						th:href="'sysroleauthorityedit.do?id='+${role_id}"
-						th:id="'roleId'+${role_id}" class="btn btn-primary form-control">增加</a>
+			<div class="form-group">
+				<div class="col-md-2 col-md-offset-6">
+					<button class="btn btn-primary form-control">提交</button>
 				</div>
 			</div>
 		</div>
@@ -56,9 +58,9 @@
 		//全选/全不选
 		$("#allchecked").click(function() {
 			if (this.checked) {
-				$("input[name='role']").prop("checked", true).val(""+[[${role_id}]]+"");
+				$("input[name='authority_id']").prop("checked", true);
 			} else {
-				$("input[name='role']").prop("checked", false).val(null);
+				$("input[name='authority_id']").prop("checked", false);
 			}
 
 		});
@@ -68,27 +70,20 @@
 			if(this.checked){
 				
 				//alert($grade1fid);
-				$("[id^=fatherId"+$grade1fid+"]").prev().children("input").prop("checked",true).val(""+[[${role_id}]]+"");
+				$("[id^=fatherId"+$grade1fid+"]").prev().children("input.authority_id").prop("checked",true);
 				
 			}else{
-				$("[id^=fatherId"+$grade1fid+"]").prev().children("input").prop("checked",false).val(null);
+				$("[id^=fatherId"+$grade1fid+"]").prev().children("input.authority_id").prop("checked",false);
 			}
 		});
 		//单选并传值到roleid
-		$("input[name='role']").click(function(){
-			if(this.checked){
-				$(this).prop("checked", true).val(""+[[${role_id}]]+"");
-			}else{
-				$(this).prop("checked", false).val(null);
-			}
-		});
-		
 		//如果已有权限，则打勾
-		$("input[name='role']").each(function() {
-			if ($(this).val() == "1") {
+   			$("input[name='authority_id']").each(function() {
+			if ($(this).attr("id").substring(6) ==[[${role_id}]]) {
 				$(this).prop("checked", true);
 			}
 		});
+		
 		//父级目录颜色加深，子级目录缩进
 		$(".grade").each(function() {
 			if($(this).attr("id").substring(5)==1){
