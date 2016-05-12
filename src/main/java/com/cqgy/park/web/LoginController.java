@@ -51,8 +51,12 @@ public class LoginController {
 			return "login/login";
 		}else{	
 			List<SysUserRoles> findByUserId = sysUserRolesRepository.findByUserId(user.getId());
-			SysUserRoles sysUserRoles = findByUserId.get(0);
-			Long role_id=sysUserRoles.getRoleId();
+			Long role_id;
+			if (!findByUserId.isEmpty()) {
+				role_id=findByUserId.get(0).getRoleId();
+			}else{
+				role_id=(long)0;
+			}
 			Date date = new Date();
 			ActionLog actionLog = new ActionLog(null,login_code,1,date);
 			actionLogRepository.save(actionLog);
@@ -87,5 +91,9 @@ public class LoginController {
 		}
 	
 	}
-
+	@RequestMapping(value="/login/index.do")
+	public String goToIndex(){
+		return "index/index";
+		
+	}
 }
