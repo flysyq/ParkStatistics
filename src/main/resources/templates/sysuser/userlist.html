@@ -33,7 +33,9 @@
 										th:href="'useredit.do?id='+${sysUser.Id}"
 										class="btn btn-primary">修改</a>
 										<button class="btn btn-primary"
-											th:id="'ddel' + ${sysUser.Id}">删除</button></td>
+											th:id="'ddel' + ${sysUser.Id}">删除</button><a target="_blank"
+										th:href="'userrolesedit.do?id='+${sysUser.Id}"
+										class="btn btn-primary">角色</a></td>
 								</tr>
 							</tbody>
 						</table>
