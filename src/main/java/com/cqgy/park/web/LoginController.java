@@ -91,9 +91,11 @@ public class LoginController {
 		}
 	
 	}
-	@RequestMapping(value="/login/index.do")
-	public String goToIndex(){
-		return "index/index";
+	@RequestMapping(value="/login/noauturity.do")
+	public String goToDisplay(Model model){
+		model.addAttribute("result", "你没有权限！");
+		String forword="/display/result";
+		return forword;
 		
 	}
 }
