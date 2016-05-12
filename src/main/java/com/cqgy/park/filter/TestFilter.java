@@ -20,6 +20,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
@@ -35,27 +36,30 @@ public class TestFilter implements Filter {
 
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
-		
-		System.out.println("uri="+request.getRequestURI());
-		System.out.println("url="+request.getRequestURL());
-		System.out.println("context path:"+request.getContextPath());
-		chain.doFilter(req, res);
+		HttpSession session = request.getSession();
+		String bath=request.getScheme()+"//"+request.getServerName()+":"+request.getServerPort();
+		String uri=request.getRequestURI();
+		if (uri.matches("/login/login.do")) {
+			chain.doFilter(req, res);
+		}else{
 
-	}
+		}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-	 */
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-		System.out.println("init");
-	}
+}
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
+/* (non-Javadoc)
+ * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+ */
+@Override
+public void init(FilterConfig config) throws ServletException {
+	System.out.println("init");
+}
 
-	
+@Override
+public void destroy() {
+	// TODO Auto-generated method stub
+
+}
+
+
 }
