@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.ActionLogRepository;
 import com.cqgy.park.dao.SysUserRepository;
+import com.cqgy.park.dao.SysUserRolesRepository;
 import com.cqgy.park.domain.ActionLog;
 import com.cqgy.park.domain.SysUser;
+import com.cqgy.park.domain.SysUserRoles;
+
 import static com.cqgy.park.tool.SHAUtil.shaEncode;
 @Controller
 public class LoginController {
@@ -36,6 +39,8 @@ public class LoginController {
 
 	@Autowired
 	ActionLogRepository actionLogRepository;
+	@Autowired
+	SysUserRolesRepository sysUserRolesRepository;
 
 	@RequestMapping(value="/login/login.do", method=RequestMethod.POST)
 	public String login(String login_code,String login_password,HttpServletRequest req) throws Exception{
@@ -45,6 +50,13 @@ public class LoginController {
 		if(Objects.isNull(user)){
 			return "login/login";
 		}else{	
+			List<SysUserRoles> findByUserId = sysUserRolesRepository.findByUserId(user.getId());
+			Long role_id;
+			if (!findByUserId.isEmpty()) {
+				role_id=findByUserId.get(0).getRoleId();
+			}else{
+				role_id=(long)0;
+			}
 			Date date = new Date();
 			ActionLog actionLog = new ActionLog(null,login_code,1,date);
 			actionLogRepository.save(actionLog);
@@ -52,6 +64,7 @@ public class LoginController {
 			session.setAttribute("login_id", user.getId());
 			session.setAttribute("loginCode", login_code);
 			session.setAttribute("loginTime", date);
+			session.setAttribute("role_id", role_id);
 			return "index/index";
 		}		
 	}
@@ -77,5 +90,10 @@ public class LoginController {
 			return forword;
 		}
 	
+	}
+	@RequestMapping(value="/login/index.do")
+	public String goToIndex(){
+		return "index/index";
+		
 	}
 }
