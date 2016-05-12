@@ -52,8 +52,12 @@ public class TestFilter implements Filter {
 			chain.doFilter(req, res);
 		}else if (!list.isEmpty()) {
 			chain.doFilter(req, res);
+		}else if(session.getAttribute("loginCode").equals("admin")){
+			chain.doFilter(req, res);
+		}else if(uri.matches("/login/noauturity.do")){
+			chain.doFilter(req, res);
 		}else{
-			response.sendRedirect("/index/index");
+			response.sendRedirect("/login/noauturity.do");
 		}
 
 }
