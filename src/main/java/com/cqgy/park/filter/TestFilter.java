@@ -62,7 +62,7 @@ public class TestFilter implements Filter {
 			chain.doFilter(req, res);
 		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}save.do")){
 			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/getroles.do")){
+		}else if(uri.matches("/[a-z]{0,}/getroles.do")||uri.matches("/[a-z]{0,}/father.do")){
 			chain.doFilter(req, res);
 		}else{
 			response.sendRedirect("/login/noauturity.do");
