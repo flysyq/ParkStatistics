@@ -1,7 +1,7 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: menu" />
+	<div th:replace="/theme/home :: left_menu" />
 	<form name="myform" method="get" id="myform">
 		<input type="hidden" name="del_id" id="del_id" value="" />
 		<div class="container">
@@ -9,9 +9,7 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<!-- Default panel contents -->
-						<div class="panel-heading">
-							菜单信息
-						</div>
+						<div class="panel-heading">菜单信息</div>
 						<table class="table table-bordered table-hover">
 							<thead class="thead_success">
 								<tr>
@@ -23,12 +21,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr  name="grade" class="grade" th:id="'grade'+${sysAuthority.grade}" th:each="sysAuthority,iterStat : ${sysAuthoritys}">
-									<td  class="text" th:text="${sysAuthority.title}"></td>
-									<td  class="uri" th:text="${sysAuthority.uri}"></td>
-									<td  class="gradename" th:text="${sysAuthority.grade}"></td>
-									<td   class="flagname" th:text="${sysAuthority.flag}"></td>
-									<td ><a target="_blank"
+								<tr name="grade" class="grade"
+									th:id="'grade'+${sysAuthority.grade}"
+									th:each="sysAuthority,iterStat : ${sysAuthoritys}">
+									<td class="text" th:text="${sysAuthority.title}"></td>
+									<td class="uri" th:text="${sysAuthority.uri}"></td>
+									<td class="gradename" th:text="${sysAuthority.grade}"></td>
+									<td class="flagname" th:text="${sysAuthority.flag}"></td>
+									<td><a target="_blank"
 										th:href="'edit.do?id='+${sysAuthority.Id}"
 										class="btn btn-primary">修改</a>
 										<button class="btn btn-primary"
@@ -52,13 +52,11 @@
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
-	$(function() {
-		$('li.dropdown').mouseover(function() {
-			$(this).addClass('open');
-		}).mouseout(function() {
-			$(this).removeClass('open');
-		});
+navList(12);
+$(function() {
+
 		$("[id^=ddel]").click(function(e){
 			e.preventDefault();
 			$v = $(this).attr("id");

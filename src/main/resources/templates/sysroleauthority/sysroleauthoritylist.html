@@ -1,7 +1,7 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: menu" />
+	<div th:replace="/theme/home :: left_menu" />
 	<form name="myform" method="get" id="myform"
 		action="sysroleauthoritysave.do">
 		<input type="hidden" name="role_id" id="role_id" th:value="${role_id}" />
@@ -48,13 +48,16 @@
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
+navList(12);
 	$(function() {
-		$('li.dropdown').mouseover(function() {
+	/*	$('li.dropdown').mouseover(function() {
 			$(this).addClass('open');
 		}).mouseout(function() {
 			$(this).removeClass('open');
-		});
+		});*/
+
 		//全选/全不选
 		$("#allchecked").click(function() {
 			if (this.checked) {
