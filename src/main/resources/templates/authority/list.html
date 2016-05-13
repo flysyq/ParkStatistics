@@ -25,9 +25,9 @@
 							<tbody>
 								<tr  name="grade" class="grade" th:id="'grade'+${sysAuthority.grade}" th:each="sysAuthority,iterStat : ${sysAuthoritys}">
 									<td  class="text" th:text="${sysAuthority.title}"></td>
-									<td   th:text="${sysAuthority.uri}"></td>
-									<td  th:text="${sysAuthority.grade}"></td>
-									<td  th:text="${sysAuthority.flag}"></td>
+									<td  class="uri" th:text="${sysAuthority.uri}"></td>
+									<td  class="gradename" th:text="${sysAuthority.grade}"></td>
+									<td   class="flagname" th:text="${sysAuthority.flag}"></td>
 									<td ><a target="_blank"
 										th:href="'edit.do?id='+${sysAuthority.Id}"
 										class="btn btn-primary">修改</a>
@@ -68,10 +68,20 @@
 		$(".grade").each(function() {
 			if($(this).attr("id").substring(5)==1){
 				$(this).css("background-color","#DCDCDC");
+				$(this).children(".gradename").html("一级").css("text-indent","1em");
 			}else{
-				$(this).children("td.text").css("text-indent","1em");
+				$(this).children(".text").css("text-indent","1em");
+				$(this).children(".uri").css("text-indent","10em");
+				$(this).children(".gradename").html("二级").css("text-indent","1em");
+		
+			}
+			if($(this).children(".flagname").text()==1){
+				$(this).children(".flagname").html("菜单").css("text-indent","1em");
+			}else{
+				$(this).children(".flagname").html("功能").css("text-indent","1em");
 			}
 		});
+
 	});
 </script>
 </html>

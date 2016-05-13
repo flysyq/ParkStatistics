@@ -65,7 +65,7 @@ public class LoginController {
 			session.setAttribute("loginCode", login_code);
 			session.setAttribute("loginTime", date);
 			session.setAttribute("role_id", role_id);
-			return "index/index";
+			return "theme/home";
 		}		
 	}
 	@RequestMapping(value="/login/changepasswordedit",method=RequestMethod.GET)
