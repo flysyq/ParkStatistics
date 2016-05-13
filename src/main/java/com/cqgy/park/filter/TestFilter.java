@@ -56,25 +56,33 @@ public class TestFilter implements Filter {
 			chain.doFilter(req, res);
 		}else if(uri.matches("/login/noauturity.do")){
 			chain.doFilter(req, res);
+		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}edit.do")){
+			chain.doFilter(req, res);
+		}else if(uri.matches("/sysrole/sysroleauthoritylist.do")){
+			chain.doFilter(req, res);
+		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}save.do")){
+			chain.doFilter(req, res);
+		}else if(uri.matches("/[a-z]{0,}/getroles.do")){
+			chain.doFilter(req, res);
 		}else{
 			response.sendRedirect("/login/noauturity.do");
 		}
 
-}
+	}
 
-/* (non-Javadoc)
- * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
- */
-@Override
-public void init(FilterConfig config) throws ServletException {
-	System.out.println("init");
-}
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
+	@Override
+	public void init(FilterConfig config) throws ServletException {
+		System.out.println("init");
+	}
 
-@Override
-public void destroy() {
-	// TODO Auto-generated method stub
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
 
-}
+	}
 
 
 }
