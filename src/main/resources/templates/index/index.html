@@ -1,21 +1,17 @@
 <html xmlns="http://www.thymeleaf.org">
-<head ></head>
+<head th:include="/theme/home :: header"></head>
 <body>
-	<p th:text="${session.role_id}"></p>
-	<a th:href="'changepasswordedit.do?id='+${session.login_id}">修改密码</a>
-	<img  src="/static/images/w-bg.jpg"/>
+	<div th:replace="/theme/home :: left_menu" />
+	
+	   <div th:replace="/theme/home :: m-right" /> 
+	
 </body>
+<footer th:replace="/theme/home :: footer"></footer>
 
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:inline="javascript">
-/*	$(function() {
-		$('li.dropdown').mouseover(function() {
-			$(this).addClass('open');
-		}).mouseout(function() {
-			$(this).removeClass('open');
-		});
-	});
-	*/
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<script>
+	navList(12);
 </script>
 </html>
