@@ -1,93 +1,179 @@
 <html xmlns="http://www.thymeleaf.org">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>洋世达停车场管理系统</title>
+<head th:fragment="header">
+<meta content="text/html;charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link th:href="@{/static/bootstrap/dist/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/static/bootstrap/dist/css/custom.css}"
+	rel="stylesheet" />
+<link th:href="@{/static/bootstrap/dist/css/bootstrap-theme.min.css}"
+	rel="stylesheet" />
 <link th:href="@{/static/bootstrap/dist/css/index-style.css}"
 	rel="stylesheet" />
-<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{../static/jquery/dist/menu.js}"></script>
-</head>
 
+<title>首页~洋世达停车场统计分析</title>
+</head>
 <body>
-<div class="top"></div>
-<div id="header">
-  <div class="logo"> </div>
-  <div class="navigation">
-    <ul>
-      <li>欢迎您！</li>
-      <li><a href="">张山</a></li>
-      <li><a href="">修改密码</a></li>
-      <li><a href="">设置</a></li>
-      <li><a href="">退出</a></li>
-    </ul>
-  </div>
-</div>
-<div id="content">
-  <div class="left_menu">
-    <ul id="nav_dot">
-      <li>
-        <h4 class="M1"><span></span>系统管理</h4>
-        <div class="list-item none"> 
-        <ul>
-        <li><a href=''>菜单管理</a></li>
-        <li><a href=''>角色管理</a></li>
-         <li><a href=''>用户管理</a></li> 
-         <li><a href=''>权限管理</a></li>
-         <li><a href=''>报表管理</a></li>
-         </ul></div>
-      </li>
-      <li>
-        <h4 class="M2"><span></span>系统日志</h4>
-        <div class="list-item none">
-        <ul>
-        <li><a href=''>审核日志</a></li>
-        <li><a href=''>交接班日志</a></li>
-         <li><a href=''>报表生成日志</a></li> 
-         <li><a href=''>邮件发送日志</a></li>
-         <li><a href=''>数据上传日志</a></li>
-         </ul>
-         </div>
-      </li>
-      <li>
-        <h4 class="M3"><span></span>记录查询</h4>
-        <div class="list-item none">
-        <ul>
-        <li><a href=''>场内记录</a></li>
-        <li><a href=''>充值延期</a></li>
-         <li><a href=''>手动开闸</a></li> 
-         <li><a href=''>非法开闸</a></li>
-         <li><a href=''>收费记录</a></li>
-         </ul>
-        </div>
-      </li>
-      <li>
-        <h4 class="M4"><span></span>统计分析</h4>
-        <div class="list-item none">
-         <ul>
-        <li><a href=''>收费统计</a></li>
-        <li><a href=''>停车场统计</a></li>
-         <li><a href=''>车流量统计</a></li> 
-         <li><a href=''>收入统计</a></li>
-         </ul> </div>
-      </li>
-      <li>
-        <h4 class="M5"><span></span>交接班报表</h4>
-        <div class="list-item none">
-        <ul>
-        <li><a href=''>交班记录</a></li>
-         </ul></div>
-      </li>
-      <li>
-        <h4  class="M6"><span></span>车库管理</h4>
-        <div class="list-item none"> 
-        <ul>
-        <li><a href=''>车库管理</a></li>
-        <li><a href=''>车库选择</a></li>
-         </ul></div>
-      </li>
-    </ul>
-  </div>
-  <div class="m-right">
+	<div th:fragment="menu">
+		<div class="row">
+			<div class="col-md-12">
+				<img th:src="@{/static/images/20150807035332296.jpg}" width="100%"
+					height="100"></img>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse"
+							id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav">
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-haspopup="true"
+									aria-expanded="false">系统管理 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="../authority/list.do">菜单管理</a></li>
+										<li><a href="../sysrole/rolelist.do">角色管理</a></li>
+										<li><a href="../sysuser/userlist.do">用户管理</a></li>
+										<li><a href="#">权限管理</a></li>
+										<li><a href="#">报表设置</a></li>
+									</ul></li>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-haspopup="true"
+									aria-expanded="false">系统日志 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">审核日志</a></li>
+										<li><a href="#">交班日志</a></li>
+										<li><a href="#">报表生成日志</a></li>
+										<li><a href="#">邮件发送日志</a></li>
+										<li><a href="#">数据上传日志</a></li>
+									</ul></li>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-haspopup="true"
+									aria-expanded="false">记录查询 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">场内记录</a></li>
+										<li><a href="#">充值延期</a></li>
+										<li><a href="#">手动开闸</a></li>
+										<li><a href="#">非法开闸</a></li>
+										<li><a href="#">收费记录</a></li>
+									</ul></li>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-haspopup="true"
+									aria-expanded="false">统计分析 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">收费统计</a></li>
+										<li><a href="#">停车场统计</a></li>
+										<li><a href="#">车流量统计</a></li>
+										<li><a href="#">收入统计</a></li>
+									</ul></li>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-haspopup="true"
+									aria-expanded="false">交接班报表 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">交班记录</a></li>
+									</ul></li>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-haspopup="true"
+									aria-expanded="false">车库管理 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">车库管理</a></li>
+									</ul></li>
+							</ul>
+
+						</div>
+						<!-- /.navbar-collapse -->
+					</div>
+					<!-- /.container-fluid -->
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- left menu -->
+	<div class="left_menu" th:fragment="left_menu">
+		<ul id="nav_dot">
+			<li>
+				<h4 class="M1">
+					<span></span>系统管理
+				</h4>
+				<div class="list-item none">
+					<ul>
+						<li><a href=''>菜单管理</a></li>
+						<li><a href=''>角色管理</a></li>
+						<li><a href=''>用户管理</a></li>
+						<li><a href=''>权限管理</a></li>
+						<li><a href=''>报表管理</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<h4 class="M2">
+					<span></span>系统日志
+				</h4>
+				<div class="list-item none">
+					<ul>
+						<li><a href=''>审核日志</a></li>
+						<li><a href=''>交接班日志</a></li>
+						<li><a href=''>报表生成日志</a></li>
+						<li><a href=''>邮件发送日志</a></li>
+						<li><a href=''>数据上传日志</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<h4 class="M3">
+					<span></span>记录查询
+				</h4>
+				<div class="list-item none">
+					<ul>
+						<li><a href=''>场内记录</a></li>
+						<li><a href=''>充值延期</a></li>
+						<li><a href=''>手动开闸</a></li>
+						<li><a href=''>非法开闸</a></li>
+						<li><a href=''>收费记录</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<h4 class="M4">
+					<span></span>统计分析
+				</h4>
+				<div class="list-item none">
+					<ul>
+						<li><a href=''>收费统计</a></li>
+						<li><a href=''>停车场统计</a></li>
+						<li><a href=''>车流量统计</a></li>
+						<li><a href=''>收入统计</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<h4 class="M5">
+					<span></span>交接班报表
+				</h4>
+				<div class="list-item none">
+					<ul>
+						<li><a href=''>交班记录</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<h4 class="M6">
+					<span></span>车库管理
+				</h4>
+				<div class="list-item none">
+					<ul>
+						<li><a href=''>车库管理</a></li>
+						<li><a href=''>车库选择</a></li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+ <div class="m-right" th:fragment="m-right">
   
     <div class="right-nav">
       <div class="clear"></div>
@@ -105,12 +191,12 @@
     </div>
     </div>
   </div>
-</div>
-<div class="bottom"></div>
-<div id="footer">
-  <p>停车场统计系统，洋世达集团所有。</p>
-</div>
-<script>navList(12);</script>
-</body>
 
+
+</body>
+<footer th:fragment="footer">
+	<div id="footer">
+		<p>停车场统计系统，洋世达集团所有。</p>
+	</div>
+</footer>
 </html>
