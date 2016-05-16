@@ -10,11 +10,12 @@
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
 <script th:inline="javascript">
+
 	function windowClose(){
 		window.opener.location.reload();
 		window.close();		
 	}
-	$(function() {
+	  $(function() {
 		setTimeout("windowClose()",2000);
 	});
 </script>

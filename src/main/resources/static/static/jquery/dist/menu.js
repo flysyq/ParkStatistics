@@ -36,7 +36,7 @@ function navList(id) {
 }
 
 /****表格隔行高亮显示*****/
-window.onload=function(){
+function color(){
 	oTable=document.getElementById("tab");//找表格
 	aTr=document.getElementsByTagName("tr");//找所有的行
 	for(i=0;i<aTr.length;i++){
