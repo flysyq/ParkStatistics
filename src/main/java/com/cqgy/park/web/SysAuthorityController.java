@@ -10,7 +10,9 @@
 package com.cqgy.park.web;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +37,6 @@ public class SysAuthorityController {
 	
 	@Autowired
 	SysAuthorityService sysAuthorityService;
-	
 	@Autowired
 	SysAuthorityRepository sysAuthorityRepository;
 	@Autowired
@@ -43,9 +44,31 @@ public class SysAuthorityController {
 	@RequestMapping(value="/authority/list.do",method=RequestMethod.GET)
 	public String list(AuthorityListForm authorityListForm,Long del_id,HttpServletRequest request,Model model){
 		if(!Objects.isNull(del_id)){
-			//sysAuthorityRepository.delete(del_id);
-			String delAuthority="delete from sys_authority where id="+del_id;
-			jdbcTemplate.update(delAuthority);
+			
+			
+			SysAuthority sysAuthority = sysAuthorityRepository.findOne(del_id);
+			Integer grade=sysAuthority.getGrade();
+			String delAuthority="delete  from sys_authority where id="+del_id;
+			String delgrade2="delete from sys_authority where father_id="+del_id;
+			String delRoleAuthority1="delete from sys_role_authoritys where authority_id="+del_id;
+			List<SysAuthority> findByfatherIdOrderBySortLevel = sysAuthorityRepository.findByfatherIdOrderBySortLevel(del_id);
+			Iterator<SysAuthority> iterator = findByfatherIdOrderBySortLevel.iterator();
+			if (grade==1) {
+				if (iterator.hasNext()) {
+					Long authority_id= iterator.next().getId();
+					String delRoleAuthority="delete from sys_role_authoritys where authority_id="+authority_id;
+					jdbcTemplate.update(delRoleAuthority);
+					}
+				
+				jdbcTemplate.update(delRoleAuthority1);
+				jdbcTemplate.update(delgrade2);
+				jdbcTemplate.update(delAuthority);
+			}else{
+				jdbcTemplate.update(delAuthority);
+				jdbcTemplate.update(delRoleAuthority1);
+			}
+			
+			
 		}
 		
 		Integer flag = authorityListForm.getFlag();
@@ -82,7 +105,7 @@ public class SysAuthorityController {
 	@RequestMapping(value="/authority/edit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
 		
-		SysAuthority sysAuthority = new SysAuthority(new Integer(0).longValue(),"","",1,1,"","",0,"");
+		SysAuthority sysAuthority = new SysAuthority(new Integer(0).longValue(),"","",1,1,"","",(long) 0,"");
 		if(!Objects.isNull(id)){
 			sysAuthority = sysAuthorityRepository.findOne(id);
 		}
@@ -93,7 +116,7 @@ public class SysAuthorityController {
 		return forword;
 	}
 	@RequestMapping(value="/authority/father.do",method=RequestMethod.GET)
-	public @ResponseBody List<SysAuthority> getByFather(Integer grade,Integer father_id,Model model){
+	public @ResponseBody List<SysAuthority> getByFather(Integer grade,Long father_id,Model model){
 		List<SysAuthority> fsysAuthoritys = null;
 		
 		if(Objects.isNull(grade) || grade==1){
@@ -107,7 +130,7 @@ public class SysAuthorityController {
 	
 	@RequestMapping(value="/authority/save.do",method=RequestMethod.GET)
 	public String save(Long id,String title,String remark,String sort_level,
-			Integer flag,Integer grade,Integer father_id,String uri,Model model,HttpServletRequest request){
+			Integer flag,Integer grade,Long father_id,String uri,Model model,HttpServletRequest request){
 		
 		SysAuthority sysAuthority = new SysAuthority();
 		sysAuthority.setId(id);
