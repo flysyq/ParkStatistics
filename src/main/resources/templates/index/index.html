@@ -1,10 +1,11 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
+	<div th:replace="/theme/home :: p-h" />
 	<div th:replace="/theme/home :: left_menu" />
-	
-	   <div th:replace="/theme/home :: m-right" /> 
-	
+
+	<div th:replace="/theme/home :: m-right" />
+
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 

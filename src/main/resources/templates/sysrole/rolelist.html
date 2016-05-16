@@ -1,6 +1,7 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
+		<div th:replace="/theme/home :: p-h" />
 	<div th:replace="/theme/home :: left_menu" />
 	<form name="myform" method="get" id="myform">
 		<input type="hidden" name="del_id" id="del_id" value="" />
