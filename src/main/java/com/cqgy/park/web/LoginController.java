@@ -74,7 +74,7 @@ public class LoginController {
 		String forword="index/changepasswordedit";
 		return forword;
 	}
-	@RequestMapping(value="/login/savenewpassword.do",method=RequestMethod.POST)
+	@RequestMapping(value="/login/newpasswordsave.do",method=RequestMethod.POST)
 	public String changePasswordSave(Long login_id,String login_password,String new_password,Model model) throws Exception{
 		SysUser user = sysUserRepository.findOne(login_id);
 		String loginPassword=user.getLoginPassword();
@@ -97,5 +97,12 @@ public class LoginController {
 		String forword="/display/result";
 		return forword;
 		
+	}
+	@RequestMapping(value="/login/exit.do")
+	public String exitLogin(HttpServletRequest req){
+		HttpSession session = req.getSession();
+		session.invalidate();
+		String forword="/login/login";
+		return forword;	
 	}
 }

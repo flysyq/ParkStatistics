@@ -20,10 +20,10 @@
   <div class="navigation" >
     <ul>
       <li>欢迎您！</li>
-      <li><a href="">张山</a></li>
-      <li><a href="">修改密码</a></li>
+      <li><a href="" th:text="${session.loginCode}"></a></li>
+      <li><a th:href="'/login/changepasswordedit?id='+${session.login_id}" target="_blank">修改密码</a></li>
       <li><a href="">设置</a></li>
-      <li><a href="">退出</a></li>
+      <li><a href="/login/exit.do">退出</a></li>
     </ul>
   </div>
 </div>

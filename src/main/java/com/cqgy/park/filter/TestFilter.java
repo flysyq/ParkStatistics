@@ -50,6 +50,8 @@ public class TestFilter implements Filter {
 		List<Map<String, Object>> list = jdbcTeplate.queryForList(sql);
 		if (uri.matches("/login/login.do")) {
 			chain.doFilter(req, res);
+		}else if(uri.matches("/login/exit.do")){
+			chain.doFilter(req, res);
 		}else if (!list.isEmpty()) {
 			chain.doFilter(req, res);
 		}else if(session.getAttribute("loginCode").equals("admin")){
