@@ -1,7 +1,6 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: left_menu" />
 	<form name="myform" method="get" id="myform"
 		action="sysroleauthoritysave.do">
 		<input type="hidden" name="role_id" id="role_id" th:value="${role_id}" />
@@ -13,7 +12,7 @@
 						<div class="panel-heading">权限信息</div>
 						<table class="table table-bordered table-hover">
 							<thead class="thead_success">
-								<tr>
+								<tr class="h-tr">
 									<td><input type="checkbox" name="allchecked"
 										id="allchecked" /></td>
 									<td>权限</td>
@@ -51,7 +50,9 @@
 <script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
 navList(12);
+
 	$(function() {
+		$(".h-tr").css("background-color","#fff");
 	/*	$('li.dropdown').mouseover(function() {
 			$(this).addClass('open');
 		}).mouseout(function() {
@@ -118,8 +119,9 @@ navList(12);
 		//父级目录颜色加深，子级目录缩进
 		$(".grade").each(function() {
 			if($(this).attr("id").substring(5)==1){
-				$(this).css("background-color","#DCDCDC");
+				$(this).css("background-color","#ccc");
 			}else{
+				$(this).css("background-color","#fff");
 				$(this).css("text-indent","1em");
 			}
 		});
