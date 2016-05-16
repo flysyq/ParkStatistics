@@ -78,17 +78,31 @@ public class LoginController {
 	public String changePasswordSave(Long login_id,String login_password,String new_password,Model model) throws Exception{
 		SysUser user = sysUserRepository.findOne(login_id);
 		String loginPassword=user.getLoginPassword();
-		if (shaEncode(login_password).equals(loginPassword)) {
-			user.setLoginPassword(shaEncode(new_password));
-			sysUserRepository.save(user);
-			model.addAttribute("result", "密码修改成功");
-			String forword="/display/result";
-			return forword;
+		if (login_password!=null&&!login_password.equals("")) {
+			if (shaEncode(login_password).equals(loginPassword)) {
+				if (new_password!=null&&!new_password.equals("")) {
+					user.setLoginPassword(shaEncode(new_password));
+					sysUserRepository.save(user);
+					model.addAttribute("result", "密码修改成功");
+					String forword="/display/result";
+					return forword;
+				}else{
+					model.addAttribute("result", "新密码不能为空");
+					String forword="/display/result";
+					return forword;
+				}
+			
+			}else{
+				model.addAttribute("result", "原密码错误");
+				String forword="/display/result";
+				return forword;
+			}
 		}else{
-			model.addAttribute("result", "原密码错误");
+			model.addAttribute("result", "原密码不能为空");
 			String forword="/display/result";
 			return forword;
 		}
+	
 	
 	}
 	@RequestMapping(value="/login/noauturity.do")
