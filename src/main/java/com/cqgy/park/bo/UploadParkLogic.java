@@ -29,6 +29,7 @@ import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.form.upload.UploadParkAdmin;
 import com.cqgy.park.form.upload.UploadParkAdminParameter;
 import com.cqgy.park.qresult.upload.ReturnHead;
+import com.cqgy.park.qresult.upload.ReturnResult;
 import com.cqgy.park.tool.CustomFile;
 import com.cqgy.park.tool.CustomTime;
 import com.cqgy.park.tool.Stool;
@@ -92,11 +93,12 @@ public class UploadParkLogic {
 
 	}
 
-	public static ReturnHead saveInfoParkAdmin(InfoParkAdminRepository infoParkAdminRepository,
+	public static ReturnResult saveInfoParkAdmin(InfoParkAdminRepository infoParkAdminRepository,
 			InfoLogUploadRepository infoLogUploadRepository, String json)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
 		ReturnHead rhead = new ReturnHead();
-
+		ReturnResult result=new ReturnResult();
+		result.setHead(rhead);
 		ObjectMapper mapper = new ObjectMapper();
 
 		UploadParkAdmin infoAdmin = mapper.readValue(json, UploadParkAdmin.class);
@@ -139,13 +141,15 @@ public class UploadParkLogic {
 			rhead.setServerDate(CustomTime.getLocalTime());
 		}
 		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
-		return rhead;
+		
+		return result;
 	}
 
-	public static ReturnHead saveInfoGateOpenHand(InfoGateOpenHandRepository infoGateOpenHandRepository,
+	public static ReturnResult saveInfoGateOpenHand(InfoGateOpenHandRepository infoGateOpenHandRepository,
 			InfoLogUploadRepository infoLogUploadRepository, String json) throws JsonProcessingException, IOException, ParseException {
 		ReturnHead rhead = new ReturnHead();
-
+		ReturnResult result=new ReturnResult();
+		result.setHead(rhead);
 		ObjectMapper mapper = new ObjectMapper();
 
 		UploadGateOpenHand uploadGateOpenHand = mapper.readValue(json, UploadGateOpenHand.class);
@@ -174,7 +178,7 @@ public class UploadParkLogic {
 			rhead.setServerDate(CustomTime.getLocalTime());
 		}
 		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
-		return rhead;
+		return result;
 	}
 
 	public static void saveInfoLogUpload(InfoLogUploadRepository infoLogUploadRepository, String json, ReturnHead rhead)

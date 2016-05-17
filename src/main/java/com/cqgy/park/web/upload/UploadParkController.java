@@ -25,6 +25,7 @@ import com.cqgy.park.dao.InfoUploadUserRepository;
 import com.cqgy.park.domain.InfoUploadUserLinkParkRepository;
 import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.qresult.upload.ReturnHead;
+import com.cqgy.park.qresult.upload.ReturnResult;
 import com.cqgy.park.tool.Stool;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,8 +51,9 @@ public class UploadParkController {
 	InfoGateOpenHandRepository infoGateOpenHandRepository;
 	
 	@RequestMapping(value = "/upload.do", method = RequestMethod.POST)
-	public ReturnHead upload(HttpServletRequest request) throws Exception {
-
+	public ReturnResult upload(HttpServletRequest request) throws Exception {
+		ReturnResult result=new ReturnResult();
+		
 		ObjectMapper mapper = new ObjectMapper();
 		String json = Stool.readJSONString(request);
 		System.out.println(json);
@@ -65,7 +67,8 @@ public class UploadParkController {
 		ReturnHead rhead = UploadParkLogic.judgeLogin(jdbcTemplate, head);
 		if(!rhead.getCode().equals("000")){
 			UploadParkLogic.saveInfoLogUpload(infoLogUploadRepository,json,rhead);
-			return rhead;
+			result.setHead(rhead);
+			return result;
 		}
 		
 		switch (functionId) {
@@ -74,7 +77,7 @@ public class UploadParkController {
 		case "8007":
 			return UploadParkLogic.saveInfoGateOpenHand(infoGateOpenHandRepository,infoLogUploadRepository,json);
 		}
-		return new ReturnHead("000", "正确");
+		return null;
 
 	}
 }
