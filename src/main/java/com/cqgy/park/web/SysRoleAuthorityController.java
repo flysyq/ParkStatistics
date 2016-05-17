@@ -22,6 +22,7 @@ import com.cqgy.park.dao.SysRoleAuthorityRepository;
 import com.cqgy.park.dao.SysRoleAuthorityService;
 import com.cqgy.park.domain.SysAuthority;
 import com.cqgy.park.domain.SysRoleAuthoritys;
+import com.mysql.fabric.xmlrpc.base.Data;
 
 @Controller
 public class SysRoleAuthorityController {
@@ -35,7 +36,7 @@ public class SysRoleAuthorityController {
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/sysrole/sysroleauthoritylist.do",method=RequestMethod.GET)
 	public String list(Long id,Long del_id,HttpServletRequest request,Model model){
-		String sql="SELECT *,IF(father_id=0,sa.id,father_id) fid  FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id AND sra.role_id="+id+" ORDER BY fid,grade,sort_level";
+		String sql="SELECT sa.*,sra.role_id,IF(father_id=0,sa.id,father_id) fid  FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id AND sra.role_id="+id+" ORDER BY fid,grade,sort_level";
 		List<Map<String, Object>> sysRoleAuthorityList = jdbcTemplate.queryForList(sql);
 		//List<SysRoleAuthoritys> roleAuthoritys = sysRoleAuthorityService.getRoleAuthoritys(sql);
 		model.addAttribute("sysRoleAuthorityList", sysRoleAuthorityList);
@@ -59,19 +60,24 @@ public class SysRoleAuthorityController {
 		return authorityList;	
 	}
 	@RequestMapping(value="/sysrole/sysroleauthoritysave.do",method=RequestMethod.GET)
-	public String save(Long id,Long role_id,Long authority_id,Model model,HttpServletRequest request){
-		SysRoleAuthoritys sysRoleAuthoritys=new SysRoleAuthoritys();
-		HttpSession session=request.getSession();
-		if (authority_id!=0) {
-			sysRoleAuthoritys.setCreateTime(new Date());
-			sysRoleAuthoritys.setCreateUser((Long) session.getAttribute("Login_id"));
-			sysRoleAuthoritys.setRoleId(role_id);
-			sysRoleAuthoritys.setAuthorityId(authority_id);
-			sysRoleAuthorityRepository.save(sysRoleAuthoritys);
-			model.addAttribute("result", "添加权限成功！");
-		}else {
-			model.addAttribute("result", "未添加权限");
+	public String save(Long role_id,Long[] authority_id,Model model,HttpServletRequest request){
+		String sql="delete from sys_role_authoritys where role_id="+role_id;
+		jdbcTemplate.update(sql);
+		HttpSession session = request.getSession();
+		if (authority_id!=null) {
+			for (int i = 0; i < authority_id.length; i++) {
+				SysRoleAuthoritys sysRoleAuthoritys=new SysRoleAuthoritys();
+				sysRoleAuthoritys.setRoleId(role_id);
+				sysRoleAuthoritys.setAuthorityId(authority_id[i]);
+				sysRoleAuthoritys.setCreateTime(new Date());
+				sysRoleAuthoritys.setCreateUser((Long) session.getAttribute("login_code"));
+				sysRoleAuthorityRepository.save(sysRoleAuthoritys);
+			}
+			model.addAttribute("result", "保存成功！");
+		}else{
+			model.addAttribute("result", "已取消所有权限！");
 		}
+
 		String forword="/display/result";
 		return forword;	
 	}

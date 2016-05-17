@@ -24,7 +24,7 @@ public class SysAuthority {
 	private Integer grade; // 1 一级 ，2 二级
 	private String uri;
 	private String remark;
-	private Integer fatherId;
+	private Long fatherId;
 	private String sortLevel;
 
 	private Long createUser;
@@ -76,10 +76,10 @@ public class SysAuthority {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public Integer getFatherId() {
+	public Long getFatherId() {
 		return fatherId;
 	}
-	public void setFatherId(Integer fatherId) {
+	public void setFatherId(Long fatherId) {
 		this.fatherId = fatherId;
 	}
 	public String getSortLevel() {
@@ -113,7 +113,7 @@ public class SysAuthority {
 		this.updateUser = updateUser;
 	}
 	public SysAuthority(Long id, String title, String code, Integer flag, Integer grade, String uri, String remark,
-			Integer fatherId, String sortLevel, Long createUser, Date createTime, Long updateUser,
+			Long fatherId, String sortLevel, Long createUser, Date createTime, Long updateUser,
 			Date updateTime) {
 		Id = id;
 		this.title = title;
@@ -133,7 +133,7 @@ public class SysAuthority {
 		super();
 	}
 	public SysAuthority(Long id, String title, String code, Integer flag, Integer grade, String uri, String remark,
-			Integer fatherId, String sortLevel) {
+			Long fatherId, String sortLevel) {
 		Id = id;
 		this.title = title;
 		this.code = code;

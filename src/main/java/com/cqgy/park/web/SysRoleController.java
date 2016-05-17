@@ -35,6 +35,8 @@ public class SysRoleController {
 	public String list(SysRoleListForm sysRoleListForm,Long del_id,HttpServletRequest request,Model model){
 		if (!Objects.isNull(del_id)) {
 			//sysRoleRepository.delete(del_id);
+			String delRoleAuthority="delete from sys_role_authoritys where role_id="+del_id;
+			jdbcTemplate.update(delRoleAuthority);
 			String delRole="delete from sys_role where id="+del_id;
 			jdbcTemplate.update(delRole);
 			List<SysUserRoles> findByRoleId = sysUserRolesRepository.findByRoleId(del_id);
@@ -43,6 +45,7 @@ public class SysRoleController {
 				Long user_role_id=sysUserRoles.getId();
 				String delUserRole="delete from sys_user_roles where id="+user_role_id;
 				jdbcTemplate.update(delUserRole);
+				
 			}
 			
 		}

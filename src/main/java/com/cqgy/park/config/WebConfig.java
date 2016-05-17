@@ -15,13 +15,14 @@ import org.springframework.context.annotation.Configuration;
 
 import com.cqgy.park.filter.TestFilter;
 
+
 @Configuration
 public class WebConfig {
 	
 	@Bean
-	public FilterRegistrationBean filterRegistrationBean(TestFilter tfilter){
+	public FilterRegistrationBean filterRegistrationBean(TestFilter tFilter){
 		FilterRegistrationBean  filterRegistrationBean = new FilterRegistrationBean();
-		filterRegistrationBean.setFilter(tfilter);
+		filterRegistrationBean.setFilter(tFilter);
 		filterRegistrationBean.setEnabled(true);
 		filterRegistrationBean.addUrlPatterns("*.do");
 		return filterRegistrationBean;

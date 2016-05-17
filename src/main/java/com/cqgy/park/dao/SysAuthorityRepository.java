@@ -18,6 +18,6 @@ import com.cqgy.park.domain.SysAuthority;
 public interface SysAuthorityRepository extends JpaRepository<SysAuthority, Long>{
 	
 	List<SysAuthority> findByGradeOrderBySortLevel(Integer grade);
-	List<SysAuthority> findByfatherIdOrderBySortLevel(Integer fatherId);
+	List<SysAuthority> findByfatherIdOrderBySortLevel(Long del_id);
 	SysAuthority findOne(Long id);
 }

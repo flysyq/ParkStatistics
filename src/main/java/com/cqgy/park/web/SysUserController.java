@@ -97,18 +97,25 @@ public class SysUserController {
 				sysUser.setCreateUser((Long) session.getAttribute("login_id"));
 			}
 			sysUser.setLoginCode(logincode);
-			try {
-				sysUser.setLoginPassword(SHAUtil.shaEncode(loginpassword));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			sysUser.setName(name);
-			sysUser.setEnabled(enabled);
-			sysUser.setUpdateTime(new Date());
-			sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
-			sysUserRepository.save(sysUser);
-			model.addAttribute("result", "创建用户成功！");
+				if (loginpassword!=null&&!loginpassword.equals("")) {
+					try {
+						sysUser.setLoginPassword(SHAUtil.shaEncode(loginpassword));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					sysUser.setName(name);
+					sysUser.setEnabled(enabled);
+					sysUser.setUpdateTime(new Date());
+					sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
+					sysUserRepository.save(sysUser);
+					model.addAttribute("result", "创建用户成功！");
+				}else{
+					model.addAttribute("result", "密码不能为空！");
+				}
+				
+
+			
 			String aa="lgw11";
 		String forword="display/result";
 		return forword;

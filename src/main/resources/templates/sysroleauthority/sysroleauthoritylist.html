@@ -1,9 +1,9 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: menu" />
-	<form name="myform" method="get" id="myform">
-		<input type="hidden" name="role_id" id="role_id" value="${role_id}" />
+	<form name="myform" method="get" id="myform"
+		action="sysroleauthoritysave.do">
+		<input type="hidden" name="role_id" id="role_id" th:value="${role_id}" />
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -12,7 +12,7 @@
 						<div class="panel-heading">权限信息</div>
 						<table class="table table-bordered table-hover">
 							<thead class="thead_success">
-								<tr>
+								<tr class="h-tr">
 									<td><input type="checkbox" name="allchecked"
 										id="allchecked" /></td>
 									<td>权限</td>
@@ -23,9 +23,12 @@
 									th:id="'grade'+${sysRoleAuthority.grade}"
 									th:each="sysRoleAuthority: ${sysRoleAuthorityList}">
 									<td><input type="checkbox"
-										id="roleId+${sysRoleAuthority.role_id}" name="role"
-										th:value="${sysRoleAuthority.role_id}" /></td>
-									<td th:text="${sysRoleAuthority.title}"  th:value="${sysRoleAuthority.fid}" class="fid" name="fid" th:id="'fatherId'+${sysRoleAuthority.fid}"></td>
+										th:id="'roleId'+${sysRoleAuthority.role_id}"
+										name="authority_id" class="authority_id"
+										th:value="${sysRoleAuthority.id}" /></td>
+									<td th:text="${sysRoleAuthority.title}"
+										th:value="${sysRoleAuthority.fid}" class="fid" name="fid"
+										th:id="'fatherId'+${sysRoleAuthority.fid}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -33,11 +36,9 @@
 				</div>
 			</div>
 			<br />
-			<div class="row">
-				<div class="col-md-2 col-md-offset-5">
-					<a target="_blank"
-						th:href="'sysroleauthorityedit.do?id='+${role_id}"
-						th:id="'roleId'+${role_id}" class="btn btn-primary form-control">增加</a>
+			<div class="form-group">
+				<div class="col-md-2 col-md-offset-6">
+					<button class="btn btn-primary form-control">提交</button>
 				</div>
 			</div>
 		</div>
@@ -46,54 +47,81 @@
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
+navList(12);
+
 	$(function() {
-		$('li.dropdown').mouseover(function() {
+		$(".h-tr").css("background-color","#fff");
+	/*	$('li.dropdown').mouseover(function() {
 			$(this).addClass('open');
 		}).mouseout(function() {
 			$(this).removeClass('open');
-		});
+		});*/
+
 		//全选/全不选
 		$("#allchecked").click(function() {
 			if (this.checked) {
-				$("input[name='role']").prop("checked", true).val(""+[[${role_id}]]+"");
+				$("input[name='authority_id']").prop("checked", true);
 			} else {
-				$("input[name='role']").prop("checked", false).val(null);
+				$("input[name='authority_id']").prop("checked", false);
 			}
 
 		});
-		//一级菜单选中，树状下的二级菜单全选并设置roleid，反之这全不选，清空roleid
+		
+		//一级菜单选中，树状下的二级菜单全选，反之这全不选
 		$("[id^=grade1]").children("td").children("input").click(function(){
 			$grade1fid=$(this).parent().next().attr("id").substring(8);
 			if(this.checked){
 				
 				//alert($grade1fid);
-				$("[id^=fatherId"+$grade1fid+"]").prev().children("input").prop("checked",true).val(""+[[${role_id}]]+"");
+				$("[id^=fatherId"+$grade1fid+"]").prev().children("input.authority_id").prop("checked",true);
 				
 			}else{
-				$("[id^=fatherId"+$grade1fid+"]").prev().children("input").prop("checked",false).val(null);
+				$("[id^=fatherId"+$grade1fid+"]").prev().children("input.authority_id").prop("checked",false);
 			}
 		});
-		//单选并传值到roleid
-		$("input[name='role']").click(function(){
+		//二级菜单至少有一个选中，一级菜单选中
+		$("[id^=grade2]").children("td").children("input").click(function(){
+			$fid=$(this).parent().next().attr("id").substring(8);
 			if(this.checked){
-				$(this).prop("checked", true).val(""+[[${role_id}]]+"");
+				$("[id^=grade1]").each(function(){
+					if($(this).children(".fid").attr("id").substring(8)==$fid){
+						$(this).children().children("input").prop("checked",true);
+					}
+				});
+				
 			}else{
-				$(this).prop("checked", false).val(null);
+				
+				$("[id^=grade1]").each(function(){
+					if($(this).children(".fid").attr("id").substring(8)==$fid){
+						$(this).children().children("input").prop("checked",false);
+					}
+				});
 			}
 		});
 		
+		
 		//如果已有权限，则打勾
-		$("input[name='role']").each(function() {
-			if ($(this).val() == "1") {
+   			$("input[name='authority_id']").each(function() {
+			if ($(this).attr("id").substring(6) ==[[${role_id}]]) {
 				$(this).prop("checked", true);
 			}
 		});
+		//如果拥有所有权限，这全选打勾
+	/*	$(".authority_id").each(function(){
+			if(this.checked){
+				$("#allchecked").prop("checked", true);
+			}
+		})*/
+		
+		
 		//父级目录颜色加深，子级目录缩进
 		$(".grade").each(function() {
 			if($(this).attr("id").substring(5)==1){
-				$(this).css("background-color","#DCDCDC");
+				$(this).css("background-color","#ccc");
 			}else{
+				$(this).css("background-color","#fff");
 				$(this).css("text-indent","1em");
 			}
 		});

@@ -36,7 +36,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService{
 				sysAuthority.setCode(rs.getString("code"));
 				sysAuthority.setCreateTime(rs.getTimestamp("create_time"));
 				sysAuthority.setCreateUser(rs.getLong("create_user"));
-				sysAuthority.setFatherId(rs.getInt("father_id"));
+				sysAuthority.setFatherId((long) rs.getInt("father_id"));
 				sysAuthority.setFlag(rs.getInt("flag"));
 				sysAuthority.setGrade(rs.getInt("grade"));
 				sysAuthority.setRemark(rs.getString("remark"));
