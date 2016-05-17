@@ -23,9 +23,11 @@
 									th:id="'grade'+${sysRoleAuthority.grade}"
 									th:each="sysRoleAuthority: ${sysRoleAuthorityList}">
 									<td><input type="checkbox"
-										th:id="'roleId'+${sysRoleAuthority.role_id}"
+										th:id="'fid'+${sysRoleAuthority.fid}"
 										name="authority_id" class="authority_id"
-										th:value="${sysRoleAuthority.id}" /></td>
+										th:value="${sysRoleAuthority.id}" />
+										<span th:id="'roleId'+${sysRoleAuthority.role_id}"></span>
+										</td>
 									<td th:text="${sysRoleAuthority.title}"
 										th:value="${sysRoleAuthority.fid}" class="fid" name="fid"
 										th:id="'fatherId'+${sysRoleAuthority.fid}"></td>
@@ -49,6 +51,7 @@
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
+/*<![CDATA[*/
 navList(12);
 
 	$(function() {
@@ -75,45 +78,20 @@ navList(12);
 			if(this.checked){
 				
 				//alert($grade1fid);
-				$("[id^=fatherId"+$grade1fid+"]").prev().children("input.authority_id").prop("checked",true);
+				$("[id^=fatherId"+$grade1fid+"]").prev().children("input[name=authority_id]").prop("checked",true);
 				
 			}else{
-				$("[id^=fatherId"+$grade1fid+"]").prev().children("input.authority_id").prop("checked",false);
+				$("[id^=fatherId"+$grade1fid+"]").prev().children("input[name=authority_id]").prop("checked",false);
 			}
 		});
 		//二级菜单至少有一个选中，一级菜单选中
-		$("[id^=grade2]").children("td").children("input").click(function(){
-			$fid=$(this).parent().next().attr("id").substring(8);
-			if(this.checked){
-				$("[id^=grade1]").each(function(){
-					if($(this).children(".fid").attr("id").substring(8)==$fid){
-						$(this).children().children("input").prop("checked",true);
-					}
-				});
-				
-			}else{
-				
-				$("[id^=grade1]").each(function(){
-					if($(this).children(".fid").attr("id").substring(8)==$fid){
-						$(this).children().children("input").prop("checked",false);
-					}
-				});
-			}
-		});
-		
 		
 		//如果已有权限，则打勾
    			$("input[name='authority_id']").each(function() {
-			if ($(this).attr("id").substring(6) ==[[${role_id}]]) {
+			if ($(this).next().attr("id").substring(6) ==[[${role_id}]]) {
 				$(this).prop("checked", true);
 			}
 		});
-		//如果拥有所有权限，这全选打勾
-	/*	$(".authority_id").each(function(){
-			if(this.checked){
-				$("#allchecked").prop("checked", true);
-			}
-		})*/
 		
 		
 		//父级目录颜色加深，子级目录缩进
@@ -126,6 +104,7 @@ navList(12);
 			}
 		});
 	});
+	/*]]>*/
 </script>
 </html>
 s
