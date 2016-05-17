@@ -9,28 +9,23 @@
  */
 package com.cqgy.park.web;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 
-import org.codehaus.jettison.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.cqgy.park.form.upload.UploadGateOpenHand;
 import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.form.upload.UploadParkAdmin;
 import com.cqgy.park.form.upload.UploadParkAdminParameter;
 import com.cqgy.park.tool.CustomTime;
 import com.cqgy.park.tool.Stool;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import junit.framework.Assert;
@@ -43,6 +38,7 @@ public class UploadParkAdminTest {
 	UploadHead head = null;
 	UploadParkAdminParameter parameter = null;
 	UploadParkAdmin uploadParkAdmin = null;
+	UploadGateOpenHand uploadGateOpenHand = null;
 
 	/**
 	 * @throws java.lang.Exception
@@ -89,13 +85,13 @@ public class UploadParkAdminTest {
 	public void testUploadParkAdmin_UserError() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		String adminString = mapper.writeValueAsString(uploadParkAdmin);
-		
+
 		String returnString = Stool.postJson(this.url, adminString);
-		
+
 		String code = Stool.getJsonValue(returnString, "code");
 		Assert.assertEquals("用户名错误", "001", code);
 	}
-	
+
 	@Test
 	public void testUploadParkAdmin_PasswordError() throws IOException {
 
@@ -103,26 +99,26 @@ public class UploadParkAdminTest {
 		uploadParkAdmin.getHead().setSysId("sjgc");
 		uploadParkAdmin.getHead().setPassword("error_pass");
 		String adminString = mapper.writeValueAsString(uploadParkAdmin);
-		
+
 		String returnString = Stool.postJson(this.url, adminString);
-		
+
 		String code = Stool.getJsonValue(returnString, "code");
 		Assert.assertEquals("密码错误", "002", code);
 	}
-	
-	@Test
-	public void testUploadParkAdmin_Enabled() throws IOException {
 
-		ObjectMapper mapper = new ObjectMapper();
-		uploadParkAdmin.getHead().setSysId("sjgc");
-		uploadParkAdmin.getHead().setPassword("123456");
-		String adminString = mapper.writeValueAsString(uploadParkAdmin);
-		
-		String returnString = Stool.postJson(this.url, adminString);
-		
-		String code = Stool.getJsonValue(returnString, "code");
-		Assert.assertEquals("用户已经禁用", "003", code);
-	}
+	/*
+	 * @Test public void testUploadParkAdmin_Enabled() throws IOException {
+	 * 
+	 * ObjectMapper mapper = new ObjectMapper();
+	 * uploadParkAdmin.getHead().setSysId("sjgc");
+	 * uploadParkAdmin.getHead().setPassword("123456"); String adminString =
+	 * mapper.writeValueAsString(uploadParkAdmin);
+	 * 
+	 * String returnString = Stool.postJson(this.url, adminString);
+	 * 
+	 * String code = Stool.getJsonValue(returnString, "code");
+	 * Assert.assertEquals("用户已经禁用", "003", code); }
+	 */
 	@Test
 	public void testUploadParkAdmin_normal() throws IOException {
 
@@ -133,11 +129,13 @@ public class UploadParkAdminTest {
 		uploadParkAdmin.getParameter().setEmpName("梅彩凤");
 		uploadParkAdmin.getParameter().setUserCode("meicf");
 		String adminString = mapper.writeValueAsString(uploadParkAdmin);
-		
+
 		String returnString = Stool.postJson(this.url, adminString);
-		
+
 		String code = Stool.getJsonValue(returnString, "code");
 		Assert.assertEquals("保存成功", "000", code);
 	}
+
+	
 
 }

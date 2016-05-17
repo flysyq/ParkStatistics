@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ import junit.framework.Assert;
 
 public class Stool {
 
+	//从request中读取json数据
 	public static String readJSONString(HttpServletRequest request){
         StringBuffer json = new StringBuffer();
         String line = null;
@@ -34,6 +36,7 @@ public class Stool {
         return json.toString();
     }
 	
+	//根据键获取json值
 	public static String getJsonValue(String json,String keyString) throws JsonProcessingException, IOException{
 		ObjectMapper m = new ObjectMapper();
 		JsonNode jnode = m.readTree(json);
@@ -46,7 +49,7 @@ public class Stool {
 		
 		return jnode.path(keys[n-1]).textValue();
 	}
-	
+	//模拟post提交json
 	public static String postJson(String urlString,String json){
 		StringBuffer sb = new StringBuffer("");
 		try {
@@ -97,5 +100,10 @@ public class Stool {
 			e.printStackTrace();
 		}
 		return sb.toString();
+	}
+	//获取uuid()
+	public static String uuid(){
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString();		
 	}
 }

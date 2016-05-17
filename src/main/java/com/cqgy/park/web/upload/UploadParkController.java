@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cqgy.park.bo.UploadParkLogic;
+import com.cqgy.park.dao.InfoGateOpenHandRepository;
+import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
 import com.cqgy.park.dao.InfoUploadUserRepository;
 import com.cqgy.park.domain.InfoUploadUserLinkParkRepository;
@@ -42,6 +44,11 @@ public class UploadParkController {
 	@Autowired
 	InfoParkAdminRepository infoParkAdminRepository;
 	
+	@Autowired
+	InfoLogUploadRepository infoLogUploadRepository;
+	@Autowired
+	InfoGateOpenHandRepository infoGateOpenHandRepository;
+	
 	@RequestMapping(value = "/upload.do", method = RequestMethod.POST)
 	public ReturnHead upload(HttpServletRequest request) throws Exception {
 
@@ -57,12 +64,15 @@ public class UploadParkController {
 		
 		ReturnHead rhead = UploadParkLogic.judgeLogin(jdbcTemplate, head);
 		if(!rhead.getCode().equals("000")){
+			UploadParkLogic.saveInfoLogUpload(infoLogUploadRepository,json,rhead);
 			return rhead;
 		}
 		
 		switch (functionId) {
 		case "8001":
-			UploadParkLogic.saveInfoParkAdmin(infoParkAdminRepository, json);
+			return UploadParkLogic.saveInfoParkAdmin(infoParkAdminRepository, infoLogUploadRepository,json);
+		case "8007":
+			return UploadParkLogic.saveInfoGateOpenHand(infoGateOpenHandRepository,infoLogUploadRepository,json);
 		}
 		return new ReturnHead("000", "正确");
 
