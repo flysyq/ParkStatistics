@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cqgy.park.bo.UploadParkLogic;
+import com.cqgy.park.dao.InfoCardRepository;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
@@ -47,6 +48,8 @@ public class UploadParkController {
 	InfoParkAdminRepository infoParkAdminRepository;
 	@Autowired
 	InfoParkEmpRepository infoParkEmpRepository;
+	@Autowired
+	InfoCardRepository infoCardRepository;
 	@Autowired
 	InfoLogUploadRepository infoLogUploadRepository;
 	@Autowired
@@ -78,6 +81,8 @@ public class UploadParkController {
 			return UploadParkLogic.saveInfoParkAdmin(infoParkAdminRepository, infoLogUploadRepository,json);
 		case "8002":
 			return UploadParkLogic.savaInfoParkEmp(infoParkEmpRepository, infoLogUploadRepository, json);
+		case "8003":
+			return UploadParkLogic.savaInfoCard(infoCardRepository, infoLogUploadRepository, json);
 		case "8007":
 			return UploadParkLogic.saveInfoGateOpenHand(infoGateOpenHandRepository,infoLogUploadRepository,json);
 		}
