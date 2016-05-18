@@ -64,9 +64,10 @@ public class UploadCardTest {
 		uploadCard.getParameter().setSpreadEmpNo("10002");
 		uploadCard.getParameter().setSpreadTime(CustomTime.getLocalTime());
 		uploadCard.getParameter().setStartDate(CustomTime.getLocalTime());
-		uploadCard.getParameter().setUmMoney(200.0);
+		uploadCard.getParameter().setUmMoney((double)200);
 		String adminString = mapper.writeValueAsString(uploadCard);
 		String returnString = Stool.postJson(this.url, adminString);
+		System.out.println(adminString);
 		String code = Stool.getJsonValue(returnString, "head.code");
 		Assert.assertEquals("保存成功", "000", code);
 	}

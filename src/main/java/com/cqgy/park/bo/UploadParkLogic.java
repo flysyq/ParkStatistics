@@ -12,18 +12,22 @@ import java.util.Objects;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.cqgy.park.dao.InfoCardInRepository;
 import com.cqgy.park.dao.InfoCardRepository;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
 import com.cqgy.park.dao.InfoParkEmpRepository;
 import com.cqgy.park.domain.InfoCard;
+import com.cqgy.park.domain.InfoCardIn;
 import com.cqgy.park.domain.InfoGateOpenHand;
 import com.cqgy.park.domain.InfoLogUpload;
 import com.cqgy.park.domain.InfoParkAdmin;
 import com.cqgy.park.domain.InfoParkEmp;
 import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
 import com.cqgy.park.form.upload.UploadCard;
+import com.cqgy.park.form.upload.UploadCardIn;
+import com.cqgy.park.form.upload.UploadCardInParameter;
 import com.cqgy.park.form.upload.UploadCardParameter;
 import com.cqgy.park.form.upload.UploadGateOpenHand;
 import com.cqgy.park.form.upload.UploadHead;
@@ -231,6 +235,46 @@ public class UploadParkLogic {
 		}
 		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
 		return result;
+	}
+
+	public static ReturnResult savaInfoCardIn(InfoCardInRepository infoCardInRepository,InfoLogUploadRepository infoLogUploadRepository,String json) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		ReturnHead rhead = new ReturnHead();
+		ReturnResult result=new ReturnResult();
+		result.setHead(rhead);
+		ObjectMapper mapper = new ObjectMapper();
+		UploadCardIn cardIn = mapper.readValue(json, UploadCardIn.class);
+		UploadHead head = cardIn.getHead();
+		UploadCardInParameter parameter = cardIn.getParameter();
+		String cardNo=parameter.getCardNo();
+		List<InfoCardIn> infoCardIns = infoCardInRepository.findByCardNo(cardNo);
+		InfoCardIn infoCardIn=new InfoCardIn();
+		if (infoCardIns.isEmpty()) {
+			infoCardIn.setId(null);
+		}else{
+			infoCardIn.setId(infoCardIns.get(0).getId());
+		}
+		infoCardIn.setParkId(head.getParkId());
+		infoCardIn.setCardNo(parameter.getCardNo());
+		infoCardIn.setPlate(parameter.getPlate());
+		infoCardIn.setCardType(parameter.getCardType());
+		infoCardIn.setPayMoney(parameter.getPayMoney());
+		infoCardIn.setAcceptEmpNo(parameter.getAcceptEmpNo());
+		infoCardIn.setAcceptEmpName(parameter.getAcceptEmpName());
+		infoCardIn.setStartDate(CustomTime.parseTime(parameter.getStartDate()));
+		infoCardIn.setEndDate(CustomTime.parseTime(parameter.getEndDate()));
+		infoCardIn.setUpdateTime(new Date());
+		InfoCardIn m = infoCardInRepository.save(infoCardIn);
+		if (Objects.isNull(m)) {
+			rhead.setCode("101");
+			rhead.setDescribe("充值失败");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		} else {
+			rhead.setCode("000");
+			rhead.setDescribe("充值成功");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		}
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		return result;	
 	}
 
 	public static ReturnResult saveInfoGateOpenHand(InfoGateOpenHandRepository infoGateOpenHandRepository,
