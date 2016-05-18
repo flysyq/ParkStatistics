@@ -73,6 +73,9 @@ public class SysRoleController {
 		String sql = select+where;
 		List<SysRole> sysRoles = sysRoleService.getRoles(sql);
 		model.addAttribute("sysRoles", sysRoles);
+		HttpSession session = request.getSession();
+		session.setAttribute("fathertitile", "系统管理");
+		session.setAttribute("childrentitle", "角色管理");
 		String forword="/sysrole/rolelist";
 		return forword;
 	}

@@ -73,7 +73,9 @@ public class SysUserController {
 		String sql = select+where;
 		List<SysUser> sysUsers=sysUserService.getSysUsers(sql);
 		model.addAttribute("sysUsers", sysUsers);
-		
+		HttpSession session = request.getSession();
+		session.setAttribute("fathertitile", "系统管理");
+		session.setAttribute("childrentitle", "用户管理");
 		return forword;	
 	}
 	@RequestMapping(value="/sysuser/useredit.do",method=RequestMethod.GET)

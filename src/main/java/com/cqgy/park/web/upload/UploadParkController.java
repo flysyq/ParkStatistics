@@ -21,6 +21,7 @@ import com.cqgy.park.bo.UploadParkLogic;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
+import com.cqgy.park.dao.InfoParkEmpRepository;
 import com.cqgy.park.dao.InfoUploadUserRepository;
 import com.cqgy.park.domain.InfoUploadUserLinkParkRepository;
 import com.cqgy.park.form.upload.UploadHead;
@@ -44,7 +45,8 @@ public class UploadParkController {
 
 	@Autowired
 	InfoParkAdminRepository infoParkAdminRepository;
-	
+	@Autowired
+	InfoParkEmpRepository infoParkEmpRepository;
 	@Autowired
 	InfoLogUploadRepository infoLogUploadRepository;
 	@Autowired
@@ -74,6 +76,8 @@ public class UploadParkController {
 		switch (functionId) {
 		case "8001":
 			return UploadParkLogic.saveInfoParkAdmin(infoParkAdminRepository, infoLogUploadRepository,json);
+		case "8002":
+			return UploadParkLogic.savaInfoParkEmp(infoParkEmpRepository, infoLogUploadRepository, json);
 		case "8007":
 			return UploadParkLogic.saveInfoGateOpenHand(infoGateOpenHandRepository,infoLogUploadRepository,json);
 		}

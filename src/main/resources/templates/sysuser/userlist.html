@@ -1,74 +1,88 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="/theme/home :: header"></head>
 <body>
+	<div th:replace="/theme/home :: top" />
 	<div th:replace="/theme/home :: p-h" />
-	<div th:replace="/theme/home :: left_menu" />
-	<br />
-	<form name="myform" method="get" id="myform">
-		<input type="hidden" name="del_id" id="del_id" value="" />
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="panel panel-default">
-						<!-- Default panel contents -->
-						<div class="panel-heading">用户信息</div>
-						<table class="table table-bordered table-hover">
-							<thead class="thead_success">
-								<tr>
-									<td>编号</td>
-									<td>用户名</td>
-									<td>密码</td>
-									<td>姓名</td>
-									<td>操作</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="sysUser,iterStat : ${sysUsers}">
-									<td th:text="${iterStat.count}"></td>
-									<td th:text="${sysUser.loginCode}"></td>
-									<td th:text="${sysUser.loginPassword}"></td>
-									<td th:text="${sysUser.name}"></td>
-									<td><a target="_blank"
-										th:href="'useredit.do?id='+${sysUser.Id}"
-										class="btn btn-primary">修改</a>
-										<button class="btn btn-primary" th:id="'ddel' + ${sysUser.Id}">删除</button>
-										<a target="_blank"
-										th:href="'userrolesedit.do?id='+${sysUser.Id}"
-										class="btn btn-primary">角色</a></td>
-								</tr>
-							</tbody>
-						</table>
+	<div id="content">
+		<div th:replace="/theme/home :: left_menu" />
+		<div class="m-right">
+			<div th:replace="/theme/home :: right-nav" />
+			<div class="main">
+				<div class="table-responsive">
+					<form name="myform" method="get" id="myform">
+			<input type="hidden" name="del_id" id="del_id" value="" />
+			
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<!-- Default panel contents -->
+							<div class="panel-heading">用户信息</div>
+							<table class="table table-bordered table-hover">
+								<thead class="thead_success">
+									<tr>
+										<td>编号</td>
+										<td>用户名</td>
+										<td>密码</td>
+										<td>姓名</td>
+										<td>操作</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="sysUser,iterStat : ${sysUsers}">
+										<td th:text="${iterStat.count}"></td>
+										<td th:text="${sysUser.loginCode}"></td>
+										<td th:text="${sysUser.loginPassword}"></td>
+										<td th:text="${sysUser.name}"></td>
+										<td><a target="_blank"
+											th:href="'useredit.do?id='+${sysUser.Id}"
+											class="btn btn-primary">修改</a>
+											<button class="btn btn-primary"
+												th:id="'ddel' + ${sysUser.Id}">删除</button> <a
+											target="_blank"
+											th:href="'userrolesedit.do?id='+${sysUser.Id}"
+											class="btn btn-primary">角色</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<a target="_blank" href="useredit.do"
+							class="btn btn-primary form-control">增加</a>
 					</div>
 				</div>
 			</div>
-			<br />
-			<div class="row">
-				<div class="col-md-2 col-md-offset-5">
-					<a target="_blank" href="useredit.do"
-						class="btn btn-primary form-control">增加</a>
+		</form>
 				</div>
+				
 			</div>
+
 		</div>
-	</form>
+
+	</div>
+	
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
-navList(12);
-color();
+	navList(12);
+	color();
 	$(function() {
-	
-		
-		$("[id^=ddel]").click(function(e){
+
+		$("[id^=ddel]").click(function(e) {
 			e.preventDefault();
 			$v = $(this).attr("id");
 			$("#del_id").val($v.substring(4));
 			$("#myform").submit();
 		});
-		
-		
+
 	});
 </script>
 </html>

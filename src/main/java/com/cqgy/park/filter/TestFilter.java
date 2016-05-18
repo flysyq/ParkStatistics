@@ -54,8 +54,6 @@ public class TestFilter implements Filter {
 			chain.doFilter(req, res);
 		}else if (!list.isEmpty()) {
 			chain.doFilter(req, res);
-		}else if(session.getAttribute("loginCode").equals("admin")){
-			chain.doFilter(req, res);
 		}else if(uri.matches("/login/noauturity.do")){
 			chain.doFilter(req, res);
 		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}edit.do")){
@@ -65,6 +63,10 @@ public class TestFilter implements Filter {
 		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}save.do")){
 			chain.doFilter(req, res);
 		}else if(uri.matches("/[a-z]{0,}/getroles.do")||uri.matches("/[a-z]{0,}/father.do")){
+			chain.doFilter(req, res);
+		}else if(uri.matches("/upload.do")){
+			chain.doFilter(req, res);
+		}else if(session.getAttribute("loginCode").equals("admin")){
 			chain.doFilter(req, res);
 		}else{
 			response.sendRedirect("/login/noauturity.do");

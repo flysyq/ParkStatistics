@@ -10,24 +10,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
-import com.cqgy.park.dao.InfoUploadUserRepository;
-import com.cqgy.park.domain.*;
+import com.cqgy.park.dao.InfoParkEmpRepository;
+import com.cqgy.park.domain.InfoGateOpenHand;
+import com.cqgy.park.domain.InfoLogUpload;
+import com.cqgy.park.domain.InfoParkAdmin;
+import com.cqgy.park.domain.InfoParkEmp;
 import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
 import com.cqgy.park.form.upload.UploadGateOpenHand;
 import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.form.upload.UploadParkAdmin;
 import com.cqgy.park.form.upload.UploadParkAdminParameter;
+import com.cqgy.park.form.upload.UploadParkEmp;
+import com.cqgy.park.form.upload.UploadParkEmpParameter;
 import com.cqgy.park.qresult.upload.ReturnHead;
 import com.cqgy.park.qresult.upload.ReturnResult;
 import com.cqgy.park.tool.CustomFile;
@@ -49,7 +48,7 @@ public class UploadParkLogic {
 		ReturnHead returnHead = new ReturnHead();
 		System.out.println(loginCode);
 		String sql = "select login_password,enabled from info_upload_user where login_code='" + loginCode + "'";
-
+		
 		System.out.println(sql);
 		List infoUser = jdbcTemplate.queryForList(sql);
 
@@ -95,7 +94,7 @@ public class UploadParkLogic {
 
 	public static ReturnResult saveInfoParkAdmin(InfoParkAdminRepository infoParkAdminRepository,
 			InfoLogUploadRepository infoLogUploadRepository, String json)
-			throws JsonParseException, JsonMappingException, IOException, ParseException {
+					throws JsonParseException, JsonMappingException, IOException, ParseException {
 		ReturnHead rhead = new ReturnHead();
 		ReturnResult result=new ReturnResult();
 		result.setHead(rhead);
@@ -141,8 +140,49 @@ public class UploadParkLogic {
 			rhead.setServerDate(CustomTime.getLocalTime());
 		}
 		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
-		
+
 		return result;
+	}
+
+	public static ReturnResult savaInfoParkEmp(InfoParkEmpRepository infoParkEmpRepository,InfoLogUploadRepository infoLogUploadRepository,String json) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		ReturnHead rhead=new ReturnHead();
+		ReturnResult result= new ReturnResult();
+		result.setHead(rhead);
+		ObjectMapper mapper=new ObjectMapper();
+		UploadParkEmp infoEmp=mapper.readValue(json, UploadParkEmp.class);
+		UploadHead head=infoEmp.getHead();
+		UploadParkEmpParameter parameter=infoEmp.getParameter();
+		String userCode=parameter.getUserCode();
+		List<InfoParkEmp> infoParkEmps = infoParkEmpRepository.findByUserCode(userCode);
+		Integer enabled = 1;
+		InfoParkEmp infoParkEmp=new InfoParkEmp();
+		infoParkEmp.setEmpName(parameter.getEmpName());
+		infoParkEmp.setEmpNo(parameter.getEmpNo());
+		if (infoParkEmps.isEmpty()) {
+			infoParkEmp.setId(null);
+		}else{
+			infoParkEmp.setId((infoParkEmps.get(0)).getId());
+		}
+		infoParkEmp.setIsEnable(enabled);
+		infoParkEmp.setOpTime(CustomTime.parseTime(parameter.getOpTime()));
+		infoParkEmp.setParkId(head.getParkId());
+		infoParkEmp.setUpdateTime(new Date());
+		infoParkEmp.setUserCode(parameter.getUserCode());
+		infoParkEmp.setUserType(parameter.getUserType());
+		infoParkEmp.setUserTypeName(parameter.getUserTypeName());
+		InfoParkEmp m = infoParkEmpRepository.save(infoParkEmp);
+		if (Objects.isNull(m)) {
+			rhead.setCode("101");
+			rhead.setDescribe("保存交班工作人员出现错误");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		} else {
+			rhead.setCode("000");
+			rhead.setDescribe("保存成功");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		}
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		return result;
+
 	}
 
 	public static ReturnResult saveInfoGateOpenHand(InfoGateOpenHandRepository infoGateOpenHandRepository,
@@ -158,7 +198,7 @@ public class UploadParkLogic {
 		UploadHead head = uploadGateOpenHand.getHead();
 
 		String openPic = parameter.getOpenPic();
-		
+
 		InfoGateOpenHand infoGateOpenHand = new InfoGateOpenHand();	
 		infoGateOpenHand.setOpenEmpNo(parameter.getOpenEmpNo());
 		infoGateOpenHand.setOpenTime(CustomTime.parseTime(parameter.getOpenTime()));
@@ -167,7 +207,7 @@ public class UploadParkLogic {
 		infoGateOpenHand.setOpenEmpName(parameter.getOpenEmpName());
 		infoGateOpenHand.setOpenPic(CustomFile.saveOpenPic(parameter.getOpenPic(),parameter.getOpenTime()));
 		InfoGateOpenHand m = infoGateOpenHandRepository.save(infoGateOpenHand);
-		
+
 		if (Objects.isNull(m)) {
 			rhead.setCode("101");
 			rhead.setDescribe("保存手动开闸信息出现错误");
