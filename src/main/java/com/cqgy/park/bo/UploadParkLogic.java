@@ -13,6 +13,7 @@ import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.cqgy.park.dao.InfoCarIoRepository;
+import com.cqgy.park.dao.InfoCarParkPayRepository;
 import com.cqgy.park.dao.InfoCardInRepository;
 import com.cqgy.park.dao.InfoCardRepository;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
@@ -20,6 +21,7 @@ import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
 import com.cqgy.park.dao.InfoParkEmpRepository;
 import com.cqgy.park.domain.InfoCarIo;
+import com.cqgy.park.domain.InfoCarParkPay;
 import com.cqgy.park.domain.InfoCard;
 import com.cqgy.park.domain.InfoCardIn;
 import com.cqgy.park.domain.InfoGateOpenHand;
@@ -29,6 +31,8 @@ import com.cqgy.park.domain.InfoParkEmp;
 import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
 import com.cqgy.park.form.upload.UploadCarIo;
 import com.cqgy.park.form.upload.UploadCarIoParameter;
+import com.cqgy.park.form.upload.UploadCarParkPay;
+import com.cqgy.park.form.upload.UploadCarParkPayParameter;
 import com.cqgy.park.form.upload.UploadCard;
 import com.cqgy.park.form.upload.UploadCardIn;
 import com.cqgy.park.form.upload.UploadCardInParameter;
@@ -368,6 +372,43 @@ public class UploadParkLogic {
 		return result;
 	}
 
+	public static ReturnResult saveInfoCarParkPay(InfoCarParkPayRepository infoCarParkPayRepository,InfoLogUploadRepository infoLogUploadRepository,String json) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		ReturnHead rhead=new ReturnHead();
+		ReturnResult result= new ReturnResult();
+		result.setHead(rhead);
+		ObjectMapper mapper=new ObjectMapper();
+		UploadCarParkPay carParkPay=mapper.readValue(json, UploadCarParkPay.class);
+		UploadHead head=carParkPay.getHead();
+		UploadCarParkPayParameter parameter= carParkPay.getParameter();
+		InfoCarParkPay infoCarParkPay=new InfoCarParkPay();
+		infoCarParkPay.setId(null);
+		infoCarParkPay.setParkId(head.getParkId());
+		infoCarParkPay.setCardNo(parameter.getCardNo());
+		infoCarParkPay.setPlate(parameter.getPlate());
+		infoCarParkPay.setStartTime(CustomTime.parseTime(parameter.getStartTime()));
+		infoCarParkPay.setEndTime(CustomTime.parseTime(parameter.getEndTime()));
+		infoCarParkPay.setRealPay(parameter.getRealPay());
+		infoCarParkPay.setFee(parameter.getFee());
+		infoCarParkPay.setCardType(parameter.getCardType());
+		infoCarParkPay.setPayType(parameter.getPayType());
+		infoCarParkPay.setFeeFree(parameter.getFreeFee());
+		infoCarParkPay.setFreeType(parameter.getFreeType());
+		infoCarParkPay.setEmpNo(parameter.getEmpNo());
+		infoCarParkPay.setEmpName(parameter.getEmpName());
+		InfoCarParkPay m = infoCarParkPayRepository.save(infoCarParkPay);
+		if (Objects.isNull(m)) {
+			rhead.setCode("101");
+			rhead.setDescribe("缴费失败");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		} else {
+			rhead.setCode("000");
+			rhead.setDescribe("缴费成功");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		}
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		return result;
+	}
+	
 	public static void saveInfoLogUpload(InfoLogUploadRepository infoLogUploadRepository, String json, ReturnHead rhead)
 			throws JsonProcessingException, IOException {
 		InfoLogUpload infoLogUpload = new InfoLogUpload();
