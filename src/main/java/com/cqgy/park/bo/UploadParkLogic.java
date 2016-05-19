@@ -320,32 +320,30 @@ public class UploadParkLogic {
 		UploadCarIoParameter parameter=uploadCarIo.getParameter();
 		Integer accType=parameter.getAccType();
 		InfoCarIo infoCarIo=new InfoCarIo();
-		List<InfoCarIo> findByAccTypeOrderByUpdateTime = infoCarIoRepository.findByAccTypeAndCardNoOrderByUpdateTime(0,parameter.getCardNo());
+		List<InfoCarIo> findByAccTypeOrderByComeTime = infoCarIoRepository.findByAccTypeAndCardNoOrderByComeTime(0,parameter.getCardNo());
 		if (accType==0) {
 			infoCarIo.setId(null);
 			infoCarIo.setComeTime(CustomTime.parseTime(parameter.getComeTime()));
-			infoCarIo.setComePic(parameter.getComePic());
-			infoCarIo.setParkSpacePic(parameter.getParkSpacePic());
+			infoCarIo.setComePic(CustomFile.saveComePic(parameter.getComePic(), parameter.getComeTime()));
 			infoCarIo.setInEmpNo(parameter.getEmpNo());
 			infoCarIo.setInEmpName(parameter.getEmpName());
 		}else{
 			
 			infoCarIo.setGoTime(CustomTime.parseTime(parameter.getGoTime()));
-			infoCarIo.setGoPic(parameter.getGoPic());
+			infoCarIo.setGoPic(CustomFile.saveGoPic(parameter.getGoPic(), parameter.getGoTime()));
+			infoCarIo.setParkSpacePic(CustomFile.saveParkSpacePic(parameter.getParkSpacePic(), parameter.getGoTime()));
 			infoCarIo.setOutEmpNo(parameter.getEmpNo());
 			infoCarIo.setOutEmpName(parameter.getEmpName());
-			if (!findByAccTypeOrderByUpdateTime.isEmpty()) {
-				infoCarIo.setId(findByAccTypeOrderByUpdateTime.get(0).getId());
-				infoCarIo.setComeTime(findByAccTypeOrderByUpdateTime.get(0).getComeTime());
-				infoCarIo.setComePic(findByAccTypeOrderByUpdateTime.get(0).getComePic());
-				infoCarIo.setParkSpacePic(findByAccTypeOrderByUpdateTime.get(0).getParkSpacePic());
-				infoCarIo.setInEmpNo(findByAccTypeOrderByUpdateTime.get(0).getInEmpNo());
-				infoCarIo.setInEmpName(findByAccTypeOrderByUpdateTime.get(0).getInEmpName());
+			if (!findByAccTypeOrderByComeTime.isEmpty()) {
+				infoCarIo.setId(findByAccTypeOrderByComeTime.get(0).getId());
+				infoCarIo.setComeTime(findByAccTypeOrderByComeTime.get(0).getComeTime());
+				infoCarIo.setComePic(findByAccTypeOrderByComeTime.get(0).getComePic());
+				infoCarIo.setInEmpNo(findByAccTypeOrderByComeTime.get(0).getInEmpNo());
+				infoCarIo.setInEmpName(findByAccTypeOrderByComeTime.get(0).getInEmpName());
 			}else{
 				infoCarIo.setId(null);
 				infoCarIo.setComeTime(null);
 				infoCarIo.setComePic(null);
-				infoCarIo.setParkSpacePic(null);
 				infoCarIo.setInEmpNo(null);
 				infoCarIo.setInEmpName(null);
 			}

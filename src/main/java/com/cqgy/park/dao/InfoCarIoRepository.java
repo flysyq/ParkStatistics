@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.cqgy.park.domain.InfoCarIo;
 
 public interface InfoCarIoRepository extends JpaRepository<InfoCarIo, Long>{
-	List<InfoCarIo> findByAccTypeAndCardNoOrderByUpdateTime(Integer accType,String cardNo);
+	List<InfoCarIo> findByAccTypeAndCardNoOrderByComeTime(Integer accType,String cardNo);
 }

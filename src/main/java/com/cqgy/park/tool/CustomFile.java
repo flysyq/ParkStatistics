@@ -18,14 +18,14 @@ public class CustomFile {
 
 	static String file_path = CustomProps.getProp("file.save.path");
 
-	public static String savePic(String openPic, String image_prefix,String openTime) throws IOException {
-		String day = openTime.split("\\ {1,}")[0];
+	public static String savePic(String pic, String image_prefix,String time) throws IOException {
+		String day = time.split("\\ {1,}")[0];
 		String image_name = Stool.uuid() + ".jpg";
 		String image_path = file_path + "/"+image_prefix+"/" + day;
 		String image_file =  image_path+ "/" + image_name;
 		
 
-		byte[] imgBytes = Base64.getDecoder().decode(openPic);
+		byte[] imgBytes = Base64.getDecoder().decode(pic);
 		System.out.println(Paths.get(image_path));
 		
 		Files.createDirectories(Paths.get(image_path));
@@ -36,5 +36,16 @@ public class CustomFile {
 	public static String saveOpenPic(String openPic,String openTime) throws IOException{
 		return savePic(openPic,"open_hand",openTime);
 	}
-
+	
+	public static String saveComePic(String comePic,String comeTime) throws IOException{
+		return savePic(comePic, "car-in", comeTime);
+	}
+	
+	public static String saveGoPic(String goPic,String goTime) throws IOException{
+		return savePic(goPic,"car-out",goTime);
+	}
+	
+	public static String saveParkSpacePic(String parkSpacePic,String goTime) throws IOException{
+		return savePic(parkSpacePic,"car-park-space",goTime);
+	}
 }

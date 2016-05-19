@@ -3,6 +3,9 @@ package com.cqgy.park.web;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +29,7 @@ public class UploadCarIoTest {
 	UploadHead head = new UploadHead();
 	UploadCarIoParameter parameter=new UploadCarIoParameter();
 	UploadCarIo uploadCarIo=new UploadCarIo();
+	
 	@Before
 	public void setUp() throws Exception {
 		this.host = "localhost";
@@ -38,6 +42,8 @@ public class UploadCarIoTest {
 
 	@Test
 	public void testCarIn() throws IOException {
+		String imgFile = "D:/pic/a.jpg";
+		String imgB64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(imgFile)));
 		ObjectMapper mapper = new ObjectMapper();
 		uploadCarIo.getHead().setSysId("admin");
 		uploadCarIo.getHead().setPassword("66286027");
@@ -46,11 +52,10 @@ public class UploadCarIoTest {
 		uploadCarIo.getParameter().setAccType(0);
 		uploadCarIo.getParameter().setCardNo("88888888");
 		uploadCarIo.getParameter().setCardType(1);
-		uploadCarIo.getParameter().setComePic("奥迪A6");
+		uploadCarIo.getParameter().setComePic(imgB64);
 		uploadCarIo.getParameter().setComeTime(CustomTime.getLocalTime());
 		uploadCarIo.getParameter().setEmpNo("10002");
-		uploadCarIo.getParameter().setEmpName("陈玄风");
-		uploadCarIo.getParameter().setParkSpacePic("T02");
+		uploadCarIo.getParameter().setEmpName("陈玄风");	
 		uploadCarIo.getParameter().setPlate("牛B54250");
 		String adminString = mapper.writeValueAsString(uploadCarIo);
 
@@ -59,9 +64,11 @@ public class UploadCarIoTest {
 		String code = Stool.getJsonValue(returnString, "head.code");
 		Assert.assertEquals("保存成功", "000", code);
 	}
-	
+	 
 	@Test
 	public void testCarOut() throws IOException {
+		String imgFile = "D:/pic/a.jpg";
+		String imgB64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(imgFile)));
 		ObjectMapper mapper = new ObjectMapper();
 		uploadCarIo.getHead().setSysId("admin");
 		uploadCarIo.getHead().setPassword("66286027");
@@ -70,7 +77,8 @@ public class UploadCarIoTest {
 		uploadCarIo.getParameter().setAccType(1);
 		uploadCarIo.getParameter().setCardNo("88888888");
 		uploadCarIo.getParameter().setCardType(1);
-		uploadCarIo.getParameter().setGoPic("奥迪A6");
+		uploadCarIo.getParameter().setGoPic(imgB64);
+		uploadCarIo.getParameter().setParkSpacePic(imgB64);
 		uploadCarIo.getParameter().setGoTime(CustomTime.getLocalTime());
 		uploadCarIo.getParameter().setEmpNo("10002");
 		uploadCarIo.getParameter().setEmpName("陈玄风");
