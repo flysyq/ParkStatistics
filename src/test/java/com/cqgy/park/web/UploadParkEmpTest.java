@@ -45,10 +45,6 @@ public class UploadParkEmpTest {
 		this.port = "8082";
 		this.uri = "/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
-		String sysId = "error_user";
-		String password = "123456";
-		String functionId = "8002";
-		String parkId = "0001";
 		UploadHead head=new UploadHead();
 		uploadParkEmp=new UploadParkEmp(head, parameter);
 	}

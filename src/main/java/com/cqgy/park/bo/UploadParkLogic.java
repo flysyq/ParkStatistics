@@ -12,15 +12,23 @@ import java.util.Objects;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.cqgy.park.dao.InfoCardInRepository;
+import com.cqgy.park.dao.InfoCardRepository;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
 import com.cqgy.park.dao.InfoParkEmpRepository;
+import com.cqgy.park.domain.InfoCard;
+import com.cqgy.park.domain.InfoCardIn;
 import com.cqgy.park.domain.InfoGateOpenHand;
 import com.cqgy.park.domain.InfoLogUpload;
 import com.cqgy.park.domain.InfoParkAdmin;
 import com.cqgy.park.domain.InfoParkEmp;
 import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
+import com.cqgy.park.form.upload.UploadCard;
+import com.cqgy.park.form.upload.UploadCardIn;
+import com.cqgy.park.form.upload.UploadCardInParameter;
+import com.cqgy.park.form.upload.UploadCardParameter;
 import com.cqgy.park.form.upload.UploadGateOpenHand;
 import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.form.upload.UploadParkAdmin;
@@ -39,6 +47,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UploadParkLogic {
 
+	private static List<InfoCard> infoCards;
+
 	public static ReturnHead judgeLogin(JdbcTemplate jdbcTemplate, UploadHead head) throws Exception {
 
 		String loginCode = head.getSysId();
@@ -48,7 +58,7 @@ public class UploadParkLogic {
 		ReturnHead returnHead = new ReturnHead();
 		System.out.println(loginCode);
 		String sql = "select login_password,enabled from info_upload_user where login_code='" + loginCode + "'";
-		
+
 		System.out.println(sql);
 		List infoUser = jdbcTemplate.queryForList(sql);
 
@@ -173,7 +183,7 @@ public class UploadParkLogic {
 		InfoParkEmp m = infoParkEmpRepository.save(infoParkEmp);
 		if (Objects.isNull(m)) {
 			rhead.setCode("101");
-			rhead.setDescribe("保存交班工作人员出现错误");
+			rhead.setDescribe("保存交班记录出现错误");
 			rhead.setServerDate(CustomTime.getLocalTime());
 		} else {
 			rhead.setCode("000");
@@ -183,6 +193,88 @@ public class UploadParkLogic {
 		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
 		return result;
 
+	}
+
+	public static ReturnResult savaInfoCard(InfoCardRepository infoCardRepository,InfoLogUploadRepository infoLogUploadRepository,String json) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		ReturnResult result = new ReturnResult();
+		ReturnHead rhead = new ReturnHead();
+		result.setHead(rhead);
+		ObjectMapper mapper = new ObjectMapper();
+		UploadCard card = mapper.readValue(json, UploadCard.class);
+		UploadHead head = card.getHead();
+		UploadCardParameter parameter = card.getParameter();
+		String cardNo=parameter.getCardNo();
+		List<InfoCard> infoCards = infoCardRepository.findByCardNo(cardNo);
+		InfoCard infoCard=new InfoCard();
+		infoCard.setBalance(parameter.getCardMoney());
+		infoCard.setCardNo(parameter.getCardNo());
+		infoCard.setCardType(parameter.getCardType());
+		infoCard.setEndDate(CustomTime.parseTime(parameter.getEndDate()));
+		if (infoCards.isEmpty()) {
+			infoCard.setId(null);
+		}else{
+			infoCard.setId(infoCards.get(0).getId());
+		}
+		infoCard.setMonthMoney(parameter.getUmMoney());
+		infoCard.setOwnerName(parameter.getOwnerName());
+		infoCard.setParkId(head.getParkId());
+		infoCard.setPlate(parameter.getPlate());
+		infoCard.setSpreadEmpName(parameter.getSpreadEmpName());
+		infoCard.setSpreadEmpNo(parameter.getSpreadEmpNo());
+		infoCard.setSpreadTime(CustomTime.parseTime(parameter.getSpreadTime()));
+		infoCard.setStartDate(CustomTime.parseTime(parameter.getStartDate()));
+		InfoCard m = infoCardRepository.save(infoCard);
+		if (Objects.isNull(m)) {
+			rhead.setCode("101");
+			rhead.setDescribe("卡片信息保存出现错误");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		} else {
+			rhead.setCode("000");
+			rhead.setDescribe("保存成功");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		}
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		return result;
+	}
+
+	public static ReturnResult savaInfoCardIn(InfoCardInRepository infoCardInRepository,InfoLogUploadRepository infoLogUploadRepository,String json) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		ReturnHead rhead = new ReturnHead();
+		ReturnResult result=new ReturnResult();
+		result.setHead(rhead);
+		ObjectMapper mapper = new ObjectMapper();
+		UploadCardIn cardIn = mapper.readValue(json, UploadCardIn.class);
+		UploadHead head = cardIn.getHead();
+		UploadCardInParameter parameter = cardIn.getParameter();
+		String cardNo=parameter.getCardNo();
+		List<InfoCardIn> infoCardIns = infoCardInRepository.findByCardNo(cardNo);
+		InfoCardIn infoCardIn=new InfoCardIn();
+		if (infoCardIns.isEmpty()) {
+			infoCardIn.setId(null);
+		}else{
+			infoCardIn.setId(infoCardIns.get(0).getId());
+		}
+		infoCardIn.setParkId(head.getParkId());
+		infoCardIn.setCardNo(parameter.getCardNo());
+		infoCardIn.setPlate(parameter.getPlate());
+		infoCardIn.setCardType(parameter.getCardType());
+		infoCardIn.setPayMoney(parameter.getPayMoney());
+		infoCardIn.setAcceptEmpNo(parameter.getAcceptEmpNo());
+		infoCardIn.setAcceptEmpName(parameter.getAcceptEmpName());
+		infoCardIn.setStartDate(CustomTime.parseTime(parameter.getStartDate()));
+		infoCardIn.setEndDate(CustomTime.parseTime(parameter.getEndDate()));
+		infoCardIn.setUpdateTime(new Date());
+		InfoCardIn m = infoCardInRepository.save(infoCardIn);
+		if (Objects.isNull(m)) {
+			rhead.setCode("101");
+			rhead.setDescribe("充值失败");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		} else {
+			rhead.setCode("000");
+			rhead.setDescribe("充值成功");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		}
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		return result;	
 	}
 
 	public static ReturnResult saveInfoGateOpenHand(InfoGateOpenHandRepository infoGateOpenHandRepository,
