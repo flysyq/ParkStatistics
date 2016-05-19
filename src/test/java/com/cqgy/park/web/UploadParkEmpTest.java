@@ -56,9 +56,9 @@ public class UploadParkEmpTest {
 		uploadParkEmp.getHead().setPassword("66286027");
 		uploadParkEmp.getHead().setFunctionId("8002");
 		uploadParkEmp.getHead().setParkId("0001");
-		uploadParkEmp.getParameter().setEmpNo("10002");
-		uploadParkEmp.getParameter().setEmpName("梅彩凤");
-		uploadParkEmp.getParameter().setUserCode("meicf");
+		uploadParkEmp.getParameter().setEmpNo("10003");
+		uploadParkEmp.getParameter().setEmpName("梅");
+		uploadParkEmp.getParameter().setUserCode("m");
 		uploadParkEmp.getParameter().setOpTime(CustomTime.getLocalTime());
 		uploadParkEmp.getParameter().setOpType(1);
 		uploadParkEmp.getParameter().setUserType(1);
@@ -67,7 +67,7 @@ public class UploadParkEmpTest {
 
 		String returnString = Stool.postJson(this.url, adminString);
 
-		String code = Stool.getJsonValue(returnString, "code");
+		String code = Stool.getJsonValue(returnString, "head.code");
 		Assert.assertEquals("保存成功", "000", code);
 	}
 }

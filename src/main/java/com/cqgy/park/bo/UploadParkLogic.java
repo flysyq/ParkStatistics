@@ -12,12 +12,14 @@ import java.util.Objects;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.cqgy.park.dao.InfoCarIoRepository;
 import com.cqgy.park.dao.InfoCardInRepository;
 import com.cqgy.park.dao.InfoCardRepository;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
 import com.cqgy.park.dao.InfoParkEmpRepository;
+import com.cqgy.park.domain.InfoCarIo;
 import com.cqgy.park.domain.InfoCard;
 import com.cqgy.park.domain.InfoCardIn;
 import com.cqgy.park.domain.InfoGateOpenHand;
@@ -25,6 +27,8 @@ import com.cqgy.park.domain.InfoLogUpload;
 import com.cqgy.park.domain.InfoParkAdmin;
 import com.cqgy.park.domain.InfoParkEmp;
 import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
+import com.cqgy.park.form.upload.UploadCarIo;
+import com.cqgy.park.form.upload.UploadCarIoParameter;
 import com.cqgy.park.form.upload.UploadCard;
 import com.cqgy.park.form.upload.UploadCardIn;
 import com.cqgy.park.form.upload.UploadCardInParameter;
@@ -47,7 +51,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UploadParkLogic {
 
-	private static List<InfoCard> infoCards;
 
 	public static ReturnHead judgeLogin(JdbcTemplate jdbcTemplate, UploadHead head) throws Exception {
 
@@ -163,16 +166,11 @@ public class UploadParkLogic {
 		UploadHead head=infoEmp.getHead();
 		UploadParkEmpParameter parameter=infoEmp.getParameter();
 		String userCode=parameter.getUserCode();
-		List<InfoParkEmp> infoParkEmps = infoParkEmpRepository.findByUserCode(userCode);
 		Integer enabled = 1;
 		InfoParkEmp infoParkEmp=new InfoParkEmp();
 		infoParkEmp.setEmpName(parameter.getEmpName());
 		infoParkEmp.setEmpNo(parameter.getEmpNo());
-		if (infoParkEmps.isEmpty()) {
-			infoParkEmp.setId(null);
-		}else{
-			infoParkEmp.setId((infoParkEmps.get(0)).getId());
-		}
+		infoParkEmp.setId(null);
 		infoParkEmp.setIsEnable(enabled);
 		infoParkEmp.setOpTime(CustomTime.parseTime(parameter.getOpTime()));
 		infoParkEmp.setParkId(head.getParkId());
@@ -246,13 +244,8 @@ public class UploadParkLogic {
 		UploadHead head = cardIn.getHead();
 		UploadCardInParameter parameter = cardIn.getParameter();
 		String cardNo=parameter.getCardNo();
-		List<InfoCardIn> infoCardIns = infoCardInRepository.findByCardNo(cardNo);
 		InfoCardIn infoCardIn=new InfoCardIn();
-		if (infoCardIns.isEmpty()) {
-			infoCardIn.setId(null);
-		}else{
-			infoCardIn.setId(infoCardIns.get(0).getId());
-		}
+		infoCardIn.setId(null);
 		infoCardIn.setParkId(head.getParkId());
 		infoCardIn.setCardNo(parameter.getCardNo());
 		infoCardIn.setPlate(parameter.getPlate());
@@ -303,6 +296,68 @@ public class UploadParkLogic {
 		if (Objects.isNull(m)) {
 			rhead.setCode("101");
 			rhead.setDescribe("保存手动开闸信息出现错误");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		} else {
+			rhead.setCode("000");
+			rhead.setDescribe("保存成功");
+			rhead.setServerDate(CustomTime.getLocalTime());
+		}
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		return result;
+	}
+
+	public static ReturnResult saveInfoCarIo(InfoCarIoRepository infoCarIoRepository,InfoLogUploadRepository infoLogUploadRepository,String json) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		ReturnHead rhead=new ReturnHead();
+		ReturnResult result=new ReturnResult();
+		result.setHead(rhead);
+		ObjectMapper mapper=new ObjectMapper();
+		UploadCarIo uploadCarIo = mapper.readValue(json, UploadCarIo.class);
+		UploadHead head=uploadCarIo.getHead();
+		UploadCarIoParameter parameter=uploadCarIo.getParameter();
+		Integer accType=parameter.getAccType();
+		InfoCarIo infoCarIo=new InfoCarIo();
+		List<InfoCarIo> findByAccTypeOrderByUpdateTime = infoCarIoRepository.findByAccTypeAndCardNoOrderByUpdateTime(0,parameter.getCardNo());
+		if (accType==0) {
+			infoCarIo.setId(null);
+			infoCarIo.setComeTime(CustomTime.parseTime(parameter.getComeTime()));
+			infoCarIo.setComePic(parameter.getComePic());
+			infoCarIo.setParkSpacePic(parameter.getParkSpacePic());
+			infoCarIo.setInEmpNo(parameter.getEmpNo());
+			infoCarIo.setInEmpName(parameter.getEmpName());
+		}else{
+			
+			infoCarIo.setGoTime(CustomTime.parseTime(parameter.getGoTime()));
+			infoCarIo.setGoPic(parameter.getGoPic());
+			infoCarIo.setOutEmpNo(parameter.getEmpNo());
+			infoCarIo.setOutEmpName(parameter.getEmpName());
+			if (!findByAccTypeOrderByUpdateTime.isEmpty()) {
+				infoCarIo.setId(findByAccTypeOrderByUpdateTime.get(0).getId());
+				infoCarIo.setComeTime(findByAccTypeOrderByUpdateTime.get(0).getComeTime());
+				infoCarIo.setComePic(findByAccTypeOrderByUpdateTime.get(0).getComePic());
+				infoCarIo.setParkSpacePic(findByAccTypeOrderByUpdateTime.get(0).getParkSpacePic());
+				infoCarIo.setInEmpNo(findByAccTypeOrderByUpdateTime.get(0).getInEmpNo());
+				infoCarIo.setInEmpName(findByAccTypeOrderByUpdateTime.get(0).getInEmpName());
+			}else{
+				infoCarIo.setId(null);
+				infoCarIo.setComeTime(null);
+				infoCarIo.setComePic(null);
+				infoCarIo.setParkSpacePic(null);
+				infoCarIo.setInEmpNo(null);
+				infoCarIo.setInEmpName(null);
+			}
+		}
+		infoCarIo.setParkId(head.getParkId());
+		infoCarIo.setCardNo(parameter.getCardNo());
+		infoCarIo.setPlate(parameter.getPlate());
+		infoCarIo.setCardType(parameter.getCardType());
+		infoCarIo.setAccType(accType);
+		infoCarIo.setUpdateTime(new Date());
+
+		saveInfoLogUpload(infoLogUploadRepository, json, rhead);
+		InfoCarIo m = infoCarIoRepository.save(infoCarIo);
+		if (Objects.isNull(m)) {
+			rhead.setCode("101");
+			rhead.setDescribe("保存出入场信息出现错误");
 			rhead.setServerDate(CustomTime.getLocalTime());
 		} else {
 			rhead.setCode("000");
