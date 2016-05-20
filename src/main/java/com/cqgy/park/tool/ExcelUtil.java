@@ -29,11 +29,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
-
+import static com.cqgy.park.tool.Stool.*;
 public class ExcelUtil {
 
 	public static void main(String[] args) {
-		String excelName = "d:/temp/发卡信息.xls";
+		String excelName = "d:/temp/发卡信息_2016-5-4_"+uuid()+".xls";
 
 		boolean created = createExcel(excelName);
 		if (created == true) {
@@ -45,37 +45,25 @@ public class ExcelUtil {
 
 	public static boolean createExcel(String excelName) {
 		boolean created = false;
-		Workbook wb = new HSSFWorkbook();
-		Font font = wb.createFont();
-		font.setBold(true);
-		CellStyle headStyle = wb.createCellStyle();
-		headStyle.setFont(font);
-
+		Workbook wb = new HSSFWorkbook();	
 		Sheet sheet = wb.createSheet("2016年5月发卡信息");
 		String[] head = { "卡号", "卡类型", "发卡时间", "发卡人工号", "发卡人姓名", "持卡人姓名", "车牌号", "卡上余额", "开始时间", "截止时间", "月卡延期金额" };
 		String[] code = { "card_no", "card_type", "spread_time", "spread_emp_no", "spread_emp_name", "owner_name",
 				"plate", "blance", "start_time", "end_time", "month_money" };
-
 		List<Map<String, Object>> list = setList();
-		setSheet(sheet, list, head, headStyle, code);
-		// 创建说明
-		int startRow = 4;
-		int endRow = 8;
-		int startColumn = head.length + 4;
-		int endColumn = head.length + 8;
-
 		String describe = "1、创建时间：" + (new Date().toString()) + "。\n";
 		describe += "2.创建人：石永强。\n";
 		describe += "3.查询条件：日期在2016-4-4至2016-5-4之间";
-		//说明位于左上
-		CellStyle descStyle = wb.createCellStyle();
-		descStyle.setAlignment(CellStyle.ALIGN_LEFT);
-		descStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
-		setSheet(sheet, startRow, endRow, startColumn, endColumn, describe, descStyle);
+		//创建表
+		setSheet(sheet, list, head, code);	
+		//创建说明
+		setSheet(sheet, head, describe);
 
 		Sheet sheet1 = wb.createSheet("2016年6月发卡信息");
-		setSheet(sheet1, list, head, headStyle, code);
-		setSheet(sheet1, startRow, endRow, startColumn, endColumn, describe, descStyle);
+		//创建表
+		setSheet(sheet1, list, head, code);
+		//创建说明
+		setSheet(sheet1, head, describe);
 		try {
 			try (FileOutputStream fileOut = new FileOutputStream(excelName)) {
 				wb.write(fileOut);
@@ -127,7 +115,11 @@ public class ExcelUtil {
 	}
 
 	private static void setSheet(Sheet sheet, int startRow, int startColumn, List<Map<String, Object>> list,
-			String[] head, CellStyle headStyle, String[] code) {
+			String[] head,String[] code) {
+		Font font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		CellStyle headStyle = sheet.getWorkbook().createCellStyle();
+		headStyle.setFont(font);
 		Row row = sheet.createRow(startRow);
 		setHeadRow(row, head, startColumn, headStyle);
 		for (int i = 0; i < list.size(); i++) {
@@ -138,13 +130,21 @@ public class ExcelUtil {
 
 	}
 
-	private static void setSheet(Sheet sheet, List<Map<String, Object>> list, String[] head, CellStyle headStyle,
+	private static void setSheet(Sheet sheet, List<Map<String, Object>> list, String[] head, 
 			String[] code) {
-		setSheet(sheet, 0, 0, list, head, headStyle, code);
+		setSheet(sheet, 0, 0, list, head,code);
 	}
 
-	private static void setSheet(Sheet sheet, int startRow, int endRow, int startColumn, int endColumn, String describe,
-			CellStyle descStyle) {
+	private static void setSheet(Sheet sheet, String[] head, String describe) {
+		// 说明位于左上
+		CellStyle descStyle = sheet.getWorkbook().createCellStyle();
+		descStyle.setAlignment(CellStyle.ALIGN_LEFT);
+		descStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
+		// 创建说明
+		int startRow = 4;
+		int endRow = 8;
+		int startColumn = head.length + 4;
+		int endColumn = head.length + 8;
 		Row row = sheet.getRow(startRow);
 		if (Objects.isNull(row)) {
 			row = sheet.createRow(startRow);

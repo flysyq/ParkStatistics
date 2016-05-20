@@ -43,16 +43,16 @@ public class UploadGateOpenHandTest {
 		this.port = "8082";
 		this.uri = "/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
-		String sysId = "sjgc";
-		String password = "123456";
+		String sysId = "admin";
+		String password = "66286027";
 		String functionId = "8007";
 		String parkId = "0001";
-		String imgFile = "D:/360安全浏览器下载/a.jpg";
+		String imgFile = "D:/pic/a.jpg";
 
 		String imgB64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(imgFile)));
 		
 		head = new UploadHead(sysId, password, functionId, parkId);
-		parameter = new InfoGateOpenHandParameter("1002", "梅彩凤", imgB64, 1,CustomTime.getLocalTime(),CustomTime.getLocalTime());
+		parameter = new InfoGateOpenHandParameter("1002", "梅彩凤", imgB64, 2,CustomTime.getLocalTime(),CustomTime.getLocalTime());
 		uploadGateOpenHand = new UploadGateOpenHand(head, parameter);
 	}
 	
@@ -64,7 +64,7 @@ public class UploadGateOpenHandTest {
 
 			String returnString = Stool.postJson(this.url, uploadString);
 
-			String code = Stool.getJsonValue(returnString, "code");
+			String code = Stool.getJsonValue(returnString, "head.code");
 			Assert.assertEquals("保存成功", "000", code);
 		}
 }

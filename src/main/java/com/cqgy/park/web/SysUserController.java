@@ -74,7 +74,7 @@ public class SysUserController {
 		List<SysUser> sysUsers=sysUserService.getSysUsers(sql);
 		model.addAttribute("sysUsers", sysUsers);
 		HttpSession session = request.getSession();
-		session.setAttribute("fathertitile", "系统管理");
+		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "用户管理");
 		return forword;	
 	}

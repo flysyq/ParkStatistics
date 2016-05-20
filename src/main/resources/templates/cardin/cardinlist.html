@@ -9,40 +9,41 @@
 			<div th:replace="/theme/home :: right-nav" />
 			<div class="main">
 				<div class="table-responsive">
-					<form name="myform" method="get" id="myform">
-						<input type="hidden" name="del_id" id="del_id" value="" />
-
+					<form name="myform" method="get" id="myform"
+						class="navbar-form navbar-left" role="search">
 						<div class="container">
-
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">用户信息</div>
+										<div class="panel-heading">充值延期</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
-												<tr>
+												<tr class="h-tr">
 													<td>编号</td>
-													<td>用户名</td>
-													<td>密码</td>
-													<td>姓名</td>
-													<td>操作</td>
+													<td>停车场</td>
+													<td>卡号</td>
+													<td>车牌号</td>
+													<td>卡类型</td>
+													<td>充值金额</td>
+													<td>月卡有效开始时间</td>
+													<td>月卡有效截至时间</td>
+													<td>收费人</td>
+													<td>更新时间</td>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="sysUser,iterStat : ${sysUsers}">
+												<tr th:each="cardIn,iterStat : ${cardIns}">
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${sysUser.loginCode}"></td>
-													<td th:text="${sysUser.loginPassword}"></td>
-													<td th:text="${sysUser.name}"></td>
-													<td><a target="_blank"
-														th:href="'useredit.do?id='+${sysUser.Id}"
-														class="btn btn-primary">修改</a>
-														<button class="btn btn-primary"
-															th:id="'ddel' + ${sysUser.Id}">删除</button> <a
-														target="_blank"
-														th:href="'userrolesedit.do?id='+${sysUser.Id}"
-														class="btn btn-primary">角色</a></td>
+													<td th:text="${cardIn.parkId}"></td>
+													<td th:text="${cardIn.cardNo}"></td>
+													<td th:text="${cardIn.plate}"></td>
+													<td th:text="${cardIn.cardType}"></td>
+													<td th:text="${cardIn.payMoney}"></td>
+													<td th:text="${cardIn.startDate}"></td>
+													<td th:text="${cardIn.endDate}"></td>
+													<td th:text="${cardIn.acceptEmpName}"></td>
+													<td th:text="${cardIn.updateTime}"></td>
 												</tr>
 											</tbody>
 										</table>
@@ -52,7 +53,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-2 col-md-offset-5">
-									<a target="_blank" href="useredit.do"
+									<a target="_blank" href="edit.do"
 										class="btn btn-primary form-control">增加</a>
 								</div>
 							</div>
@@ -74,15 +75,5 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
-	$(function() {
-
-		$("[id^=ddel]").click(function(e) {
-			e.preventDefault();
-			$v = $(this).attr("id");
-			$("#del_id").val($v.substring(4));
-			$("#myform").submit();
-		});
-
-	});
 </script>
 </html>

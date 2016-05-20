@@ -65,7 +65,7 @@ public class LoginController {
 			session.setAttribute("loginCode", login_code);
 			session.setAttribute("loginTime", date);
 			session.setAttribute("role_id", role_id);
-			session.setAttribute("fathertitile", "系统公告");
+			session.setAttribute("fatherttile", "系统公告");
 			session.setAttribute("childrentitle", "最新公告");
 			return "index/index";
 		}		

@@ -9,40 +9,47 @@
 			<div th:replace="/theme/home :: right-nav" />
 			<div class="main">
 				<div class="table-responsive">
-					<form name="myform" method="get" id="myform">
-						<input type="hidden" name="del_id" id="del_id" value="" />
-
+					<form name="myform" method="get" id="myform"
+						class="navbar-form navbar-left" role="search">
 						<div class="container">
-
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">用户信息</div>
+										<div class="panel-heading">场内记录</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
-												<tr>
+												<tr class="h-tr">
 													<td>编号</td>
-													<td>用户名</td>
-													<td>密码</td>
-													<td>姓名</td>
-													<td>操作</td>
+													<td>所在车库</td>
+													<td>卡号</td>
+													<td>卡类型</td>
+													<td>车牌号</td>
+													<td>入场时间</td>
+													<td>入场图片</td>
+													<td>入场操作人员</td>
+													<td>出场时间</td>
+													<td>出场图片</td>
+													<td>出场操作人员</td>
+													<td>停车位图片</td>
+													<td>更新时间</td>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="sysUser,iterStat : ${sysUsers}">
+												<tr th:each="carIo,iterStat : ${carIos}" >
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${sysUser.loginCode}"></td>
-													<td th:text="${sysUser.loginPassword}"></td>
-													<td th:text="${sysUser.name}"></td>
-													<td><a target="_blank"
-														th:href="'useredit.do?id='+${sysUser.Id}"
-														class="btn btn-primary">修改</a>
-														<button class="btn btn-primary"
-															th:id="'ddel' + ${sysUser.Id}">删除</button> <a
-														target="_blank"
-														th:href="'userrolesedit.do?id='+${sysUser.Id}"
-														class="btn btn-primary">角色</a></td>
+													<td th:text="${carIo.parkId}"></td>
+													<td th:text="${carIo.cardNo}"></td>
+													<td th:text="${carIo.cardType}"></td>
+													<td th:text="${carIo.plate}"></td>
+													<td th:text="${carIo.comeTime}"></td>
+													<td><img th:src="${carIo.comePic}" width="102px" height="86px"/></td>
+													<td th:text="${carIo.inEmpName}"></td>
+													<td th:text="${carIo.goTime}"></td>
+													<td><img th:src="${carIo.goPic}" width="102px" height="86px"/></td>
+													<td th:text="${carIo.outEmpName}"></td>
+													<td><img th:src="${carIo.parkSpacePic}" width="102px" height="86px"/></td>
+													<td th:text="${carIo.updateTime}"></td>
 												</tr>
 											</tbody>
 										</table>
@@ -52,7 +59,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-2 col-md-offset-5">
-									<a target="_blank" href="useredit.do"
+									<a target="_blank" href="edit.do"
 										class="btn btn-primary form-control">增加</a>
 								</div>
 							</div>
@@ -74,15 +81,5 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
-	$(function() {
-
-		$("[id^=ddel]").click(function(e) {
-			e.preventDefault();
-			$v = $(this).attr("id");
-			$("#del_id").val($v.substring(4));
-			$("#myform").submit();
-		});
-
-	});
 </script>
 </html>

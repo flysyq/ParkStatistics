@@ -17,7 +17,10 @@ import java.nio.file.Files;
 public class CustomFile {
 
 	static String file_path = CustomProps.getProp("file.save.path");
-
+	static String open_hand="open_hand";
+	static String car_in="car_in";
+	static String car_out="car_out";
+	static String car_park_space="car_park_space";
 	public static String savePic(String pic, String image_prefix,String time) throws IOException {
 		String day = time.split("\\ {1,}")[0];
 		String image_name = Stool.uuid() + ".jpg";
@@ -34,18 +37,36 @@ public class CustomFile {
 	}
 	
 	public static String saveOpenPic(String openPic,String openTime) throws IOException{
-		return savePic(openPic,"open_hand",openTime);
+		return savePic(openPic,open_hand,openTime);
 	}
 	
 	public static String saveComePic(String comePic,String comeTime) throws IOException{
-		return savePic(comePic, "car-in", comeTime);
+		return savePic(comePic, car_in, comeTime);
 	}
 	
 	public static String saveGoPic(String goPic,String goTime) throws IOException{
-		return savePic(goPic,"car-out",goTime);
+		return savePic(goPic,car_out,goTime);
 	}
 	
 	public static String saveParkSpacePic(String parkSpacePic,String goTime) throws IOException{
-		return savePic(parkSpacePic,"car-park-space",goTime);
+		return savePic(parkSpacePic,car_park_space,goTime);
 	}
+
+
+	public static String getOpen_hand() {
+		return open_hand;
+	}
+
+	public static String getCar_in() {
+		return car_in;
+	}
+
+	public static String getCar_out() {
+		return car_out;
+	}
+
+	public static String getCar_park_space() {
+		return car_park_space;
+	}
+	
 }

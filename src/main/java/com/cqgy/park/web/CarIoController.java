@@ -11,23 +11,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.cqgy.park.dao.CardInService;
-import com.cqgy.park.domain.InfoCardIn;
+import com.cqgy.park.dao.CarIoService;
+import com.cqgy.park.domain.InfoCarIo;
 
 @Controller
-public class CardInController {
+public class CarIoController {
 	@Autowired
-	CardInService cardInService;
-	
-	@RequestMapping(value="/cardin/cardinlist.do",method=RequestMethod.GET)
+	CarIoService carIoService;
+	@RequestMapping(value="/cario/cariolist.do",method=RequestMethod.GET)
 	public String list(HttpServletRequest request,Model model){
-		String sql="select * from info_card_in";
-		List<InfoCardIn> cardIns = cardInService.getCardIns(sql);
-		model.addAttribute("cardIns", cardIns);
+		String sql="select * from info_car_io";
+		List<InfoCarIo> carIos = carIoService.getCarIos(sql);
+		model.addAttribute("carIos", carIos);
 		HttpSession session = request.getSession();
-		session.setAttribute("fathertitle", "记录查询");
-		session.setAttribute("childrentitle", "充值延期");
-		String forword="/cardin/cardinlist";
+		session.setAttribute("fathertitile", "记录查询");
+		session.setAttribute("childrentitle", "场内记录");
+		String forword="cario/cariolist";
 		return forword;
 	}
+	
 }

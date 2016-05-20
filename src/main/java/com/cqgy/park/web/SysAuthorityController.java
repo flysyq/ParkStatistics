@@ -99,7 +99,7 @@ public class SysAuthorityController {
 		model.addAttribute("sysAuthoritys", sysAuthoritys);
 		model.addAttribute("fsysAuthoritys", fsysAuthoritys);
 		HttpSession session = request.getSession();
-		session.setAttribute("fathertitile", "系统管理");
+		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "菜单管理");
 		String forword = "/authority/list";
 		return forword;		
