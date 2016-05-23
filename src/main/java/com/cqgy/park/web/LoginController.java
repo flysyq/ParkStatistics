@@ -65,7 +65,7 @@ public class LoginController {
 			session.setAttribute("loginCode", login_code);
 			session.setAttribute("loginTime", date);
 			session.setAttribute("role_id", role_id);
-			session.setAttribute("fatherttile", "系统公告");
+			session.setAttribute("fathertitle", "系统公告");
 			session.setAttribute("childrentitle", "最新公告");
 			return "index/index";
 		}		
@@ -86,22 +86,22 @@ public class LoginController {
 					user.setLoginPassword(shaEncode(new_password));
 					sysUserRepository.save(user);
 					model.addAttribute("result", "密码修改成功");
-					String forword="/display/result";
+					String forword="display/result";
 					return forword;
 				}else{
 					model.addAttribute("result", "新密码不能为空");
-					String forword="/display/result";
+					String forword="display/result";
 					return forword;
 				}
 			
 			}else{
 				model.addAttribute("result", "原密码错误");
-				String forword="/display/result";
+				String forword="display/result";
 				return forword;
 			}
 		}else{
 			model.addAttribute("result", "原密码不能为空");
-			String forword="/display/result";
+			String forword="display/result";
 			return forword;
 		}
 	
@@ -110,7 +110,7 @@ public class LoginController {
 	@RequestMapping(value="/login/noauturity.do")
 	public String goToDisplay(Model model){
 		model.addAttribute("result", "你没有权限！");
-		String forword="/display/result";
+		String forword="display/result";
 		return forword;
 		
 	}
@@ -118,7 +118,7 @@ public class LoginController {
 	public String exitLogin(HttpServletRequest req){
 		HttpSession session = req.getSession();
 		session.invalidate();
-		String forword="/login/login";
+		String forword="login/login";
 		return forword;	
 	}
 }

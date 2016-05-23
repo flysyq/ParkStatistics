@@ -12,19 +12,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.cqgy.park.dao.CarIoService;
-import com.cqgy.park.domain.InfoCarIo;
+import com.cqgy.park.dao.CarParkPayService;
+import com.cqgy.park.domain.InfoCarParkPay;
 
 @Controller
-public class CarIoController {
+public class CarParkPayController {
 	@Autowired
-	CarIoService carIoService;
+	CarParkPayService carParkPayService;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	@RequestMapping(value="/cario/cariolist.do",method=RequestMethod.GET)
+
+	@RequestMapping(value="/carparkpay/carparkpaylist.do",method=RequestMethod.GET)
 	public String list(Long page,HttpServletRequest request,Model model){
 		Long pageSize=(long) 5;	
-		String countsql="select count(*) count from info_car_io";
+		String countsql="select count(*) count from info_car_park_pay";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;
 		if (count%pageSize==0) {
@@ -39,18 +40,17 @@ public class CarIoController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_car_io limit "+pageStart+","+pageSize;
-		List<InfoCarIo> carIos = carIoService.getCarIos(select);
-		model.addAttribute("carIos", carIos);
+		String select = "select * from info_car_park_pay limit "+pageStart+","+pageSize;
+		List<InfoCarParkPay> carParkPays = carParkPayService.getCarParkPays(select);
+		model.addAttribute("carParkPays", carParkPays);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");
-		session.setAttribute("childrentitle", "场内记录");
+		session.setAttribute("childrentitle", "缴费记录");
 		session.setAttribute("currentpage", page);
 		session.setAttribute("prevpage", page-1);
 		session.setAttribute("nextpage", page+1);
 		session.setAttribute("maxpage", pageMax);
-		String forword="cario/cariolist";
+		String forword="carparkpay/carparkpaylist";
 		return forword;
 	}
-	
 }

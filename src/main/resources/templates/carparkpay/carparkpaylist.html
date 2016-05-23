@@ -16,7 +16,7 @@
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">场内记录</div>
+										<div class="panel-heading">收费记录</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
 												<tr class="h-tr">
@@ -25,45 +25,45 @@
 													<td>卡号</td>
 													<td>卡类型</td>
 													<td>车牌号</td>
-													<td>入场时间</td>
-													<td>入场图片</td>
-													<td>入场操作人员</td>
-													<td>出场时间</td>
-													<td>出场图片</td>
-													<td>出场操作人员</td>
-													<td>停车位图片</td>
-													<td>更新时间</td>
+													<td>应收金额</td>
+													<td>实收金额</td>
+													<td>免费类型</td>
+													<td>免费金额</td>
+													<td>收费类型</td>
+													<td>操作人员</td>
+													<td>开始时间</td>
+													<td>结束时间</td>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="carIo,iterStat : ${carIos}" >
+												<tr th:each="carParkPay,iterStat : ${carParkPays}" >
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${carIo.parkId}"></td>
-													<td th:text="${carIo.cardNo}"></td>
-													<td th:text="${carIo.cardType}"></td>
-													<td th:text="${carIo.plate}"></td>
-													<td th:text="${carIo.comeTime}"></td>
-													<td><img th:src="${carIo.comePic}" width="102px" height="86px"/></td>
-													<td th:text="${carIo.inEmpName}"></td>
-													<td th:text="${carIo.goTime}"></td>
-													<td><img th:src="${carIo.goPic}" width="102px" height="86px"/></td>
-													<td th:text="${carIo.outEmpName}"></td>
-													<td><img th:src="${carIo.parkSpacePic}" width="102px" height="86px"/></td>
-													<td th:text="${carIo.updateTime}"></td>
+													<td th:text="${carParkPay.parkId}"></td>
+													<td th:text="${carParkPay.cardNo}"></td>
+													<td th:text="${carParkPay.cardType}"></td>
+													<td th:text="${carParkPay.plate}"></td>
+													<td th:text="${carParkPay.fee}">应缴金额</td>
+													<td th:text="${carParkPay.realPay}">实缴金额</td>
+													<td th:text="${carParkPay.freeType}">免费类型</td>
+													<td th:text="${carParkPay.feeFree}">免费金额</td>
+													<td th:text="${carParkPay.payType}">缴费类型</td>
+													<td th:text="${carParkPay.empName}">操作人员</td>
+													<td th:text="${carParkPay.startTime}">开始时间</td>
+													<td th:text="${carParkPay.endTime}">结束时间</td>
 												</tr>
 											</tbody>
 											<tfoot>
 												<tr>
 													<td align="center" colspan="13"><a
-														href="../cario/cariolist.do?page=1" class="btn btn-primary">首页</a>
+														href="../carparkpay/carparkpaylist.do?page=1" class="btn btn-primary">首页</a>
 														<a
-														th:href="'../cario/cariolist.do?page='+${session.prevpage}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.prevpage}"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
 														<a
-														th:href="'../cario/cariolist.do?page='+${session.nextpage}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.nextpage}"
 														class="btn btn-primary">下一页</a> <a
-														th:href="'../cario/cariolist.do?page='+${session.maxpage}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.maxpage}"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 											</tfoot>

@@ -19,7 +19,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,7 +42,6 @@ public class TestFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
 		HttpSession session = request.getSession();
-		String bath=request.getScheme()+"//"+request.getServerName()+":"+request.getServerPort();
 		String uri=request.getRequestURI();
 		Long role_id = (Long) session.getAttribute("role_id");
 		String sql="SELECT sa.uri,sra.role_id FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id WHERE sra.role_id="+role_id+" AND uri='"+uri+"'";
@@ -66,7 +64,7 @@ public class TestFilter implements Filter {
 			chain.doFilter(req, res);
 		}else if(uri.matches("/upload.do")){
 			chain.doFilter(req, res);
-		}else if(session.getAttribute("loginCode").equals("admin")){
+		}else if(session.getAttribute("loginCode").equals("admin")&&session.getAttribute("loginCode")!=null){
 			chain.doFilter(req, res);
 		}else{
 			response.sendRedirect("/login/noauturity.do");

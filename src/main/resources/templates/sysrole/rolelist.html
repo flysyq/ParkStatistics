@@ -10,52 +10,67 @@
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
-		<input type="hidden" name="del_id" id="del_id" value="" />
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="panel panel-default">
-						<!-- Default panel contents -->
-						<div class="panel-heading">角色信息</div>
-						<table class="table table-bordered table-hover">
-							<thead class="thead_success">
-								<tr>
-									<td>编号</td>
-									<td>名称</td>
-									<td>标记</td>
-									<td>操作</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="sysRole,iterStat : ${sysRoles}">
-									<td th:text="${iterStat.count}"></td>
-									<td th:text="${sysRole.name}"></td>
-									<td th:text="${sysRole.remark}"></td>
-									<td><a target="_blank"
-										th:href="'roleedit.do?id='+${sysRole.Id}"
-										class="btn btn-primary">修改</a>
-										<button class="btn btn-primary" th:id="'ddel' + ${sysRole.Id}">删除</button>
+						<input type="hidden" name="del_id" id="del_id" value="" />
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<!-- Default panel contents -->
+										<div class="panel-heading">角色信息</div>
+										<table class="table table-bordered table-hover">
+											<thead class="thead_success">
+												<tr>
+													<td>编号</td>
+													<td>名称</td>
+													<td>标记</td>
+													<td>操作</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="sysRole,iterStat : ${sysRoles}">
+													<td th:text="${iterStat.count}"></td>
+													<td th:text="${sysRole.name}"></td>
+													<td th:text="${sysRole.remark}"></td>
+													<td><a target="_blank"
+														th:href="'roleedit.do?id='+${sysRole.Id}"
+														class="btn btn-primary">修改</a>
+														<button class="btn btn-primary"
+															th:id="'ddel' + ${sysRole.Id}">删除</button> <a
+														target="_blank"
+														th:href="'sysroleauthoritylist.do?id='+${sysRole.Id}"
+														class="btn btn-primary">权限设置</a></td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td align="center" colspan="4"><a
+														href="../sysrole/rolelist.do?page=1" class="btn btn-primary">首页</a>
+														<a
+														th:href="'../sysrole/rolelist.do?page='+${session.prevpage}"
+														class="btn btn-primary">上一页</a> <span
+														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
+														<a
+														th:href="'../sysrole/rolelist.do?page='+${session.nextpage}"
+														class="btn btn-primary">下一页</a> <a
+														th:href="'../sysrole/rolelist.do?page='+${session.maxpage}"
+														class="btn btn-primary">尾页</a></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+							<br />
+							<div class="row">
+								<div class="col-md-2 col-md-offset-5">
+									<a target="_blank" href="roleedit.do"
+										class="btn btn-primary form-control">增加</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
 
-										<a target="_blank"
-										th:href="'sysroleauthoritylist.do?id='+${sysRole.Id}"
-										class="btn btn-primary">权限设置</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<br />
-			<div class="row">
-				<div class="col-md-2 col-md-offset-5">
-					<a target="_blank" href="roleedit.do"
-						class="btn btn-primary form-control">增加</a>
-				</div>
-			</div>
-		</div>
-	</form>
-				</div>
-				
 			</div>
 
 		</div>

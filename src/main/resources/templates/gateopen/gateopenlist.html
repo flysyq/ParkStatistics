@@ -16,54 +16,39 @@
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">场内记录</div>
+										<div class="panel-heading">开闸记录</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
 												<tr class="h-tr">
 													<td>编号</td>
-													<td>所在车库</td>
-													<td>卡号</td>
-													<td>卡类型</td>
-													<td>车牌号</td>
-													<td>入场时间</td>
-													<td>入场图片</td>
-													<td>入场操作人员</td>
-													<td>出场时间</td>
-													<td>出场图片</td>
-													<td>出场操作人员</td>
-													<td>停车位图片</td>
-													<td>更新时间</td>
+													<td>开闸时间</td>
+													<td>开闸类型</td>
+													<td>开闸图片</td>
+													<td>操作人员</td>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="carIo,iterStat : ${carIos}" >
+												<tr th:each="gateOpenHand,iterStat : ${gateOpenHands}">
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${carIo.parkId}"></td>
-													<td th:text="${carIo.cardNo}"></td>
-													<td th:text="${carIo.cardType}"></td>
-													<td th:text="${carIo.plate}"></td>
-													<td th:text="${carIo.comeTime}"></td>
-													<td><img th:src="${carIo.comePic}" width="102px" height="86px"/></td>
-													<td th:text="${carIo.inEmpName}"></td>
-													<td th:text="${carIo.goTime}"></td>
-													<td><img th:src="${carIo.goPic}" width="102px" height="86px"/></td>
-													<td th:text="${carIo.outEmpName}"></td>
-													<td><img th:src="${carIo.parkSpacePic}" width="102px" height="86px"/></td>
-													<td th:text="${carIo.updateTime}"></td>
+													<td th:text="${gateOpenHand.openTime}"></td>
+													<td th:text="${gateOpenHand.openType}"></td>
+													<td><img th:src="${gateOpenHand.openPic}"
+														width="102px" height="86px" /></td>
+													<td th:text="${gateOpenHand.openEmpName}"></td>
 												</tr>
 											</tbody>
 											<tfoot>
 												<tr>
-													<td align="center" colspan="13"><a
-														href="../cario/cariolist.do?page=1" class="btn btn-primary">首页</a>
-														<a
-														th:href="'../cario/cariolist.do?page='+${session.prevpage}"
+													<td align="center" colspan="5"><a
+														href="../gateopen/gateopenlist.do?page=1"
+														class="btn btn-primary">首页</a> <a
+														th:href="'../gateopen/gateopenlist.do?page='+${session.prevpage}"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
 														<a
-														th:href="'../cario/cariolist.do?page='+${session.nextpage}"
+														th:href="'../gateopen/gateopenlist.do?page='+${session.nextpage}"
 														class="btn btn-primary">下一页</a> <a
-														th:href="'../cario/cariolist.do?page='+${session.maxpage}"
+														th:href="'../gateopen/gateopenlist.do?page='+${session.maxpage}"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 											</tfoot>
