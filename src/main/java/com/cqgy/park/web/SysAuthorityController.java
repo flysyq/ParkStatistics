@@ -34,7 +34,7 @@ import com.google.common.base.Strings;;
 
 @Controller
 public class SysAuthorityController {
-	
+
 	@Autowired
 	SysAuthorityService sysAuthorityService;
 	@Autowired
@@ -42,10 +42,8 @@ public class SysAuthorityController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/authority/list.do",method=RequestMethod.GET)
-	public String list(AuthorityListForm authorityListForm,Long del_id,HttpServletRequest request,Model model){
+	public String list(AuthorityListForm authorityListForm,Long page,Long del_id,HttpServletRequest request,Model model){
 		if(!Objects.isNull(del_id)){
-			
-			
 			SysAuthority sysAuthority = sysAuthorityRepository.findOne(del_id);
 			Integer grade=sysAuthority.getGrade();
 			String delAuthority="delete  from sys_authority where id="+del_id;
@@ -58,8 +56,8 @@ public class SysAuthorityController {
 					Long authority_id= iterator.next().getId();
 					String delRoleAuthority="delete from sys_role_authoritys where authority_id="+authority_id;
 					jdbcTemplate.update(delRoleAuthority);
-					}
-				
+				}
+
 				jdbcTemplate.update(delRoleAuthority1);
 				jdbcTemplate.update(delgrade2);
 				jdbcTemplate.update(delAuthority);
@@ -67,15 +65,31 @@ public class SysAuthorityController {
 				jdbcTemplate.update(delAuthority);
 				jdbcTemplate.update(delRoleAuthority1);
 			}
-			
-			
+
+
 		}
-		
+
 		Integer flag = authorityListForm.getFlag();
 		Integer grade = authorityListForm.getGrade();
 		String title = authorityListForm.getTitle();
-		
-		String select = "select *, if(father_id=0,id,father_id) fid from sys_authority order by fid,grade,sort_level;";
+
+		Long pageSize=(long) 5;	
+		String countsql="select count(*) count from sys_authority";
+		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
+		long pageMax;
+		if (count%pageSize==0) {
+			pageMax=count/pageSize;
+		}else{
+			pageMax=count/pageSize+1;
+		}
+		if (page<1) {
+			page=(long) 1;
+		}else if (page>pageMax) {
+			page=pageMax;
+		}
+		Long pageStart=(page-1)*pageSize;
+
+		String select = "select *, if(father_id=0,id,father_id) fid from sys_authority order by fid,grade,sort_level limit "+pageStart+","+pageSize;
 		String where = "";
 		if(!Objects.isNull(flag)){
 			where += " flag = "+flag;
@@ -89,7 +103,7 @@ public class SysAuthorityController {
 		if(where.startsWith(" and")){
 			where = where.substring(4);
 		}
-		
+
 		if(where.trim().length()>0){
 			where = " where "+where;
 		}		
@@ -101,13 +115,17 @@ public class SysAuthorityController {
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "菜单管理");
-		String forword = "/authority/list";
+		session.setAttribute("currentpage", page);
+		session.setAttribute("prevpage", page-1);
+		session.setAttribute("nextpage", page+1);
+		session.setAttribute("maxpage", pageMax);
+		String forword = "authority/list";
 		return forword;		
 	}
-	
+
 	@RequestMapping(value="/authority/edit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
-		
+
 		SysAuthority sysAuthority = new SysAuthority(new Integer(0).longValue(),"","",1,1,"","",(long) 0,"");
 		if(!Objects.isNull(id)){
 			sysAuthority = sysAuthorityRepository.findOne(id);
@@ -115,13 +133,13 @@ public class SysAuthorityController {
 		//List<SysAuthority> fsysAuthoritys=sysAuthorityRepository.findByGradeOrderBySortLevel(1);
 		model.addAttribute("sysAuthority", sysAuthority);
 		//model.addAttribute("fsysAuthoritys", fsysAuthoritys);
-		String forword="/authority/edit";
+		String forword="authority/edit";
 		return forword;
 	}
 	@RequestMapping(value="/authority/father.do",method=RequestMethod.GET)
 	public @ResponseBody List<SysAuthority> getByFather(Integer grade,Long father_id,Model model){
 		List<SysAuthority> fsysAuthoritys = null;
-		
+
 		if(Objects.isNull(grade) || grade==1){
 			fsysAuthoritys=sysAuthorityRepository.findByGradeOrderBySortLevel(1);
 		}		
@@ -130,11 +148,11 @@ public class SysAuthorityController {
 		}
 		return fsysAuthoritys;
 	}
-	
+
 	@RequestMapping(value="/authority/save.do",method=RequestMethod.GET)
 	public String save(Long id,String title,String remark,String sort_level,
 			Integer flag,Integer grade,Long father_id,String uri,Model model,HttpServletRequest request){
-		
+
 		SysAuthority sysAuthority = new SysAuthority();
 		sysAuthority.setId(id);
 		HttpSession session = request.getSession();
@@ -154,7 +172,7 @@ public class SysAuthorityController {
 		sysAuthority.setUpdateUser((Long)session.getAttribute("login_id"));
 		sysAuthorityRepository.save(sysAuthority);
 		model.addAttribute("result", "创建菜单成功！");
-		String forword="/display/result";
+		String forword="display/result";
 		return forword;
 	}
 }

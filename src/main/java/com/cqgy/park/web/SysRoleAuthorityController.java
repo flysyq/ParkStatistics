@@ -41,7 +41,7 @@ public class SysRoleAuthorityController {
 		//List<SysRoleAuthoritys> roleAuthoritys = sysRoleAuthorityService.getRoleAuthoritys(sql);
 		model.addAttribute("sysRoleAuthorityList", sysRoleAuthorityList);
 		model.addAttribute("role_id", id);
-		String forword="/sysroleauthority/sysroleauthoritylist";
+		String forword="sysroleauthority/sysroleauthoritylist";
 		return forword;	
 	};
 	@RequestMapping(value="/sysrole/sysroleauthorityedit.do",method=RequestMethod.GET)
@@ -49,7 +49,7 @@ public class SysRoleAuthorityController {
 		long authorityid=0;
 		model.addAttribute("authority_id", authorityid);
 		model.addAttribute("role_id", id);
-		String forword="/sysroleauthority/sysroleauthorityedit";
+		String forword="sysroleauthority/sysroleauthorityedit";
 		return forword;	
 	}
 	@RequestMapping(value="/sysroleauthority/getauthority.do",method=RequestMethod.GET)
@@ -78,7 +78,7 @@ public class SysRoleAuthorityController {
 			model.addAttribute("result", "已取消所有权限！");
 		}
 
-		String forword="/display/result";
+		String forword="display/result";
 		return forword;	
 	}
 }

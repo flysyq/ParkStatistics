@@ -38,7 +38,7 @@ public class SysUserRolesController {
 		long roleid=0;
 		model.addAttribute("sysuser", fsysuser);
 		model.addAttribute("roleid", roleid);
-		String forword="/sysuserroles/userrolesedit";
+		String forword="sysuserroles/userrolesedit";
 		return forword;
 	}
 	@RequestMapping(value="/sysuserroles/getroles.do",method=RequestMethod.GET)
@@ -104,7 +104,7 @@ public class SysUserRolesController {
 	
 		
 		
-		String forword="/display/result";
+		String forword="display/result";
 		return forword;
 	}
 }

@@ -34,8 +34,8 @@ public class SysUserController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/sysuser/userlist.do",method=RequestMethod.GET)
-	public String list(UserListForm userListForm,Long del_id,HttpServletRequest request,Model model){
-		String forword="/sysuser/userlist";
+	public String list(UserListForm userListForm,Long page,Long del_id,HttpServletRequest request,Model model){
+		String forword="sysuser/userlist";
 		if(!Objects.isNull(del_id)){
 			//sysUserRepository.delete(del_id);
 			String delUser="delete from sys_user where id="+del_id;
@@ -52,7 +52,23 @@ public class SysUserController {
 		String name=userListForm.getName();
 		String loginpassword=userListForm.getLoginPassword();
 		Integer enabled=userListForm.getEnabled();
-		String select = "select * from sys_user";
+		Long pageSize=(long) 5;	
+		String countsql="select count(*) count from sys_user";
+		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
+		long pageMax;
+		if (count%pageSize==0) {
+			pageMax=count/pageSize;
+		}else{
+			pageMax=count/pageSize+1;
+		}
+		if (page<1) {
+			page=(long) 1;
+		}else if (page>pageMax) {
+			page=pageMax;
+		}
+		Long pageStart=(page-1)*pageSize;
+
+		String select = "select * from sys_user limit "+pageStart+","+pageSize;
 		String where = "";
 		if (!Strings.isNullOrEmpty(logincode)) {
 			where+="login_code="+logincode;
@@ -66,7 +82,7 @@ public class SysUserController {
 		if(where.startsWith(" and")){
 			where = where.substring(4);
 		}
-		
+
 		if(where.trim().length()>0){
 			where = " where "+where;
 		}		
@@ -76,6 +92,10 @@ public class SysUserController {
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "用户管理");
+		session.setAttribute("currentpage", page);
+		session.setAttribute("prevpage", page-1);
+		session.setAttribute("nextpage", page+1);
+		session.setAttribute("maxpage", pageMax);
 		return forword;	
 	}
 	@RequestMapping(value="/sysuser/useredit.do",method=RequestMethod.GET)
@@ -85,40 +105,37 @@ public class SysUserController {
 			sysUser=sysUserRepository.findOne(id);
 		}
 		model.addAttribute("sysUser", sysUser);
-		String forword="/sysuser/useredit";
+		String forword="sysuser/useredit";
 		return forword;	
 	}
 	@RequestMapping(value="/sysuser/usersave.do",method=RequestMethod.GET)
 	public String sava(Long id,String logincode,String loginpassword,String name,Integer enabled,Model model,HttpServletRequest request){
-			SysUser sysUser=new SysUser();
-			sysUser.setId(id);
-			HttpSession session = request.getSession();
-			if (id==0) {
-				sysUser.setId(null);
-				sysUser.setCreateTime(new Date());
-				sysUser.setCreateUser((Long) session.getAttribute("login_id"));
+		SysUser sysUser=new SysUser();
+		sysUser.setId(id);
+		HttpSession session = request.getSession();
+		if (id==0) {
+			sysUser.setId(null);
+			sysUser.setCreateTime(new Date());
+			sysUser.setCreateUser((Long) session.getAttribute("login_id"));
+		}
+		sysUser.setLoginCode(logincode);
+		if (loginpassword!=null&&!loginpassword.equals("")) {
+			try {
+				sysUser.setLoginPassword(SHAUtil.shaEncode(loginpassword));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			sysUser.setLoginCode(logincode);
-				if (loginpassword!=null&&!loginpassword.equals("")) {
-					try {
-						sysUser.setLoginPassword(SHAUtil.shaEncode(loginpassword));
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					sysUser.setName(name);
-					sysUser.setEnabled(enabled);
-					sysUser.setUpdateTime(new Date());
-					sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
-					sysUserRepository.save(sysUser);
-					model.addAttribute("result", "创建用户成功！");
-				}else{
-					model.addAttribute("result", "密码不能为空！");
-				}
-				
+			sysUser.setName(name);
+			sysUser.setEnabled(enabled);
+			sysUser.setUpdateTime(new Date());
+			sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
+			sysUserRepository.save(sysUser);
+			model.addAttribute("result", "创建用户成功！");
+		}else{
+			model.addAttribute("result", "密码不能为空！");
+		}
 
-			
-			String aa="lgw11";
 		String forword="display/result";
 		return forword;
 	}

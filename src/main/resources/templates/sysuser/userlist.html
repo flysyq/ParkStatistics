@@ -45,6 +45,21 @@
 														class="btn btn-primary">角色</a></td>
 												</tr>
 											</tbody>
+											<tfoot>
+												<tr>
+													<td align="center" colspan="5"><a
+														href="../sysuser/userlist.do?page=1" class="btn btn-primary">首页</a>
+														<a
+														th:href="'../sysuser/userlist.do?page='+${session.prevpage}"
+														class="btn btn-primary">上一页</a> <span
+														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
+														<a
+														th:href="'../sysuser/userlist.do?page='+${session.nextpage}"
+														class="btn btn-primary">下一页</a> <a
+														th:href="'../sysuser/userlist.do?page='+${session.maxpage}"
+														class="btn btn-primary">尾页</a></td>
+												</tr>
+											</tfoot>
 										</table>
 									</div>
 								</div>

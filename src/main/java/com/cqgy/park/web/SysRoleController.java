@@ -32,7 +32,7 @@ public class SysRoleController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/sysrole/rolelist.do",method=RequestMethod.GET)
-	public String list(SysRoleListForm sysRoleListForm,Long del_id,HttpServletRequest request,Model model){
+	public String list(SysRoleListForm sysRoleListForm,Long page,Long del_id,HttpServletRequest request,Model model){
 		if (!Objects.isNull(del_id)) {
 			//sysRoleRepository.delete(del_id);
 			String delRoleAuthority="delete from sys_role_authoritys where role_id="+del_id;
@@ -52,7 +52,23 @@ public class SysRoleController {
 		String code=sysRoleListForm.getCode();
 		String name=sysRoleListForm.getName();
 		String remark=sysRoleListForm.getRemark();
-		String select = "select * from sys_role";
+		Long pageSize=(long) 5;	
+		String countsql="select count(*) count from sys_role";
+		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
+		long pageMax;
+		if (count%pageSize==0) {
+			pageMax=count/pageSize;
+		}else{
+			pageMax=count/pageSize+1;
+		}
+		if (page<1) {
+			page=(long) 1;
+		}else if (page>pageMax) {
+			page=pageMax;
+		}
+		Long pageStart=(page-1)*pageSize;
+
+		String select = "select * from sys_role limit "+pageStart+","+pageSize;
 		String where = "";
 		if (!Strings.isNullOrEmpty(code)) {
 			where+="and code="+code;
@@ -76,7 +92,11 @@ public class SysRoleController {
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "角色管理");
-		String forword="/sysrole/rolelist";
+		session.setAttribute("currentpage", page);
+		session.setAttribute("prevpage", page-1);
+		session.setAttribute("nextpage", page+1);
+		session.setAttribute("maxpage", pageMax);
+		String forword="sysrole/rolelist";
 		return forword;
 	}
 	@RequestMapping(value="/sysrole/roleedit.do",method=RequestMethod.GET)
@@ -86,7 +106,7 @@ public class SysRoleController {
 			sysRole=sysRoleRepository.findOne(id);
 		}
 		model.addAttribute("sysRole", sysRole);
-		String forword="/sysrole/roleedit";
+		String forword="sysrole/roleedit";
 		return forword;
 		}
 	@RequestMapping(value="/sysrole/rolesave.do",method=RequestMethod.GET)
@@ -104,8 +124,7 @@ public class SysRoleController {
 		sysRole.setUpdateUser((Long) request.getAttribute("login_code"));
 		sysRoleRepository.save(sysRole);
 		model.addAttribute("result", "创建角色成功！");
-		String forword="/display/result";
-		String a="lgw111";
+		String forword="display/result";
 		return forword;
 	}
 }
