@@ -1,6 +1,7 @@
 package com.cqgy.park.web;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ public class CarParkPayController {
 	JdbcTemplate jdbcTemplate;
 
 	@RequestMapping(value="/carparkpay/carparkpaylist.do",method=RequestMethod.GET)
-	public String list(Long page,HttpServletRequest request,Model model){
+	public String list(Long page,String orderby,HttpServletRequest request,Model model){
 		Long pageSize=(long) 5;	
 		String countsql="select count(*) count from info_car_park_pay";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
@@ -40,8 +41,17 @@ public class CarParkPayController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_car_park_pay limit "+pageStart+","+pageSize;
-		List<InfoCarParkPay> carParkPays = carParkPayService.getCarParkPays(select);
+		String select = "select * from info_car_park_pay";
+		String limit=" limit "+pageStart+","+pageSize;
+		String where = "";
+		String sql;
+		if(!Objects.isNull(orderby)){
+			where += " order by "+orderby;
+			sql=select+where+limit;
+		}else{
+			sql=select+limit;
+		}
+		List<InfoCarParkPay> carParkPays = carParkPayService.getCarParkPays(sql);
 		model.addAttribute("carParkPays", carParkPays);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");
@@ -50,6 +60,7 @@ public class CarParkPayController {
 		session.setAttribute("prevpage", page-1);
 		session.setAttribute("nextpage", page+1);
 		session.setAttribute("maxpage", pageMax);
+		session.setAttribute("orderby", orderby);
 		String forword="carparkpay/carparkpaylist";
 		return forword;
 	}

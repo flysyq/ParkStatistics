@@ -36,46 +36,54 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="carParkPay,iterStat : ${carParkPays}" >
+												<tr th:each="carParkPay,iterStat : ${carParkPays}">
 													<td th:text="${iterStat.count}"></td>
 													<td th:text="${carParkPay.parkId}"></td>
 													<td th:text="${carParkPay.cardNo}"></td>
-													<td th:text="${carParkPay.cardType}"></td>
+													<td id="cardType" th:text="${carParkPay.cardType}"></td>
 													<td th:text="${carParkPay.plate}"></td>
-													<td th:text="${carParkPay.fee}">应缴金额</td>
-													<td th:text="${carParkPay.realPay}">实缴金额</td>
-													<td th:text="${carParkPay.freeType}">免费类型</td>
-													<td th:text="${carParkPay.feeFree}">免费金额</td>
-													<td th:text="${carParkPay.payType}">缴费类型</td>
-													<td th:text="${carParkPay.empName}">操作人员</td>
-													<td th:text="${carParkPay.startTime}">开始时间</td>
-													<td th:text="${carParkPay.endTime}">结束时间</td>
+													<td th:text="${carParkPay.fee}"></td>
+													<td th:text="${carParkPay.realPay}"></td>
+													<td id="freeType" th:text="${carParkPay.freeType}"></td>
+													<td th:text="${carParkPay.feeFree}"></td>
+													<td id="payType" th:text="${carParkPay.payType}"></td>
+													<td th:text="${carParkPay.empName}"></td>
+													<td th:text="${carParkPay.startTime}"></td>
+													<td th:text="${carParkPay.endTime}"></td>
 												</tr>
 											</tbody>
 											<tfoot>
 												<tr>
 													<td align="center" colspan="13"><a
-														href="../carparkpay/carparkpaylist.do?page=1" class="btn btn-primary">首页</a>
-														<a
-														th:href="'../carparkpay/carparkpaylist.do?page='+${session.prevpage}"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby='+${session.orderby}"
+														class="btn btn-primary">首页</a> <a
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
 														<a
-														th:href="'../carparkpay/carparkpaylist.do?page='+${session.nextpage}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}"
 														class="btn btn-primary">下一页</a> <a
-														th:href="'../carparkpay/carparkpaylist.do?page='+${session.maxpage}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}"
 														class="btn btn-primary">尾页</a></td>
+												</tr>
+												<tr>
+													<td align="center" colspan="13"><a
+														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=plate"
+														class="btn btn-primary form-control">按车牌排序</a> <a
+														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=start_time"
+														class="btn btn-primary form-control">按开始时间排序</a> <a
+														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=end_time"
+														class="btn btn-primary form-control">按结束时间排序</a> <a
+														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=emp_no"
+														class="btn btn-primary form-control">按操作人员排序</a> <a
+														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=free_type"
+														class="btn btn-primary form-control">按免费类型排序</a> <a
+														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=pay_type"
+														class="btn btn-primary form-control">按收费类型排序</a></td>
 												</tr>
 											</tfoot>
 										</table>
 									</div>
-								</div>
-							</div>
-							<br />
-							<div class="row">
-								<div class="col-md-2 col-md-offset-5">
-									<a target="_blank" href="edit.do"
-										class="btn btn-primary form-control">增加</a>
 								</div>
 							</div>
 						</div>
@@ -96,5 +104,44 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
+	$(function() {
+		$("[id^=cardType]").each(function() {
+			if ($(this).text() == 1) {
+				$(this).html("月卡");
+			} else if ($(this).text() == 2) {
+				$(this).html("免费卡");
+			} else if ($(this).text() == 3) {
+				$(this).html("储蓄卡");
+			} else if ($(this).text() == 4) {
+				$(this).html("临时卡");
+			}
+
+		});
+		$("[id^=payType]").each(function() {
+			if ($(this).text() == 1) {
+				$(this).html("月卡");
+			} else if ($(this).text() == 2) {
+				$(this).html("免费卡");
+			} else if ($(this).text() == 3) {
+				$(this).html("储蓄卡");
+			} else if ($(this).text() == 4) {
+				$(this).html("现金");
+			} else if ($(this).text() == 5) {
+				$(this).html("会员积分");
+			}
+
+		});
+		$("[id^=freeType]").each(function() {
+			if ($(this).text() == 1) {
+				$(this).html("免费卡");
+			} else if ($(this).text() == 2) {
+				$(this).html("领导审批");
+			} else if ($(this).text() == 3) {
+				$(this).html("折扣卡");
+			} 
+
+		});
+
+	});
 </script>
 </html>

@@ -38,7 +38,7 @@
 													<td th:text="${cardIn.parkId}"></td>
 													<td th:text="${cardIn.cardNo}"></td>
 													<td th:text="${cardIn.plate}"></td>
-													<td th:text="${cardIn.cardType}"></td>
+													<td id="cardType" th:text="${cardIn.cardType}"></td>
 													<td th:text="${cardIn.payMoney}"></td>
 													<td th:text="${cardIn.startDate}"></td>
 													<td th:text="${cardIn.endDate}"></td>
@@ -95,5 +95,18 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
+	$(function(){
+		$("[id^=cardType]").each(function(){
+			if($(this).text()==1){
+				$(this).html("月卡");
+			}else if($(this).text()==2){
+				$(this).html("免费卡");
+			}else if($(this).text()==3){
+				$(this).html("储蓄卡");
+			}
+
+		});
+
+	});
 </script>
 </html>
