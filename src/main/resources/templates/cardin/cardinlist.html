@@ -49,27 +49,32 @@
 											<tfoot>
 												<tr>
 													<td align="center" colspan="10"><a
-														href="../cardin/cardinlist.do?page=1" class="btn btn-primary">首页</a>
-														<a
-														th:href="'../cardin/cardinlist.do?page='+${session.prevpage}"
+														th:href="'../cardin/cardinlist.do?page=1&amp;orderby='+${session.orderby}"
+														class="btn btn-primary">首页</a> <a
+														th:href="'../cardin/cardinlist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
 														<a
-														th:href="'../cardin/cardinlist.do?page='+${session.nextpage}"
+														th:href="'../cardin/cardinlist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}"
 														class="btn btn-primary">下一页</a> <a
-														th:href="'../cardin/cardinlist.do?page='+${session.maxpage}"
+														th:href="'../cardin/cardinlist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}"
 														class="btn btn-primary">尾页</a></td>
+												</tr>
+												<tr>
+													<td align="center" colspan="10"><a
+														href="../cardin/cardinlist.do?page=1&amp;orderby=plate"
+														class="btn btn-primary form-control">按车牌排序</a> <a
+														href="../cardin/cardinlist.do?page=1&amp;orderby=start_date"
+														class="btn btn-primary form-control">按开始时间排序</a> <a
+														href="../cardin/cardinlist.do?page=1&amp;orderby=end_date"
+														class="btn btn-primary form-control">按结束时间排序</a> <a
+														href="../cardin/cardinlist.do?page=1&amp;orderby=accept_emp_no"
+														class="btn btn-primary form-control">按操作人员排序</a></td>
+
 												</tr>
 											</tfoot>
 										</table>
 									</div>
-								</div>
-							</div>
-							<br />
-							<div class="row">
-								<div class="col-md-2 col-md-offset-5">
-									<a target="_blank" href="edit.do"
-										class="btn btn-primary form-control">增加</a>
 								</div>
 							</div>
 						</div>
