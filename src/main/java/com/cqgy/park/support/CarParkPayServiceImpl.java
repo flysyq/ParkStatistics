@@ -24,6 +24,7 @@ public class CarParkPayServiceImpl implements CarParkPayService {
 				InfoCarParkPay carParkPay=new InfoCarParkPay();
 				carParkPay.setCardNo(rs.getString("card_no"));
 				carParkPay.setCardType(rs.getInt("card_type"));
+				carParkPay.setPlate(rs.getString("plate"));
 				carParkPay.setEmpName(rs.getString("emp_name"));
 				carParkPay.setEmpNo(rs.getString("emp_no"));
 				carParkPay.setEndTime(rs.getDate("end_time"));

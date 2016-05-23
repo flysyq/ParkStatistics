@@ -1,6 +1,7 @@
 package com.cqgy.park.web;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ public class GateOpenController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="gateopen/gateopenlist",method=RequestMethod.GET)
-	public String list(Long page,HttpServletRequest request,Model model){
+	public String list(Long page,String orderby,HttpServletRequest request,Model model){
 		Long pageSize=(long) 5;	
 		String countsql="select count(*) count from info_gate_open_hand";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
@@ -40,8 +41,17 @@ public class GateOpenController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_gate_open_hand limit "+pageStart+","+pageSize;
-		List<InfoGateOpenHand> gateOpenHands = gateOpenService.getGateOpens(select);
+		String select = "select * from info_gate_open_hand";
+		String limit=" limit "+pageStart+","+pageSize;
+		String where = "";
+		String sql;
+		if(!Objects.isNull(orderby)){
+			where += " order by "+orderby;
+			sql=select+where+limit;
+		}else{
+			sql=select+limit;
+		}
+		List<InfoGateOpenHand> gateOpenHands = gateOpenService.getGateOpens(sql);
 		model.addAttribute("gateOpenHands", gateOpenHands);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");
@@ -50,6 +60,7 @@ public class GateOpenController {
 		session.setAttribute("prevpage", page-1);
 		session.setAttribute("nextpage", page+1);
 		session.setAttribute("maxpage", pageMax);
+		session.setAttribute("orderby", orderby);
 		String forword="gateopen/gateopenlist";
 		return forword;
 	}

@@ -1,6 +1,7 @@
 package com.cqgy.park.web;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ public class CarIoController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/cario/cariolist.do",method=RequestMethod.GET)
-	public String list(Long page,HttpServletRequest request,Model model){
+	public String list(Long page,String orderby,HttpServletRequest request,Model model){
 		Long pageSize=(long) 5;	
 		String countsql="select count(*) count from info_car_io";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
@@ -39,8 +40,17 @@ public class CarIoController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_car_io limit "+pageStart+","+pageSize;
-		List<InfoCarIo> carIos = carIoService.getCarIos(select);
+		String select = "select * from info_car_io";
+		String limit=" limit "+pageStart+","+pageSize;
+		String where = "";
+		String sql;
+		if(!Objects.isNull(orderby)){
+			where += " order by "+orderby;
+			sql=select+where+limit;
+		}else{
+			sql=select+limit;
+		}
+		List<InfoCarIo> carIos = carIoService.getCarIos(sql);
 		model.addAttribute("carIos", carIos);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");
@@ -49,6 +59,7 @@ public class CarIoController {
 		session.setAttribute("prevpage", page-1);
 		session.setAttribute("nextpage", page+1);
 		session.setAttribute("maxpage", pageMax);
+		session.setAttribute("orderby", orderby);
 		String forword="cario/cariolist";
 		return forword;
 	}
