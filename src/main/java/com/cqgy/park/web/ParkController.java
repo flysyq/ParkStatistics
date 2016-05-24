@@ -13,20 +13,27 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.cqgy.park.dao.GateOpenService;
-import com.cqgy.park.domain.InfoGateOpenHand;
-
+import com.cqgy.park.dao.ParkRepository;
+import com.cqgy.park.dao.ParkService;
+import com.cqgy.park.domain.InfoPark;
 
 @Controller
-public class GateOpenController {
+public class ParkController {
+	
 	@Autowired
-	GateOpenService gateOpenService;
+	ParkService parkService;
+	@Autowired
+	ParkRepository parkRepository;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	@RequestMapping(value="gateopen/gateopenlist",method=RequestMethod.GET)
-	public String list(Long page,String orderby,HttpServletRequest request,Model model){
+	@RequestMapping(value="/park/parklist.do",method=RequestMethod.GET)
+	public String list(Long del_id,Long page,HttpServletRequest request,Model model){
+		if (!Objects.isNull(del_id)) {
+			String delsql="delete from info_park where id="+del_id;
+			jdbcTemplate.update(delsql);
+		}
 		Long pageSize=(long) 5;	
-		String countsql="select count(*) count from info_gate_open_hand";
+		String countsql="select count(*) count from info_park";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;
 		if (count%pageSize==0) {
@@ -42,36 +49,32 @@ public class GateOpenController {
 		}
 		Long prevPage=page-1;
 		Long nextPage=page+1;
+	
 		if (prevPage==0) {
 			prevPage=(long) 1;
 		}
 		if (nextPage>pageMax) {
 			nextPage=pageMax;
 		}
+	
 		Long pageStart=(page-1)*pageSize;
-
-		String select = "select * from info_gate_open_hand";
-		String limit=" limit "+pageStart+","+pageSize;
-		String where = "";
-		String sql;
-		if(!Objects.isNull(orderby)){
-			where += " order by "+orderby;
-			sql=select+where+limit;
-		}else{
-			sql=select+limit;
+		if (pageStart<0) {
+			pageStart=(long) 0;
 		}
-		List<InfoGateOpenHand> gateOpenHands = gateOpenService.getGateOpens(sql);
-		model.addAttribute("gateOpenHands", gateOpenHands);
+		
+		String select = "select * from info_park limit "+pageStart+","+pageSize;
+		String where = "";
+		String sql=select+where;
+		List<InfoPark> parks = parkService.getParks(sql);
+		model.addAttribute("parks",parks);
 		HttpSession session = request.getSession();
-		session.setAttribute("fathertitle", "记录查询");
-		session.setAttribute("childrentitle", "场内记录");
+		session.setAttribute("fathertitle", "车库管理");
+		session.setAttribute("childrentitle", "车库管理");
 		session.setAttribute("currentpage", page);
 		session.setAttribute("prevpage", prevPage);
 		session.setAttribute("nextpage", nextPage);
 		session.setAttribute("maxpage", pageMax);
-		session.setAttribute("orderby", orderby);
-		String forword="gateopen/gateopenlist";
+		String forword="park/parklist";
 		return forword;
 	}
-
 }

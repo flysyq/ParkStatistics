@@ -23,12 +23,12 @@ public class InfoPark {
 	@GeneratedValue
 	private Long Id;
 	
-	private String parkName;
-	private String parkCode;
-	private String parkDesc;
-	private Integer allParkNum;
-	private Integer outParkNum;
-	private Integer nowParkNum;
+	private String parkName;//停车场名称
+	private String parkCode;//停车场编号
+	private String parkDesc;//描述
+	private Integer allParkNum;//所有停车位
+	private Integer outParkNum;//对外公布的停车位
+	private Integer nowParkNum;//现在的停车位
 		
 	private Long createUser;
 	@Temporal(TemporalType.TIMESTAMP)

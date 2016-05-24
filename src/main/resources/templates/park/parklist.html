@@ -1,0 +1,106 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="/theme/home :: header"></head>
+<body>
+	<div th:replace="/theme/home :: top" />
+	<div th:replace="/theme/home :: p-h" />
+	<div id="content">
+		<div th:replace="/theme/home :: left_menu" />
+		<div class="m-right">
+			<div th:replace="/theme/home :: right-nav" />
+			<div class="main">
+				<div class="table-responsive">
+					<form name="myform" method="get" id="myform">
+						<input type="hidden" name="del_id" id="del_id" value="" />
+
+						<div class="container">
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<!-- Default panel contents -->
+										<div class="panel-heading">车库管理</div>
+										<table class="table table-bordered table-hover">
+											<thead class="thead_success">
+												<tr>
+													<td>编号</td>
+													<td>停车场名称</td>
+													<td>停车场编号</td>
+													<td>停车场描述</td>
+													<td>停车位数量</td>
+													<td>对外停车位</td>
+													<td>现有停车位</td>
+													<td>操作</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="park,iterStat : ${parks}">
+													<td th:text="${iterStat.count}"></td>
+													<td th:text="${park.parkName}"></td>
+													<td th:text="${park.parkCode}"></td>
+													<td th:text="${park.parkDesc}"></td>
+													<td th:text="${park.allParkNum}"></td>
+													<td th:text="${park.outParkNum}"></td>
+													<td th:text="${park.nowParkNum}"></td>
+													<td><a target="_blank"
+														th:href="'parkedit.do?id='+${park.Id}"
+														class="btn btn-primary">修改</a>
+														<button class="btn btn-primary"
+															th:id="'ddel' + ${park.Id}">删除</button> </td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td align="center" colspan="8"><a
+														href="../park/parklist.do?page=1" class="btn btn-primary">首页</a>
+														<a
+														th:href="'../park/parklist.do?page='+${session.prevpage}"
+														class="btn btn-primary">上一页</a> <span
+														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
+														<a
+														th:href="'../park/parklist.do?page='+${session.nextpage}"
+														class="btn btn-primary">下一页</a> <a
+														th:href="'../park/parklist.do?page='+${session.maxpage}"
+														class="btn btn-primary">尾页</a></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+							<br />
+							<div class="row">
+								<div class="col-md-2 col-md-offset-5">
+									<a target="_blank" href="parkedit.do"
+										class="btn btn-primary form-control">增加</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+<footer th:replace="/theme/home :: footer"></footer>
+<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<script th:inline="javascript">
+	navList(12);
+	color();
+	$(function() {
+
+		$("[id^=ddel]").click(function(e) {
+			e.preventDefault();
+			$v = $(this).attr("id");
+			$("#del_id").val($v.substring(4));
+			$("#myform").submit();
+		});
+
+	});
+</script>
+</html>

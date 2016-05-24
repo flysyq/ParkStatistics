@@ -34,10 +34,19 @@ public class CardInController {
 		}else{
 			pageMax=count/pageSize+1;
 		}
-		if (page<1) {
+		if (page==0) {
 			page=(long) 1;
-		}else if (page>pageMax) {
-			page=pageMax;
+		}
+		if (pageMax==0) {
+			pageMax=1;
+		}
+		Long prevPage=page-1;
+		Long nextPage=page+1;
+		if (prevPage==0) {
+			prevPage=(long) 1;
+		}
+		if (nextPage>pageMax) {
+			nextPage=pageMax;
 		}
 		Long pageStart=(page-1)*pageSize;
 
@@ -59,8 +68,8 @@ public class CardInController {
 		session.setAttribute("fathertitle", "记录查询");
 		session.setAttribute("childrentitle", "充值延期");
 		session.setAttribute("currentpage", page);
-		session.setAttribute("prevpage", page-1);
-		session.setAttribute("nextpage", page+1);
+		session.setAttribute("prevpage", prevPage);
+		session.setAttribute("nextpage", nextPage);
 		session.setAttribute("maxpage", pageMax);
 		session.setAttribute("orderby", orderby);
 		String forword="/cardin/cardinlist";
