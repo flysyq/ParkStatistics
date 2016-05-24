@@ -1,5 +1,6 @@
 package com.cqgy.park.web;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +20,7 @@ import com.cqgy.park.domain.InfoPark;
 
 @Controller
 public class ParkController {
-	
+
 	@Autowired
 	ParkService parkService;
 	@Autowired
@@ -49,19 +50,19 @@ public class ParkController {
 		}
 		Long prevPage=page-1;
 		Long nextPage=page+1;
-	
+
 		if (prevPage==0) {
 			prevPage=(long) 1;
 		}
 		if (nextPage>pageMax) {
 			nextPage=pageMax;
 		}
-	
+
 		Long pageStart=(page-1)*pageSize;
 		if (pageStart<0) {
 			pageStart=(long) 0;
 		}
-		
+
 		String select = "select * from info_park limit "+pageStart+","+pageSize;
 		String where = "";
 		String sql=select+where;
@@ -76,5 +77,41 @@ public class ParkController {
 		session.setAttribute("maxpage", pageMax);
 		String forword="park/parklist";
 		return forword;
+	}
+
+	@RequestMapping(value="/park/parkedit.do",method=RequestMethod.GET)
+	public String edit(Long id,Model model){
+		InfoPark infoPark=new InfoPark(new Integer(0).longValue(), "", "", "", null, null, null);
+		if (!Objects.isNull(id)) {
+			infoPark=parkRepository.findOne(id);
+		}
+		model.addAttribute("infoPark", infoPark);
+		String forword="park/parkedit";
+		return forword;		
+	}
+
+	@RequestMapping(value="park/parksave.do",method=RequestMethod.GET)
+	public String save(Long id,String parkName,String parkCode,String parkDesc,Integer allParkNum,Integer outParkNum,Integer nowParkNum,HttpServletRequest request,Model model){
+		InfoPark infoPark=new InfoPark();
+		infoPark.setId(id);
+		HttpSession session=request.getSession();
+		if (id==0) {
+			infoPark.setId(null);
+			infoPark.setCreateTime(new Date());
+			infoPark.setCreateUser((Long) session.getAttribute("login_id"));
+		}
+		infoPark.setParkName(parkName);
+		infoPark.setParkCode(parkCode);
+		infoPark.setParkDesc(parkDesc);
+		infoPark.setAllParkNum(allParkNum);
+		infoPark.setOutParkNum(outParkNum);
+		infoPark.setNowParkNum(nowParkNum);
+		infoPark.setUpdateTime(new Date());
+		infoPark.setUpdateUser((Long) session.getAttribute("login_id"));
+		parkRepository.save(infoPark);
+		model.addAttribute("result", "创建车库成功");
+		String forword="display/result";
+		return forword;
+
 	}
 }

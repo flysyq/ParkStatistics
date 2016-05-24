@@ -44,29 +44,25 @@ public class SysAuthorityController {
 	@RequestMapping(value="/authority/list.do",method=RequestMethod.GET)
 	public String list(AuthorityListForm authorityListForm,Long page,Long del_id,HttpServletRequest request,Model model){
 		if(!Objects.isNull(del_id)){
-			SysAuthority sysAuthority = sysAuthorityRepository.findOne(del_id);
-			Integer grade=sysAuthority.getGrade();
-			String delAuthority="delete  from sys_authority where id="+del_id;
-			String delgrade2="delete from sys_authority where father_id="+del_id;
-			String delRoleAuthority1="delete from sys_role_authoritys where authority_id="+del_id;
+			String findgrade="select grade from sys_authority where id="+del_id;
+			List<Map<String, Object>> foundGrade = jdbcTemplate.queryForList(findgrade);
+			String delsql="delete from sys_authority where id="+del_id+" or father_id="+del_id;
 			List<SysAuthority> findByfatherIdOrderBySortLevel = sysAuthorityRepository.findByfatherIdOrderBySortLevel(del_id);
-			Iterator<SysAuthority> iterator = findByfatherIdOrderBySortLevel.iterator();
-			if (grade==1) {
-				if (iterator.hasNext()) {
-					Long authority_id= iterator.next().getId();
-					String delRoleAuthority="delete from sys_role_authoritys where authority_id="+authority_id;
-					jdbcTemplate.update(delRoleAuthority);
+			String delRoleAuthority="delete from sys_role_authoritys where authority_id="+del_id;	
+			if (!foundGrade.isEmpty()) {
+				Integer grade = (Integer) foundGrade.get(0).get("grade");
+				if (grade==1) {
+					Iterator<SysAuthority> iterator = findByfatherIdOrderBySortLevel.iterator();
+					while (iterator.hasNext()) {
+						Long authority_id= iterator.next().getId();
+						String delgrade2="delete from sys_role_authoritys where authority_id="+authority_id;
+						jdbcTemplate.update(delgrade2);
+					}
 				}
-
-				jdbcTemplate.update(delRoleAuthority1);
-				jdbcTemplate.update(delgrade2);
-				jdbcTemplate.update(delAuthority);
-			}else{
-				jdbcTemplate.update(delAuthority);
-				jdbcTemplate.update(delRoleAuthority1);
 			}
-
-
+		
+			jdbcTemplate.update(delRoleAuthority);
+			jdbcTemplate.update(delsql);
 		}
 
 		Integer flag = authorityListForm.getFlag();
