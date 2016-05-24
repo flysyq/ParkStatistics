@@ -162,6 +162,20 @@ public class InfoPark {
 		this.updateUser = updateUser;
 		this.updateTime = updateTime;
 	}
+	
+
+
+	public InfoPark(Long id, String parkName, String parkCode, String parkDesc, Integer allParkNum, Integer outParkNum,
+			Integer nowParkNum) {
+		super();
+		Id = id;
+		this.parkName = parkName;
+		this.parkCode = parkCode;
+		this.parkDesc = parkDesc;
+		this.allParkNum = allParkNum;
+		this.outParkNum = outParkNum;
+		this.nowParkNum = nowParkNum;
+	}
 
 
 	public InfoPark() {

@@ -10,8 +10,8 @@
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
-						<input type="hidden" name="del_id" id="del_id" value="" />
-
+						<input type="hidden" name="del_id" id="del_id" value="" /> <input
+							type="hidden" name="page" id="page" value="1" />
 						<div class="container">
 
 							<div class="row">
@@ -45,7 +45,7 @@
 														th:href="'parkedit.do?id='+${park.Id}"
 														class="btn btn-primary">修改</a>
 														<button class="btn btn-primary"
-															th:id="'ddel' + ${park.Id}">删除</button> </td>
+															th:id="'ddel' + ${park.Id}">删除</button></td>
 												</tr>
 											</tbody>
 											<tfoot>
