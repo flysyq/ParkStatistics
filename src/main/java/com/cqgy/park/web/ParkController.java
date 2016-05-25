@@ -2,6 +2,7 @@ package com.cqgy.park.web;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cqgy.park.dao.EmpChoiceParkRepository;
 import com.cqgy.park.dao.ParkRepository;
 import com.cqgy.park.dao.ParkService;
+import com.cqgy.park.dao.SysUserService;
+import com.cqgy.park.domain.EmpChoicePark;
 import com.cqgy.park.domain.InfoPark;
+import com.cqgy.park.domain.SysUser;
+import com.google.common.base.Strings;
 
 @Controller
 public class ParkController {
@@ -27,6 +33,10 @@ public class ParkController {
 	ParkRepository parkRepository;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	@Autowired
+	SysUserService sysUserService;
+	@Autowired
+	EmpChoiceParkRepository choiceParkRepository;
 	@RequestMapping(value="/park/parklist.do",method=RequestMethod.GET)
 	public String list(Long del_id,Long page,HttpServletRequest request,Model model){
 		if (!Objects.isNull(del_id)) {
@@ -114,4 +124,82 @@ public class ParkController {
 		return forword;
 
 	}
+
+	@RequestMapping(value="/park/choiceparklist.do",method=RequestMethod.GET)
+	public String choiceParkList(Long page,HttpServletRequest request,Model model){
+		Long pageSize=(long) 5;	
+		String countsql="select count(*) count from sys_user";
+		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
+		long pageMax;
+		if (count%pageSize==0) {
+			pageMax=count/pageSize;
+		}else{
+			pageMax=count/pageSize+1;
+		}
+		if (page==0) {
+			page=(long) 1;
+		}
+		if (pageMax==0) {
+			pageMax=1;
+		}
+		Long prevPage=page-1;
+		Long nextPage=page+1;
+		if (prevPage==0) {
+			prevPage=(long) 1;
+		}
+		if (nextPage>pageMax) {
+			nextPage=pageMax;
+		}
+		Long pageStart=(page-1)*pageSize;
+
+		String select = "select * from sys_user limit "+pageStart+","+pageSize;
+		String where = "";
+		String sql = select+where;
+		List<SysUser> sysUsers=sysUserService.getSysUsers(sql);
+		model.addAttribute("sysUsers", sysUsers);
+		HttpSession session = request.getSession();
+		session.setAttribute("fathertitle", "车库管理");
+		session.setAttribute("childrentitle", "车库选择");
+		session.setAttribute("currentpage", page);
+		session.setAttribute("prevpage", prevPage);
+		session.setAttribute("nextpage", nextPage);
+		session.setAttribute("maxpage", pageMax);
+		String forword="park/choiceparklist";
+		return forword;
+	}
+
+	@RequestMapping(value="/park/choiceparkedit.do",method=RequestMethod.GET)
+	public String choiceParkEdit(Long id,Model model){
+		String select = "SELECT ip.*,ecp.user_id FROM info_park ip LEFT JOIN emp_choice_park ecp ON ip.id=ecp.park_id AND user_id="+id;
+		String where = "";
+		String sql=select+where;
+		List<Map<String, Object>> parks = jdbcTemplate.queryForList(sql);
+		model.addAttribute("userid", id);
+		model.addAttribute("parks",parks);
+		String forword="park/choiceparkedit";
+		return forword;
+
+	}
+
+	@RequestMapping(value="/park/choiceparksave.do",method=RequestMethod.GET)
+	public String choiceParkSave(Long userId,Long[] parkId,Model model,HttpServletRequest request){
+		String sql="delete from emp_choice_park where user_id="+userId;
+		jdbcTemplate.update(sql);
+		HttpSession session = request.getSession();
+		if (parkId!=null) {
+			for (int i = 0; i < parkId.length; i++) {
+				EmpChoicePark choicePark=new EmpChoicePark();
+				choicePark.setUserId(userId);
+				choicePark.setParkId(parkId[i]);
+				choicePark.setCreateTime(new Date());
+				choicePark.setCreateUser((Long) session.getAttribute("login_code"));
+				choiceParkRepository.save(choicePark);
+			}
+			model.addAttribute("result", "保存成功！");
+		}else{
+			model.addAttribute("result", "已取消！");
+		}
+		String forword="display/result";
+		return forword;
+	};
 }

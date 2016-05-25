@@ -1,0 +1,77 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="/theme/home :: header"></head>
+<body>
+	<form name="myform" method="get" id="myform"
+		action="choiceparksave.do">
+		<input type="hidden" name="userId" id="userId" th:value="${userid}" />
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading">停车场信息</div>
+						<table class="table table-bordered table-hover">
+							<thead class="thead_success">
+								<tr class="h-tr">
+									<td><input type="checkbox" name="allchecked"
+										id="allchecked" /></td>
+									<td>停车场名称</td>
+									<td>停车场编码</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="park:${parks}">
+									<td><input type="checkbox" th:value="${park.id}" name="parkId" class="parkId"  th:id="'userId'+${park.user_id}"/></td>
+									<td th:text="${park.park_name}"></td>
+									<td th:text="${park.park_code}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="form-group">
+				<div class="col-md-2 col-md-offset-6">
+					<button class="btn btn-primary form-control">提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+<footer th:replace="/theme/home :: footer"></footer>
+<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+navList(12);
+color();
+	$(function() {
+		$(".h-tr").css("background-color","#fff");
+	/*	$('li.dropdown').mouseover(function() {
+			$(this).addClass('open');
+		}).mouseout(function() {
+			$(this).removeClass('open');
+		});*/
+
+		//全选/全不选
+		$("#allchecked").click(function() {
+			if (this.checked) {
+				$("input[name='parkId']").prop("checked", true);
+			} else {
+				$("input[name='parkId']").prop("checked", false);
+			}
+
+		});
+		$("input[name='parkId']").each(function() {
+			if ($(this).attr("id").substring(6) ==[[${userid}]]) {
+				$(this).prop("checked", true);
+			}
+		});
+		
+	});
+	/*]]>*/
+</script>
+</html>
+
