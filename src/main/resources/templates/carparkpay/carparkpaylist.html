@@ -11,7 +11,30 @@
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform"
 						class="navbar-form navbar-left" role="search">
+						<input type="hidden" name="page" value="1" /> <input
+							type="hidden" name="orderby" th:value="${session.orderby}" /> <input
+							type="hidden" id="hpagesize" name="pageSize" value="" />
 						<div class="container">
+							<div class="col-md-3">
+								每页显示
+								<div class="btn-group" role="group">
+									<button id="bpagesize" type="button"
+										class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"
+										th:text="${session.pagesize}">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#" id="pagesize1" data-value="10">10</a></li>
+										<li><a href="#" id="pagesize2" data-value="20">20</a></li>
+										<li><a href="#" id="pagesize2" data-value="30">30</a></li>
+										<li><a href="#" id="pagesize2" data-value="40">40</a></li>
+										<li><a href="#" id="pagesize2" data-value="50">50</a></li>
+									</ul>
+								</div>
+								条
+							</div>
+							<br /> <br />
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
@@ -55,30 +78,30 @@
 											<tfoot>
 												<tr>
 													<td align="center" colspan="13"><a
-														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby='+${session.orderby}"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">首页</a> <a
-														th:href="'../carparkpay/carparkpaylist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
 														<a
-														th:href="'../carparkpay/carparkpaylist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">下一页</a> <a
-														th:href="'../carparkpay/carparkpaylist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}"
+														th:href="'../carparkpay/carparkpaylist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 												<tr>
 													<td align="center" colspan="13"><a
-														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=plate"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby=plate&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按车牌排序</a> <a
-														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=start_time"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby=start_time&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按开始时间排序</a> <a
-														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=end_time"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby=end_time&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按结束时间排序</a> <a
-														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=emp_no"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby=emp_no&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按操作人员排序</a> <a
-														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=free_type"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby=free_type&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按免费类型排序</a> <a
-														href="../carparkpay/carparkpaylist.do?page=1&amp;orderby=pay_type"
+														th:href="'../carparkpay/carparkpaylist.do?page=1&amp;orderby=pay_type&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按收费类型排序</a></td>
 												</tr>
 											</tfoot>
@@ -89,13 +112,9 @@
 						</div>
 					</form>
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
-
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
@@ -138,9 +157,19 @@
 				$(this).html("领导审批");
 			} else if ($(this).text() == 3) {
 				$(this).html("折扣卡");
-			} 
+			}
 
 		});
+
+		$("[id^=pagesize]").click(
+				function(e) {
+					$pagesize = $(this).attr("data-value");
+					$("#hpagesize").val($pagesize);
+					$bpagesize = $(this).attr("data-value")
+							+ '<span class="caret"></span>';
+					$("#bpagesize").html($bpagesize);
+					$("#myform").submit();
+				});
 
 	});
 </script>

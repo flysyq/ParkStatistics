@@ -11,7 +11,30 @@
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform"
 						class="navbar-form navbar-left" role="search">
+						<input type="hidden" name="page" value="1" /> <input
+							type="hidden" name="orderby" th:value="${session.orderby}" /> <input
+							type="hidden" id="hpagesize" name="pageSize" value="" />
 						<div class="container">
+							<div class="col-md-3">
+								每页显示
+								<div class="btn-group" role="group">
+									<button id="bpagesize" type="button"
+										class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"
+										th:text="${session.pagesize}">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#" id="pagesize1" data-value="10">10</a></li>
+										<li><a href="#" id="pagesize2" data-value="20">20</a></li>
+										<li><a href="#" id="pagesize2" data-value="30">30</a></li>
+										<li><a href="#" id="pagesize2" data-value="40">40</a></li>
+										<li><a href="#" id="pagesize2" data-value="50">50</a></li>
+									</ul>
+								</div>
+								条
+							</div>
+							<br /> <br />
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
@@ -43,8 +66,8 @@
 													<td id="cardType" th:text="${carIo.cardType}"></td>
 													<td th:text="${carIo.plate}"></td>
 													<td th:text="${carIo.comeTime}"></td>
-													<td class="compic"><img th:src="${carIo.comePic}" width="102px"
-														height="86px" /></td>
+													<td class="compic"><img th:src="${carIo.comePic}"
+														width="102px" height="86px" /></td>
 													<td th:text="${carIo.inEmpName}"></td>
 													<td th:text="${carIo.goTime}"></td>
 													<td><img th:src="${carIo.goPic}" width="102px"
@@ -58,31 +81,29 @@
 											<tfoot>
 												<tr>
 													<td align="center" colspan="13"><a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby='+${session.orderby}"
+														th:href="'../cario/cariolist.do?page=1&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">首页</a> <a
-														th:href="'../cario/cariolist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}"
+														th:href="'../cario/cariolist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
 														<a
-														th:href="'../cario/cariolist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}"
+														th:href="'../cario/cariolist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">下一页</a> <a
-														th:href="'../cario/cariolist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}"
+														th:href="'../cario/cariolist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 												<tr>
 													<td align="center" colspan="13"><a
-														href="../cario/cariolist.do?page=1&amp;orderby=plate"
+														th:href="'../cario/cariolist.do?page=1&amp;orderby=plate&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按车牌排序</a> <a
-														href="../cario/cariolist.do?page=1&amp;orderby=come_time"
+														th:href="'../cario/cariolist.do?page=1&amp;orderby=come_time&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按入场时间排序</a> <a
-														href="../cario/cariolist.do?page=1&amp;orderby=go_time"
+														th:href="'../cario/cariolist.do?page=1&amp;orderby=go_time&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按出场时间排序</a> <a
-														href="../cario/cariolist.do?page=1&amp;orderby=in_emp_no"
+														th:href="'../cario/cariolist.do?page=1&amp;orderby=in_emp_no&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按入场操作人员排序</a> <a
-														href="../cario/cariolist.do?page=1&amp;orderby=out_emp_no"
+														th:href="'../cario/cariolist.do?page=1&amp;orderby=out_emp_no&amp;pageSize='+${session.pagesize}"
 														class="btn btn-primary form-control">按出场操作人员排序</a></td>
-
-
 												</tr>
 											</tfoot>
 										</table>
@@ -92,13 +113,9 @@
 						</div>
 					</form>
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
-
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
@@ -107,19 +124,29 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
-	$(function(){
-		$("[id^=cardType]").each(function(){
-			if($(this).text()==1){
+	$(function() {
+		$("[id^=cardType]").each(function() {
+			if ($(this).text() == 1) {
 				$(this).html("月卡");
-			}else if($(this).text()==2){
+			} else if ($(this).text() == 2) {
 				$(this).html("免费卡");
-			}else if($(this).text()==3){
+			} else if ($(this).text() == 3) {
 				$(this).html("储蓄卡");
-			}else if($(this).text()==4){
+			} else if ($(this).text() == 4) {
 				$(this).html("临时卡");
 			}
 
 		});
+
+		$("[id^=pagesize]").click(
+				function(e) {
+					$pagesize = $(this).attr("data-value");
+					$("#hpagesize").val($pagesize);
+					$bpagesize = $(this).attr("data-value")
+							+ '<span class="caret"></span>';
+					$("#bpagesize").html($bpagesize);
+					$("#myform").submit();
+				});
 
 	});
 </script>

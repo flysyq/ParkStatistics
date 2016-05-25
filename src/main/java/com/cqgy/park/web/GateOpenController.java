@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.GateOpenService;
 import com.cqgy.park.domain.InfoGateOpenHand;
+import com.google.common.base.Strings;
 
 
 @Controller
@@ -24,8 +25,10 @@ public class GateOpenController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="gateopen/gateopenlist",method=RequestMethod.GET)
-	public String list(Long page,String orderby,HttpServletRequest request,Model model){
-		Long pageSize=(long) 5;	
+	public String list(Long page,Long pageSize,String orderby,HttpServletRequest request,Model model){
+		if (pageSize==null) {
+			pageSize=(long) 10;
+		}
 		String countsql="select count(*) count from info_gate_open_hand";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;
@@ -54,7 +57,7 @@ public class GateOpenController {
 		String limit=" limit "+pageStart+","+pageSize;
 		String where = "";
 		String sql;
-		if(!Objects.isNull(orderby)){
+		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
 			sql=select+where+limit;
 		}else{
@@ -66,6 +69,7 @@ public class GateOpenController {
 		session.setAttribute("fathertitle", "记录查询");
 		session.setAttribute("childrentitle", "场内记录");
 		session.setAttribute("currentpage", page);
+		session.setAttribute("pagesize", pageSize);
 		session.setAttribute("prevpage", prevPage);
 		session.setAttribute("nextpage", nextPage);
 		session.setAttribute("maxpage", pageMax);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.CardInService;
 import com.cqgy.park.domain.InfoCardIn;
+import com.google.common.base.Strings;
 
 @Controller
 public class CardInController {
@@ -24,8 +25,10 @@ public class CardInController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="/cardin/cardinlist.do",method=RequestMethod.GET)
-	public String list(Long page, String orderby,HttpServletRequest request,Model model){
-		Long pageSize=(long) 5;	
+	public String list(Long page,Long pageSize, String orderby,HttpServletRequest request,Model model){
+		if (pageSize==null) {
+			pageSize=(long) 10;
+		}
 		String countsql="select count(*) count from info_card_in";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;
@@ -54,13 +57,13 @@ public class CardInController {
 		String limit=" limit "+pageStart+","+pageSize;
 		String where = "";
 		String sql;
-		if(!Objects.isNull(orderby)){
+		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
 			sql=select+where+limit;
 		}else{
 			sql=select+limit;
 		}
-		
+		System.out.println(sql);
 		//String sql="select * from info_card_in";
 		List<InfoCardIn> cardIns = cardInService.getCardIns(sql);
 		model.addAttribute("cardIns", cardIns);
@@ -68,6 +71,7 @@ public class CardInController {
 		session.setAttribute("fathertitle", "记录查询");
 		session.setAttribute("childrentitle", "充值延期");
 		session.setAttribute("currentpage", page);
+		session.setAttribute("pagesize", pageSize);
 		session.setAttribute("prevpage", prevPage);
 		session.setAttribute("nextpage", nextPage);
 		session.setAttribute("maxpage", pageMax);
