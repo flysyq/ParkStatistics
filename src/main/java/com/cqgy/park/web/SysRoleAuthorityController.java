@@ -3,7 +3,6 @@ package com.cqgy.park.web;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cqgy.park.dao.SysAuthorityService;
 import com.cqgy.park.dao.SysRoleAuthorityRepository;
 import com.cqgy.park.dao.SysRoleAuthorityService;
-import com.cqgy.park.domain.SysAuthority;
 import com.cqgy.park.domain.SysRoleAuthoritys;
-import com.mysql.fabric.xmlrpc.base.Data;
 
 @Controller
 public class SysRoleAuthorityController {
