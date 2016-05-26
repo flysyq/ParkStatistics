@@ -11,9 +11,12 @@
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform"
 						class="navbar-form navbar-left" role="search">
-						<input type="hidden" name="page" value="1" /> <input
-							type="hidden" name="orderby" th:value="${session.orderby}" /> <input
-							type="hidden" id="hpagesize" name="pageSize" value="" />
+						<input type="hidden" name="page" class="page"
+							th:value="${session.currentpage}" /> <input type="hidden"
+							name="orderby" class="orderby" th:value="${session.orderby}" />
+						<input type="hidden" id="hpagesize" name="pageSize"
+							th:value="${session.pagesize}" /> <input type="hidden"
+							id="clause" name="clause" th:value="${session.clause}" />
 						<div class="container">
 							<div class="col-md-3">
 								每页显示
@@ -34,7 +37,32 @@
 								</div>
 								条
 							</div>
-							<br /> <br />
+
+							<div class="btn-group" role="group">
+								<button id="bwhere" type="button"
+									class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
+									--条件搜索--<span class="caret"></span>
+								</button>
+
+								<ul class="dropdown-menu">
+									<li><a href="#" id="where1" data-value="plate"
+										data-value1="--车牌号--">车牌号</a></li>
+									<li><a href="#" id="where2" data-value="card_type"
+										data-value1="--卡类型--">卡类型</a></li>
+									<li><a href="#" id="where3" data-value="park_id"
+										data-value1="--停车场--">停车场</a></li>
+									<li><a href="#" id="where4" data-value="accept_emp_name"
+										data-value1="--出场操作人--">出场操作人</a></li>
+									<li><a href="#" id="where5" data-value="pay_money"
+										data-value1="--入场操作人--">入场操作人</a></li>
+								</ul>
+
+							</div>
+							&nbsp; <input type="text" id="twhere" /> &nbsp; <a id="search"
+								class="btn btn-primary">搜索</a> <br /> <br />
+							<div id="hwhere" value=""></div>
+
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
@@ -80,30 +108,20 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td align="center" colspan="13"><a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
-														class="btn btn-primary">首页</a> <a
-														th:href="'../cario/cariolist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
+													<td align="center" colspan="13" class="choicepage"><a id="first"
+														class="btn btn-primary">首页</a> <a id="prev"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
-														<a
-														th:href="'../cario/cariolist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
-														class="btn btn-primary">下一页</a> <a
-														th:href="'../cario/cariolist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}+'&amp;pageSize='+${session.pagesize}"
+														<a id="next" class="btn btn-primary">下一页</a> <a id="last"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 												<tr>
-													<td align="center" colspan="13"><a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby=plate&amp;pageSize='+${session.pagesize}"
+													<td align="center" colspan="13" class="choiceorder"><a id="plate"
 														class="btn btn-primary form-control">按车牌排序</a> <a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby=come_time&amp;pageSize='+${session.pagesize}"
-														class="btn btn-primary form-control">按入场时间排序</a> <a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby=go_time&amp;pageSize='+${session.pagesize}"
-														class="btn btn-primary form-control">按出场时间排序</a> <a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby=in_emp_no&amp;pageSize='+${session.pagesize}"
-														class="btn btn-primary form-control">按入场操作人员排序</a> <a
-														th:href="'../cario/cariolist.do?page=1&amp;orderby=out_emp_no&amp;pageSize='+${session.pagesize}"
-														class="btn btn-primary form-control">按出场操作人员排序</a></td>
+														id="come_time" class="btn btn-primary form-control">按入场时间排序</a>
+														<a id="go_time" class="btn btn-primary form-control">按出场时间排序</a>
+														<a id="in_emp_name" class="btn btn-primary form-control">按入场操作人员排序</a>
+														<a id="out_emp_name" class="btn btn-primary form-control">按出场操作人员排序</a></td>
 												</tr>
 											</tfoot>
 										</table>
@@ -147,6 +165,54 @@
 					$("#bpagesize").html($bpagesize);
 					$("#myform").submit();
 				});
+		$("[id^=where]").click(
+				function(e) {
+					$hwhere = $(this).attr("data-value");
+					$("#search").val($hwhere);
+					$bwhere = $(this).attr("data-value1")
+							+ '<span class="caret"></span>';
+					$("#bwhere").html($bwhere);
+				});
+		$("[id^=search]").click(function() {
+			$clause = $("#search").val() + '=' + $("#twhere").val();
+			if ($("#twhere").val() == '') {
+				alert('值不能为空');
+			} else if($("#search").val()==''){
+				alert('请选择条件');
+			}else{
+				$("#clause").val($clause);
+				$(".page").val("1")
+				$("#myform").submit();
+			}
+
+		});
+		
+		$(".choicepage").children().click(function(){
+			if($(this).attr("id")=="first"){
+				$(".page").val("1")
+			}else if($(this).attr("id")=="prev"){
+				$(".page").val(""+[[${session.prevpage}]]+"")
+			}else if($(this).attr("id")=="next"){
+				$(".page").val(""+[[${session.nextpage}]]+"")
+			}else if($(this).attr("id")=="last"){
+				$(".page").val(""+[[${session.maxpage}]]+"")
+			}
+			$("#myform").submit();
+		});
+		$(".choiceorder").children().click(function(){
+			if($(this).attr("id")=="plate"){
+				$(".orderby").val("plate")
+			}else if($(this).attr("id")=="come_time"){
+				$(".orderby").val("come_time")
+			}else if($(this).attr("id")=="go_time"){
+				$(".orderby").val("go_time")
+			}else if($(this).attr("id")=="in_emp_name"){
+				$(".orderby").val("in_emp_name")
+			}else if($(this).attr("id")=="out_emp_name"){
+				$(".orderby").val("out_emp_name")
+			}
+			$("#myform").submit();
+		});
 
 	});
 </script>

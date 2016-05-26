@@ -111,7 +111,7 @@ public class CardInController {
 		session.setAttribute("maxpage", pageMax);
 		session.setAttribute("orderby", orderby);
 		session.setAttribute("clause", oclause);
-		String forword="/cardin/cardinlist";
+		String forword="cardin/cardinlist";
 		return forword;
 	}
 }
