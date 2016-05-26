@@ -36,8 +36,8 @@ public class CardInController {
 		if (!Strings.isNullOrEmpty(clause)) {
 			Pattern pattern = Pattern.compile("[0-9]*");
 			Matcher isNum = pattern.matcher(clause.substring(clause.lastIndexOf("=")+1));
-			if(clause.contains("accept_emp_name")){
-				clause="accept_emp_name like '"+clause.substring(clause.lastIndexOf("=")+1)+"%'";
+			if(clause.contains("emp_name")){
+				clause="emp_name like '"+clause.substring(clause.lastIndexOf("=")+1)+"%'";
 			}else if(clause.contains("card_type")){
 				String cardType=clause.substring(clause.lastIndexOf("=")+1);
 				if (cardType.equals("月卡")) {
@@ -46,6 +46,43 @@ public class CardInController {
 					clause="card_type=2";
 				}else if(cardType.equals("储蓄卡")){
 					clause="card_type=3";
+				}else if(cardType.equals("临时卡")){
+					clause="card_type=4";
+				}
+			}else if(clause.contains("pay_type")){
+				String payType=clause.substring(clause.lastIndexOf("=")+1);
+				if (payType.equals("月卡")) {
+					clause="pay_type=1";
+				}else if(payType.equals("免费卡")){
+					clause="pay_type=2";
+				}else if(payType.equals("储蓄卡")){
+					clause="pay_type=3";
+				}else if(payType.equals("现金")){
+					clause="pay_type=4";
+				}else if(payType.equals("会员积分")){
+					clause="pay_type=5";
+				}
+			}else if(clause.contains("pay_type")){
+				String payType=clause.substring(clause.lastIndexOf("=")+1);
+				if (payType.equals("月卡")) {
+					clause="pay_type=1";
+				}else if(payType.equals("免费卡")){
+					clause="pay_type=2";
+				}else if(payType.equals("储蓄卡")){
+					clause="pay_type=3";
+				}else if(payType.equals("现金")){
+					clause="pay_type=4";
+				}else if(payType.equals("会员积分")){
+					clause="pay_type=5";
+				}
+			}else if(clause.contains("free_type")){
+				String freeType=clause.substring(clause.lastIndexOf("=")+1);
+				if (freeType.equals("免费卡")) {
+					clause="free_type=1";
+				}else if(freeType.equals("领导审批")){
+					clause="free_type=2";
+				}else if(freeType.equals("折扣卡")){
+					clause="free_type=3";
 				}
 			}else if(clause.contains("plate")){
 				clause="plate like '%"+clause.substring(clause.lastIndexOf("=")+1)+"%'";
@@ -55,6 +92,7 @@ public class CardInController {
 				}
 			}
 		}
+		
 		String countselect="select count(*) count from info_card_in";
 		String countclause="";
 		if (!Strings.isNullOrEmpty(clause)) {
@@ -89,7 +127,7 @@ public class CardInController {
 		String where = "";
 		String sql;
 
-		
+
 		if(!Strings.isNullOrEmpty(clause)){
 			where += " where "+clause;
 		}

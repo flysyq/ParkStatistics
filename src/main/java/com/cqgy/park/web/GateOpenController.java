@@ -2,6 +2,8 @@ package com.cqgy.park.web;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,11 +27,35 @@ public class GateOpenController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="gateopen/gateopenlist",method=RequestMethod.GET)
-	public String list(Long page,Long pageSize,String orderby,HttpServletRequest request,Model model){
+	public String list(Long page,String clause,Long pageSize,String orderby,HttpServletRequest request,Model model){
+		String oclause=clause;
 		if (pageSize==null) {
 			pageSize=(long) 10;
 		}
-		String countsql="select count(*) count from info_gate_open_hand";
+		if (!Strings.isNullOrEmpty(clause)) {
+			Pattern pattern = Pattern.compile("[0-9]*");
+			Matcher isNum = pattern.matcher(clause.substring(clause.lastIndexOf("=")+1));
+			if(clause.contains("open_emp_name")){
+				clause="open_emp_name like '"+clause.substring(clause.lastIndexOf("=")+1)+"%'";
+			}else if(clause.contains("open_type")){
+				String openType=clause.substring(clause.lastIndexOf("=")+1);
+				if (openType.equals("手动开闸")) {
+					clause="open_type=1";
+				}else if(openType.equals("异常开闸")){
+					clause="open_type=2";
+				}
+			}else{
+				if (!isNum.matches()) {
+					clause=clause.substring(0, clause.lastIndexOf("=")+1)+"null";
+				}
+			}
+		}
+		String countselect="select count(*) count from info_gate_open_hand";
+		String countclause="";
+		if (!Strings.isNullOrEmpty(clause)) {
+			countclause += " where "+clause;
+		}
+		String countsql=countselect+countclause;
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;
 		if (count%pageSize==0) {
@@ -57,12 +83,13 @@ public class GateOpenController {
 		String limit=" limit "+pageStart+","+pageSize;
 		String where = "";
 		String sql;
+		if(!Strings.isNullOrEmpty(clause)){
+			where += " where "+clause;
+		}
 		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
-			sql=select+where+limit;
-		}else{
-			sql=select+limit;
 		}
+		sql=select+where+limit;
 		List<InfoGateOpenHand> gateOpenHands = gateOpenService.getGateOpens(sql);
 		model.addAttribute("gateOpenHands", gateOpenHands);
 		HttpSession session = request.getSession();
@@ -74,6 +101,7 @@ public class GateOpenController {
 		session.setAttribute("nextpage", nextPage);
 		session.setAttribute("maxpage", pageMax);
 		session.setAttribute("orderby", orderby);
+		session.setAttribute("clause", oclause);
 		String forword="gateopen/gateopenlist";
 		return forword;
 	}

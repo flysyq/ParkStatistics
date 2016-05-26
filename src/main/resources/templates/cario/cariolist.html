@@ -189,27 +189,27 @@
 		
 		$(".choicepage").children().click(function(){
 			if($(this).attr("id")=="first"){
-				$(".page").val("1")
+				$(".page").val("1");
 			}else if($(this).attr("id")=="prev"){
-				$(".page").val(""+[[${session.prevpage}]]+"")
+				$(".page").val(""+[[${session.prevpage}]]+"");
 			}else if($(this).attr("id")=="next"){
-				$(".page").val(""+[[${session.nextpage}]]+"")
+				$(".page").val(""+[[${session.nextpage}]]+"");
 			}else if($(this).attr("id")=="last"){
-				$(".page").val(""+[[${session.maxpage}]]+"")
+				$(".page").val(""+[[${session.maxpage}]]+"");
 			}
 			$("#myform").submit();
 		});
 		$(".choiceorder").children().click(function(){
 			if($(this).attr("id")=="plate"){
-				$(".orderby").val("plate")
+				$(".orderby").val("plate");
 			}else if($(this).attr("id")=="come_time"){
-				$(".orderby").val("come_time")
+				$(".orderby").val("come_time");
 			}else if($(this).attr("id")=="go_time"){
-				$(".orderby").val("go_time")
+				$(".orderby").val("go_time");
 			}else if($(this).attr("id")=="in_emp_name"){
-				$(".orderby").val("in_emp_name")
+				$(".orderby").val("in_emp_name");
 			}else if($(this).attr("id")=="out_emp_name"){
-				$(".orderby").val("out_emp_name")
+				$(".orderby").val("out_emp_name");
 			}
 			$("#myform").submit();
 		});
