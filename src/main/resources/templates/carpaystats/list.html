@@ -19,6 +19,9 @@
 							th:value="${form.park_check}" /> <input type="hidden"
 							id="emp_check_1" th:value="${form.emp_check}" /> <input
 							type="hidden" id="plate_check_1" th:value="${form.plate_check}" />
+							<input type="hidden" name="excel_flag" id="excel_flag" value="0" />
+							<input type="hidden" name="pdf_flag" id="pdf_flag" value="0" />
+							<input type="hidden" name="img_flag" id="img_flag" value="0" />
 						<div class="container">
 							<br />
 							<div class="row">
@@ -49,8 +52,8 @@
 										type="checkbox" name="emp_check" value="1" />操作人员 <input
 										type="checkbox" name="plate_check" value="1" />车牌
 								</div>
-								<div class="col-md-1">
-									<button class="btn btn-default">统计</button>
+								<div class="col-md-3">
+									<button id="statButton" class="btn btn-default">统计</button>
 									<button id="excelButton" class="btn btn-default">下载Excel</button>
 									<button id="pdfButton" class="btn btn-default">下载Pdf</button>
 								</div>
@@ -190,6 +193,7 @@
 			e.preventDefault();
 			$("#page_title").text($(this).text());
 			$("#page_size").val($(this).text());
+			$("#page").val(1);
 			$("#myform").submit();
 		});
 		$('#start_datetime').datetimepicker({
@@ -211,6 +215,27 @@
 			startView : 2,
 			forceParse : 0,
 			showMeridian : 1
+		});
+		$("#excelButton").click(function(e){
+			e.preventDefault();
+			$("#excel_flag").val(1);
+			$("#img_flag").val(0);
+			$("#pdf_flag").val(0);
+			$("#myform").submit();
+		});
+		$("#pdfButton").click(function(e){
+			e.preventDefault();
+			$("#excel_flag").val(0);
+			$("#img_flag").val(0);
+			$("#pdf_flag").val(1);
+			$("#myform").submit();
+		});
+		$("#statButton").click(function(e){
+			e.preventDefault();
+			$("#excel_flag").val(0);
+			$("#img_flag").val(0);
+			$("#pdf_flag").val(0);
+			$("#myform").submit();
 		});
 	});
 </script>
