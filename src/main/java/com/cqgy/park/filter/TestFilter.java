@@ -64,7 +64,7 @@ public class TestFilter implements Filter {
 			chain.doFilter(req, res);
 		}else if(uri.matches("/upload.do")){
 			chain.doFilter(req, res);
-		}else if(session.getAttribute("loginCode").equals("admin")&&session.getAttribute("loginCode")!=null){
+		}else if(session.getAttribute("loginCode")!=null && session.getAttribute("loginCode").equals("admin")){
 			chain.doFilter(req, res);
 		}else{
 			response.sendRedirect("/login/noauturity.do");
