@@ -11,7 +11,61 @@
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform"
 						class="navbar-form navbar-left" role="search">
+						<input type="hidden" name="page" class="page"
+							th:value="${session.currentpage}" /> <input type="hidden"
+							name="orderby" class="orderby" th:value="${session.orderby}" />
+						<input type="hidden" id="hpagesize" name="pageSize"
+							th:value="${session.pagesize}" /> <input type="hidden"
+							id="clause" name="clause" th:value="${session.clause}" />
 						<div class="container">
+							<div class="col-md-3">
+								每页显示
+								<div class="btn-group" role="group">
+									<button id="bpagesize" type="button"
+										class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"
+										th:text="${session.pagesize}">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#" id="pagesize1" data-value="10">10</a></li>
+										<li><a href="#" id="pagesize2" data-value="20">20</a></li>
+										<li><a href="#" id="pagesize2" data-value="30">30</a></li>
+										<li><a href="#" id="pagesize2" data-value="40">40</a></li>
+										<li><a href="#" id="pagesize2" data-value="50">50</a></li>
+									</ul>
+								</div>
+								条
+
+							</div>
+
+							<div class="btn-group" role="group">
+								<button id="bwhere" type="button"
+									class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
+									--条件搜索--<span class="caret"></span>
+								</button>
+
+								<ul class="dropdown-menu">
+									<li><a href="#" id="where1" data-value="plate"
+										data-value1="--车牌号--">车牌号</a></li>
+									<li><a href="#" id="where2" data-value="card_type"
+										data-value1="--卡类型--">卡类型</a></li>
+									<li><a href="#" id="where3" data-value="card_no"
+										data-value1="--卡类型--">卡号</a></li>
+									<li><a href="#" id="where4" data-value="pay_money"
+										data-value1="--充值金额--">充值金额</a></li>
+									<li><a href="#" id="where5" data-value="park_id"
+										data-value1="--停车场--">停车场</a></li>
+									<li><a href="#" id="where6" data-value="accept_emp_name"
+										data-value1="--收费人--">收费人</a></li>
+								</ul>
+
+							</div>
+							&nbsp; <input type="text" id="twhere" /> &nbsp; <a id="search"
+								class="btn btn-primary">搜索</a> <br /> <br />
+							<div id="hwhere" value=""></div>
+
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
@@ -48,27 +102,19 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td align="center" colspan="10"><a
-														th:href="'../cardin/cardinlist.do?page=1&amp;orderby='+${session.orderby}"
-														class="btn btn-primary">首页</a> <a
-														th:href="'../cardin/cardinlist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}"
+													<td align="center" colspan="10" class="choicepage"><a
+														id="first" class="btn btn-primary">首页</a> <a id="prev"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
-														<a
-														th:href="'../cardin/cardinlist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}"
-														class="btn btn-primary">下一页</a> <a
-														th:href="'../cardin/cardinlist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}"
+														<a id="next" class="btn btn-primary">下一页</a> <a id="last"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 												<tr>
-													<td align="center" colspan="10"><a
-														href="../cardin/cardinlist.do?page=1&amp;orderby=plate"
-														class="btn btn-primary form-control">按车牌排序</a> <a
-														href="../cardin/cardinlist.do?page=1&amp;orderby=start_date"
-														class="btn btn-primary form-control">按开始时间排序</a> <a
-														href="../cardin/cardinlist.do?page=1&amp;orderby=end_date"
-														class="btn btn-primary form-control">按结束时间排序</a> <a
-														href="../cardin/cardinlist.do?page=1&amp;orderby=accept_emp_no"
+													<td align="center" colspan="10" class="choiceorder"><a
+														id="plate" class="btn btn-primary form-control">按车牌排序</a>
+														<a id="start_date" class="btn btn-primary form-control">按开始时间排序</a>
+														<a id="end_date" class="btn btn-primary form-control">按结束时间排序</a>
+														<a id="accept_emp_name"
 														class="btn btn-primary form-control">按操作人员排序</a></td>
 
 												</tr>
@@ -93,20 +139,78 @@
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
+	/*<![CDATA[*/
 	navList(12);
 	color();
-	$(function(){
-		$("[id^=cardType]").each(function(){
-			if($(this).text()==1){
+	$(function() {
+		$("[id^=cardType]").each(function() {
+			if ($(this).text() == 1) {
 				$(this).html("月卡");
-			}else if($(this).text()==2){
+			} else if ($(this).text() == 2) {
 				$(this).html("免费卡");
-			}else if($(this).text()==3){
+			} else if ($(this).text() == 3) {
 				$(this).html("储蓄卡");
 			}
 
 		});
 
+		$("[id^=pagesize]").click(
+				function(e) {
+					$pagesize = $(this).attr("data-value");
+					$("#hpagesize").val($pagesize);
+					$bpagesize = $(this).attr("data-value")
+							+ '<span class="caret"></span>';
+					$("#bpagesize").html($bpagesize);
+					$("#myform").submit();
+				});
+		$("[id^=where]").click(
+				function(e) {
+					$hwhere = $(this).attr("data-value");
+					$("#search").val($hwhere);
+					$bwhere = $(this).attr("data-value1")
+							+ '<span class="caret"></span>';
+					$("#bwhere").html($bwhere);
+				});
+		$("[id^=search]").click(function() {
+			$clause = $("#search").val() + '=' + $("#twhere").val();
+			if ($("#twhere").val() == '') {
+				alert('值不能为空');
+			} else if($("#search").val()==''){
+				alert('请选择条件');
+			}else{
+				$("#clause").val($clause);
+				$(".page").val("1")
+				$("#myform").submit();
+			}
+
+		});
+		
+		$(".choicepage").children().click(function(){
+			if($(this).attr("id")=="first"){
+				$(".page").val("1")
+			}else if($(this).attr("id")=="prev"){
+				$(".page").val(""+[[${session.prevpage}]]+"")
+			}else if($(this).attr("id")=="next"){
+				$(".page").val(""+[[${session.nextpage}]]+"")
+			}else if($(this).attr("id")=="last"){
+				$(".page").val(""+[[${session.maxpage}]]+"")
+			}
+			$("#myform").submit();
+		});
+		$(".choiceorder").children().click(function(){
+			if($(this).attr("id")=="plate"){
+				$(".orderby").val("plate")
+			}else if($(this).attr("id")=="start_date"){
+				$(".orderby").val("start_date")
+			}else if($(this).attr("id")=="end_date"){
+				$(".orderby").val("end_date")
+			}else if($(this).attr("id")=="accept_emp_name"){
+				$(".orderby").val("accept_emp_name")
+			}
+			$("#myform").submit();
+		});
+
 	});
+	/*]]>*/
 </script>
 </html>

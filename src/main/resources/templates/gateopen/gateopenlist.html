@@ -11,7 +11,50 @@
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform"
 						class="navbar-form navbar-left" role="search">
+						<input type="hidden" name="page" class="page"
+							th:value="${session.currentpage}" /> <input type="hidden"
+							name="orderby" class="orderby" th:value="${session.orderby}" />
+						<input type="hidden" id="hpagesize" name="pageSize"
+							th:value="${session.pagesize}" /> <input type="hidden"
+							id="clause" name="clause" th:value="${session.clause}" />
 						<div class="container">
+							<div class="col-md-3">
+								每页显示
+								<div class="btn-group" role="group">
+									<button id="bpagesize" type="button"
+										class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"
+										th:text="${session.pagesize}">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#" id="pagesize1" data-value="10">10</a></li>
+										<li><a href="#" id="pagesize2" data-value="20">20</a></li>
+										<li><a href="#" id="pagesize2" data-value="30">30</a></li>
+										<li><a href="#" id="pagesize2" data-value="40">40</a></li>
+										<li><a href="#" id="pagesize2" data-value="50">50</a></li>
+									</ul>
+								</div>
+								条
+							</div>
+
+							<div class="btn-group" role="group">
+								<button id="bwhere" type="button"
+									class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
+									--条件搜索--<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="#" id="where1" data-value="open_type"
+										data-value1="--开闸类型--">开闸类型</a></li>
+									<li><a href="#" id="where2" data-value="open_emp_name"
+										data-value1="--操作人员--">操作人员</a></li>
+								</ul>
+
+							</div>
+							&nbsp; <input type="text" id="twhere" /> &nbsp; <a id="search"
+								class="btn btn-primary">搜索</a> <br /> <br />
+							<div id="hwhere" value=""></div>
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
@@ -39,26 +82,18 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td align="center" colspan="5"><a
-														th:href="'../gateopen/gateopenlist.do?page=1&amp;orderby='+${session.orderby}"
-														class="btn btn-primary">首页</a> <a
-														th:href="'../gateopen/gateopenlist.do?page='+${session.prevpage}+'&amp;orderby='+${session.orderby}"
+													<td align="center" colspan="5"><a id="first"
+														class="btn btn-primary">首页</a> <a id="prev"
 														class="btn btn-primary">上一页</a> <span
 														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
-														<a
-														th:href="'../gateopen/gateopenlist.do?page='+${session.nextpage}+'&amp;orderby='+${session.orderby}"
-														class="btn btn-primary">下一页</a> <a
-														th:href="'../gateopen/gateopenlist.do?page='+${session.maxpage}+'&amp;orderby='+${session.orderby}"
+														<a id="next" class="btn btn-primary">下一页</a> <a id="last"
 														class="btn btn-primary">尾页</a></td>
 												</tr>
 												<tr>
-													<td align="center" colspan="5"><a
-														href="../gateopen/gateopenlist.do?page=1&amp;orderby=open_type"
+													<td align="center" colspan="5"><a id="open_type"
 														class="btn btn-primary form-control">开闸类型排序</a> <a
-														href="../gateopen/gateopenlist.do?page=1&amp;orderby=open_time"
-														class="btn btn-primary form-control">按开闸时间排序</a> <a
-														href="../gateopen/gateopenlist.do?page=1&amp;orderby=open_emp_no"
-														class="btn btn-primary form-control">按操作人员排序</a></td>
+														id="open_time" class="btn btn-primary form-control">按开闸时间排序</a>
+														<a id="open_emp_no" class="btn btn-primary form-control">按操作人员排序</a></td>
 
 
 												</tr>
@@ -85,13 +120,66 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
-	$(function(){
-		$("[id^=openType]").each(function(){
-			if($(this).text()==1){
+	$(function() {
+		$("[id^=openType]").each(function() {
+			if ($(this).text() == 1) {
 				$(this).html("手动开闸");
-			}else if($(this).text()==2){
+			} else if ($(this).text() == 2) {
 				$(this).html("异常开闸");
 			}
+		});
+		$("[id^=pagesize]").click(
+				function(e) {
+					$pagesize = $(this).attr("data-value");
+					$("#hpagesize").val($pagesize);
+					$bpagesize = $(this).attr("data-value")
+							+ '<span class="caret"></span>';
+					$("#bpagesize").html($bpagesize);
+					$("#myform").submit();
+				});
+		$("[id^=where]").click(
+				function(e) {
+					$hwhere = $(this).attr("data-value");
+					$("#search").val($hwhere);
+					$bwhere = $(this).attr("data-value1")
+							+ '<span class="caret"></span>';
+					$("#bwhere").html($bwhere);
+				});
+		$("[id^=search]").click(function() {
+			$clause = $("#search").val() + '=' + $("#twhere").val();
+			if ($("#twhere").val() == '') {
+				alert('值不能为空');
+			} else if($("#search").val()==''){
+				alert('请选择条件');
+			}else{
+				$("#clause").val($clause);
+				$(".page").val("1")
+				$("#myform").submit();
+			}
+
+		});
+		
+		$(".choicepage").children().click(function(){
+			if($(this).attr("id")=="first"){
+				$(".page").val("1");
+			}else if($(this).attr("id")=="prev"){
+				$(".page").val(""+[[${session.prevpage}]]+"");
+			}else if($(this).attr("id")=="next"){
+				$(".page").val(""+[[${session.nextpage}]]+"");
+			}else if($(this).attr("id")=="last"){
+				$(".page").val(""+[[${session.maxpage}]]+"");
+			}
+			$("#myform").submit();
+		});
+		$(".choiceorder").children().click(function(){
+			if($(this).attr("id")=="open_type"){
+				$(".orderby").val("open_type");
+			}else if($(this).attr("id")=="open_time"){
+				$(".orderby").val("open_time");
+			}else if($(this).attr("id")=="open_emp_name"){
+				$(".orderby").val("open_emp_name");
+			}
+			$("#myform").submit();
 		});
 
 	});
