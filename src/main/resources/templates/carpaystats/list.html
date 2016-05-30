@@ -19,9 +19,9 @@
 							th:value="${form.park_check}" /> <input type="hidden"
 							id="emp_check_1" th:value="${form.emp_check}" /> <input
 							type="hidden" id="plate_check_1" th:value="${form.plate_check}" />
-							<input type="hidden" name="excel_flag" id="excel_flag" value="0" />
-							<input type="hidden" name="pdf_flag" id="pdf_flag" value="0" />
-							<input type="hidden" name="img_flag" id="img_flag" value="0" />
+						<input type="hidden" name="excel_flag" id="excel_flag" value="0" />
+						<input type="hidden" name="pdf_flag" id="pdf_flag" value="0" /> <input
+							type="hidden" name="img_flag" id="img_flag" value="0" />
 						<div class="container">
 							<br />
 							<div class="row">
@@ -46,16 +46,18 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
-									统计筛选: <input type="checkbox" name="park_check" value="1"
-										th:checked="${park_check==1}?'true':'false'" />车库 <input
-										type="checkbox" name="emp_check" value="1" />操作人员 <input
-										type="checkbox" name="plate_check" value="1" />车牌
+								<div class="col-md-5">
+									统计筛选: <input id="park_check" type="checkbox" name="park_check"
+										value="1" th:checked="${park_check==1}?'true':'false'" />车库 <input
+										type="checkbox" id="emp_check" name="emp_check" value="1" />操作人员
+									<input type="checkbox" id="plate_check" name="plate_check"
+										value="1" />车牌
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<button id="statButton" class="btn btn-default">统计</button>
 									<button id="excelButton" class="btn btn-default">下载Excel</button>
 									<button id="pdfButton" class="btn btn-default">下载Pdf</button>
+									<button id="imgButton" class="btn btn-default">统计图形</button>
 								</div>
 							</div>
 							<br />
@@ -89,7 +91,7 @@
 									</div>
 									<input type="hidden" name="start_date" id="start_date"
 										th:value="${form.start_date}" /><br /> <input type="hidden"
-										name="end_date" id="start_date" th:value="${form.end_date}" /><br />
+										name="end_date" id="end_date" th:value="${form.end_date}" /><br />
 								</div>
 							</div>
 							<div class="row">
@@ -112,7 +114,8 @@
 											</thead>
 											<tbody>
 												<tr th:each="stat,iterStat : ${stats}">
-													<td th:text="${iterStat.count+(page.page-1)*page.page_size}"></td>
+													<td
+														th:text="${iterStat.count+(page.page-1)*page.page_size}"></td>
 													<td th:if="${form.park_check}==1"
 														th:text="${stat.park_name}"></td>
 													<td th:if="${form.park_check}==1"
@@ -152,6 +155,7 @@
 		</div>
 
 	</div>
+	<div class="source-code runnable"></div>
 
 </body>
 <footer th:replace="/theme/home :: footer"></footer>
@@ -162,7 +166,9 @@
 	th:src="@{../static/bootstrap/dist/js/bootstrap-datetimepicker.min.js}"></script>
 <script
 	th:src="@{../static/bootstrap/dist/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap-dialog.min.js}"></script>
 <script th:inline="javascript">
+	/*<![CDATA[*/
 	function sub(page) {
 		$("#page").val(page);
 		$("#myform").submit();
@@ -216,27 +222,168 @@
 			forceParse : 0,
 			showMeridian : 1
 		});
-		$("#excelButton").click(function(e){
+		$("#excelButton").click(function(e) {
 			e.preventDefault();
 			$("#excel_flag").val(1);
 			$("#img_flag").val(0);
 			$("#pdf_flag").val(0);
 			$("#myform").submit();
 		});
-		$("#pdfButton").click(function(e){
+		$("#pdfButton").click(function(e) {
 			e.preventDefault();
 			$("#excel_flag").val(0);
 			$("#img_flag").val(0);
 			$("#pdf_flag").val(1);
 			$("#myform").submit();
 		});
-		$("#statButton").click(function(e){
+		$("#statButton").click(function(e) {
 			e.preventDefault();
 			$("#excel_flag").val(0);
 			$("#img_flag").val(0);
 			$("#pdf_flag").val(0);
 			$("#myform").submit();
 		});
+
+		$("#imgButton")
+				.click(
+						function(e) {
+							e.preventDefault();
+
+							var ustr = "start_date=" + $("#start_date").val()
+									+ "&end_date=" + $("#end_date").val();
+
+							var msg = "<div class='row'><div class='col-md-12' align='center'>";
+							msg += "<img id='chart' src='' width='auto'></img>";
+							msg += "</div></div><br/>";
+							msg += "<div class='row'><div class='col-md-12' align='center'>";
+							msg += "<input type=radio id=flag1 name='flag' value='1' checked/>停车场统计";
+							msg += "<input type=radio id=flag2 name='flag' value='2'/>操作员统计";
+							msg += "<input type=radio id=flag3 name='flag' value='3'/>车牌号统计";
+							msg += "<input type=hidden id=image_flag value='1'/>车牌号统计";
+							msg += "</div></div";
+							BootstrapDialog.show({
+								title : "收费统计图形",
+								size : "size-wide",
+								message : msg,
+								onshown : function(dialog) {
+									var url = dialog.getData('url')
+											+ '&flag=1&image_flag=1';
+									$.get(url,
+											function(data, status) {
+												$("[id=flag1]").prop("checked",
+														true);
+												$("#image_flag").val(1);
+												$("#chart").attr("src",
+														data.image);
+											});
+								},
+								buttons : [
+										{
+											id : 'btn-line',
+											icon : 'glyphicon glyphicon-check',
+											label : '折线图',
+											cssClass : 'btn-primary',
+											autospin : false,
+											action : function(dialog) {
+												var flag = $(
+														"[name=flag]:checked")
+														.val();
+												var image_flag = 1;
+												var url = dialog.getData('url')
+														+ '&flag=' + flag
+														+ "&image_flag="
+														+ image_flag;
+												$.get(url, function(data,
+														status) {
+													$("[id=flag1]").removeAttr(
+															"checked");
+													$("[id=flag2]").removeAttr(
+															"checked");
+													$("[id=flag3]").removeAttr(
+															"checked");
+													$("[id=flag" + flag + "]")
+															.prop("checked",
+																	true);
+													$("#image_flag").val(
+															image_flag);
+													$("#chart").attr("src",
+															data.image);
+												});
+											}
+										},
+										{
+											id : 'btn-cat',
+											icon : 'glyphicon glyphicon-check',
+											label : '柱图',
+											cssClass : 'btn-primary',
+											autospin : false,
+											action : function(dialog) {
+												var flag = $(
+														"[name=flag]:checked")
+														.val();
+												var image_flag = 2;
+												var url = dialog.getData('url')
+														+ '&flag=' + flag
+														+ "&image_flag="
+														+ image_flag;
+												$.get(url, function(data,
+														status) {
+													$("[id=flag1]").removeAttr(
+															"checked");
+													$("[id=flag2]").removeAttr(
+															"checked");
+													$("[id=flag3]").removeAttr(
+															"checked");
+													$("[id=flag" + flag + "]")
+															.prop("checked",
+																	true);
+													$("#image_flag").val(
+															image_flag);
+													$("#chart").attr("src",
+															data.image);
+												});
+											}
+										},
+										{
+											id : 'btn-pie',
+											icon : 'glyphicon glyphicon-check',
+											label : '饼图',
+											cssClass : 'btn-primary',
+											autospin : false,
+											action : function(dialog) {
+												var flag = $(
+														"[name=flag]:checked")
+														.val();
+												var image_flag = 3;
+												var url = dialog.getData('url')
+														+ '&flag=' + flag
+														+ "&image_flag="
+														+ image_flag;
+												$.get(url, function(data,
+														status) {
+													$("[id=flag1]").removeAttr(
+															"checked");
+													$("[id=flag2]").removeAttr(
+															"checked");
+													$("[id=flag3]").removeAttr(
+															"checked");
+													$("[id=flag" + flag + "]")
+															.prop("checked",
+																	true);
+													$("#image_flag").val(
+															image_flag);
+													$("#chart").attr("src",
+															data.image);
+												});
+											}
+										} ],
+								data : {
+									url : 'genImage.do?' + ustr
+								}
+							});
+						});
+
 	});
+	/*]]>*/
 </script>
 </html>
