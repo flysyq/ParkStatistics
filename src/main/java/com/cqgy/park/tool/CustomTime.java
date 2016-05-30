@@ -23,11 +23,18 @@ public class CustomTime {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
         return lt.format(dtf);
 	}
-	
+	public static String getLocalTimeFormatMinusMonths(String format,Integer month){
+		LocalDateTime lt = LocalDateTime.now();
+		lt = lt.minusMonths(month);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
+        return lt.format(dtf);
+	}
 	public static String getLocalTime(){
 		return getLocalTimeFormat("yyyy-MM-dd HH:mm:ss");
 	}
-	
+	public static String getLocalTimeMinusMonth(Integer month){
+		return getLocalTimeFormatMinusMonths("yyyy-MM-dd HH:mm:ss",month);
+	}
 	public static Date parseTime(String timeString) throws ParseException{
 		String format = "yyyy-MM-dd HH:mm:ss";
 		DateFormat dateFormat = new SimpleDateFormat(format);  

@@ -35,7 +35,16 @@ public class ExcelUtil {
 	public static void main(String[] args) {
 		String excelName = "d:/temp/发卡信息_2016-5-4_"+uuid()+".xls";
 
-		boolean created = createExcel(excelName);
+		String SheetName = "收费信息";
+		String[] head = { "卡号", "卡类型", "发卡时间", "发卡人工号", "发卡人姓名", "持卡人姓名", "车牌号", "卡上余额", "开始时间", "截止时间", "月卡延期金额" };
+		String[] code = { "card_no", "card_type", "spread_time", "spread_emp_no", "spread_emp_name", "owner_name",
+				"plate", "blance", "start_time", "end_time", "month_money" };
+		List<Map<String, Object>> list = setList();
+		String describe = "1、创建时间：" + (new Date().toString()) + "。\n";
+		describe += "2.创建人：石永强。\n";
+		describe += "3.查询条件：日期在2016-4-4至2016-5-4之间";
+		
+		boolean created = createExcel(excelName,SheetName,head,code,describe,list);
 		if (created == true) {
 			System.out.println("创建Excel文件：" + excelName + " 成功");
 		} else {
@@ -43,6 +52,29 @@ public class ExcelUtil {
 		}
 	}
 
+	public static boolean createExcel(String excelName,String SheetName,String[] head, String[] code,String describe,List list){
+		boolean created = false;
+		Workbook wb = new HSSFWorkbook();	
+		Sheet sheet = wb.createSheet(SheetName);
+		//创建表
+		setSheet(sheet, list, head, code);	
+		//创建说明
+		setSheet(sheet, head, describe);
+
+		
+		try {
+			try (FileOutputStream fileOut = new FileOutputStream(excelName)) {
+				wb.write(fileOut);
+				created = true;
+			}
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(ExcelUtil.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IOException ex) {
+			Logger.getLogger(ExcelUtil.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return created;
+	}
+	
 	public static boolean createExcel(String excelName) {
 		boolean created = false;
 		Workbook wb = new HSSFWorkbook();	
@@ -157,7 +189,7 @@ public class ExcelUtil {
 
 	private static void setRow(Row row, int startColumn, Map<String, Object> map, String[] code) {
 		for (int i = 0; i < code.length; i++) {
-			row.createCell(i + startColumn).setCellValue((String) map.get(code[i]));
+			row.createCell(i + startColumn).setCellValue(String.valueOf(map.get(code[i])));
 		}
 	}
 

@@ -32,17 +32,53 @@ import static com.cqgy.park.tool.Stool.*;
 public class PdfUtil {
 	
     public static void main(String[] args) throws IOException, DocumentException {
-    	String DEST = "d:/temp/发卡记录-2016-5-4_"+uuid()+".pdf";
-        File file = new File(DEST);
-        file.getParentFile().mkdirs();
-        if(createPdf(DEST)){
-        	System.out.println("创建文件:"+DEST+" 成功");
+    	String dest = "d:/temp/发卡记录-2016-5-4_"+uuid()+".pdf";
+    	String title = "2016年5月发卡记录";        
+        String describe = "--创建时间：2016-5-4 12:23:23 创建人：石永强";        
+        String[] head = {"卡号", "卡类型", "车牌号", "持卡人姓名", "卡上余额", "开始时间", "截止时间", "月卡延期金额", "发卡时间", "发卡人工号", "发卡人姓名"};
+        String[] code = {"card_no", "card_type", "plate", "owner_name", "blance", "start_time", "end_time", "month_money", "spread_time", "spread_emp_no", "spread_emp_name"};
+        List<Map<String, Object>> list = setList();
+        if(createPdf(dest,title,head,code,describe,list)){
+        	System.out.println("创建文件:"+dest+" 成功");
         }else{
-        	System.out.println("创建文件:"+DEST+" 失败");
+        	System.out.println("创建文件:"+dest+" 失败");
         }
     }
 
+    public static boolean createPdf(String dest,String title, String[] head,String[] code,String describe,List list){
+        File file = new File(dest);
+        file.getParentFile().mkdirs();
+    	Document document = new Document();
+        boolean created = true;
+        try {
+			PdfWriter.getInstance(document, new FileOutputStream(dest));
+			document.open();
+	        //正文字体大小
+	        int fontsize = 10;
+	        FontSelector selector = getSelector(fontsize);
+	        //标题字体大小
+	        int titleFontSize = 20;
+	        //创建标题
+	        addTile(document, title, titleFontSize);
+	        //创建副标题，说明
+	        addDescribe(document, describe, selector);
+	        PdfPTable table = new PdfPTable(head.length + 1);
+	        //创建表头
+	        createTableHead(table, head, selector);
+	        //创建表内容
+	        createTableContent(table, list, code, selector);
+	        document.add(table);
+		} catch (FileNotFoundException | DocumentException e) {
+			created=false;
+			e.printStackTrace();
+		}
+        
+        document.close();
+        return created;
+    }
     public static boolean createPdf(String dest) {
+        File file = new File(dest);
+        file.getParentFile().mkdirs();
         Document document = new Document();
         boolean created = true;
         try {
@@ -108,7 +144,7 @@ public class PdfUtil {
         Phrase str = selector.process(String.valueOf(index + 1));
         table.addCell(str);
         for (int i = 0; i < code.length; i++) {
-            str = selector.process((String) map.get(code[i]));
+            str = selector.process(String.valueOf(map.get(code[i])));
             table.addCell(str);
         }
         return table;

@@ -39,20 +39,20 @@ public class UploadCarParkPayTest {
 	@Test
 	public void test() throws IOException {
 		ObjectMapper mapper=new ObjectMapper();
-		uploadCarParkPay.getHead().setSysId("admin");
-		uploadCarParkPay.getHead().setPassword("66286027");
+		uploadCarParkPay.getHead().setSysId("sjgc");
+		uploadCarParkPay.getHead().setPassword("123456");
 		uploadCarParkPay.getHead().setFunctionId("8006");
 		uploadCarParkPay.getHead().setParkId("0001");
 		uploadCarParkPay.getParameter().setCardNo("123456789");
 		uploadCarParkPay.getParameter().setCardType(1);
-		uploadCarParkPay.getParameter().setEmpName("王大勇");
-		uploadCarParkPay.getParameter().setEmpNo("007");
+		uploadCarParkPay.getParameter().setEmpName("飞天鼠");
+		uploadCarParkPay.getParameter().setEmpNo("006");
 		uploadCarParkPay.getParameter().setEndTime(CustomTime.getLocalTime());
 		uploadCarParkPay.getParameter().setFee(23330.);
 		uploadCarParkPay.getParameter().setFreeFee(20123.0);
 		uploadCarParkPay.getParameter().setFreeType(2);
 		uploadCarParkPay.getParameter().setPayType(2);
-		uploadCarParkPay.getParameter().setPlate("kj124");
+		uploadCarParkPay.getParameter().setPlate("kj1243");
 		uploadCarParkPay.getParameter().setRealPay(22310.0);
 		uploadCarParkPay.getParameter().setStartTime(CustomTime.getLocalTime());
 		String adminString = mapper.writeValueAsString(uploadCarParkPay);
