@@ -10,6 +10,7 @@
 package com.cqgy.park.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.ServletResponse;	
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,55 +44,48 @@ public class TestFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse)res;
 		HttpSession session = request.getSession();
 		String uri=request.getRequestURI();
-		Long role_id = (Long) session.getAttribute("role_id");
-		String sql="SELECT sa.uri,sra.role_id FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id WHERE sra.role_id="+role_id+" AND uri='"+uri+"'";
-		List<Map<String, Object>> list = jdbcTeplate.queryForList(sql);
-		if (uri.matches("/login/login.do")) {
-			chain.doFilter(req, res);
-		}else if(uri.matches("/login/exit.do")){
-			chain.doFilter(req, res);
-		}else if (!list.isEmpty()) {
-			chain.doFilter(req, res);
-		}else if(uri.matches("/login/noauturity.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}edit.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/sysrole/sysroleauthoritylist.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}save.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/getroles.do")||uri.matches("/[a-z]{0,}/father.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/upload.do")){
-			chain.doFilter(req, res);
-		}else if(session.getAttribute("loginCode").equals("admin")&&session.getAttribute("loginCode")!=null){
-			chain.doFilter(req, res);
-		Long role_id = (Long) session.getAttribute("role_id");
-		String sql="SELECT sa.uri,sra.role_id FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id WHERE sra.role_id="+role_id+" AND uri='"+uri+"'";
-		List<Map<String, Object>> list = jdbcTeplate.queryForList(sql);
-		if (uri.matches("/login/login.do")) {
-			chain.doFilter(req, res);
-		}else if(uri.matches("/login/exit.do")){
-			chain.doFilter(req, res);
-		}else if (!list.isEmpty()) {
-			chain.doFilter(req, res);
-		}else if(uri.matches("/login/noauturity.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}edit.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/sysrole/sysroleauthoritylist.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/[a-z]{0,}save.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/[a-z]{0,}/getroles.do")||uri.matches("/[a-z]{0,}/father.do")){
-			chain.doFilter(req, res);
-		}else if(uri.matches("/upload.do")){
-			chain.doFilter(req, res);
-		}else if(session.getAttribute("loginCode")!=null && session.getAttribute("loginCode").equals("admin")){
-			chain.doFilter(req, res);
+		int index=uri.indexOf("/");
+		index=uri.indexOf("/",index+1);
+		uri=uri.substring(index+1);
+		System.out.println(uri);
+		ArrayList<String> allow_urls = new ArrayList<String>();
+
+		allow_urls.add("login/login.do");
+		allow_urls.add("file/get.do");
+		allow_urls.add("upload.do");
+		allow_urls.add("sysuserroles/getroles.do");
+		allow_urls.add("authority/father.do");
+		allow_urls.add("sysrole/sysroleauthoritylist.do");
+
+
+
+		if(allow_urls.contains(uri)){
+			chain.doFilter(request, response);
 		}else{
-			response.sendRedirect("/login/noauturity.do");
+			Long role_id = (Long) session.getAttribute("role_id");
+			String sql = "";
+			sql="SELECT sa.uri,sra.role_id FROM sys_authority sa LEFT JOIN sys_role_authoritys sra ON sa.id=sra.authority_id WHERE sra.role_id="+role_id+" AND uri='"+uri+"'";
+			System.out.println(sql);
+			List<Map<String, Object>> list = jdbcTeplate.queryForList(sql);
+			if(!list.isEmpty()){
+				chain.doFilter(request, response);
+			}else if(uri.endsWith("edit.do")){
+				chain.doFilter(request, response);
+			}else if(uri.endsWith("save.do")){
+				chain.doFilter(request, response);
+			}else if(uri.endsWith("changepasswordedit.do")){
+				chain.doFilter(request, response);
+			}else if(uri.endsWith("exit.do")){
+				chain.doFilter(request, response);
+			}else if(uri.endsWith("noauthority.do")){
+				chain.doFilter(request, response);
+			}else{
+				response.sendRedirect("noauthority.do");
+			}
+
 		}
+
+
 
 	}
 
