@@ -9,12 +9,15 @@
  */
 package com.cqgy.park.web;
 
-import java.time.LocalDateTime;
+import static com.cqgy.park.tool.SHAUtil.shaEncode;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +32,6 @@ import com.cqgy.park.dao.SysUserRolesRepository;
 import com.cqgy.park.domain.ActionLog;
 import com.cqgy.park.domain.SysUser;
 import com.cqgy.park.domain.SysUserRoles;
-
-import static com.cqgy.park.tool.SHAUtil.shaEncode;
 @Controller
 public class LoginController {
 
@@ -42,9 +43,9 @@ public class LoginController {
 	@Autowired
 	SysUserRolesRepository sysUserRolesRepository;
 
-	@RequestMapping(value="/login/login.do", method=RequestMethod.POST)
+	@RequestMapping(value="login/login.do", method=RequestMethod.POST)
 	public String login(String login_code,String login_password,HttpServletRequest req) throws Exception{
-
+		
 		SysUser user = sysUserRepository.findByLoginCodeAndLoginPassword(login_code,shaEncode(login_password));
 
 		if(Objects.isNull(user)){
@@ -70,13 +71,13 @@ public class LoginController {
 			return "index/index";
 		}		
 	}
-	@RequestMapping(value="/login/changepasswordedit",method=RequestMethod.GET)
+	@RequestMapping(value="*/changepasswordedit",method=RequestMethod.GET)
 	public String changePasswordEdit(Long id,Model model){
 		model.addAttribute("login_id",id);
 		String forword="index/changepasswordedit";
 		return forword;
 	}
-	@RequestMapping(value="/login/newpasswordsave.do",method=RequestMethod.POST)
+	@RequestMapping(value="*/newpasswordsave.do",method=RequestMethod.POST)
 	public String changePasswordSave(Long login_id,String login_password,String new_password,Model model) throws Exception{
 		SysUser user = sysUserRepository.findOne(login_id);
 		String loginPassword=user.getLoginPassword();
@@ -93,7 +94,7 @@ public class LoginController {
 					String forword="display/result";
 					return forword;
 				}
-			
+
 			}else{
 				model.addAttribute("result", "原密码错误");
 				String forword="display/result";
@@ -104,21 +105,21 @@ public class LoginController {
 			String forword="display/result";
 			return forword;
 		}
-	
-	
+
+
 	}
-	@RequestMapping(value="/login/noauturity.do")
+	@RequestMapping(value="*/noauthority.do")
 	public String goToDisplay(Model model){
+		System.out.println("进入了");
 		model.addAttribute("result", "你没有权限！");
 		String forword="display/result";
 		return forword;
-		
+
 	}
-	@RequestMapping(value="/login/exit.do")
-	public String exitLogin(HttpServletRequest req){
+	@RequestMapping(value="*/exit.do")
+	public void exitLogin(HttpServletRequest req,HttpServletResponse res) throws IOException{
 		HttpSession session = req.getSession();
 		session.invalidate();
-		String forword="login/login";
-		return forword;	
+		res.sendRedirect("../login/login.html");	
 	}
 }

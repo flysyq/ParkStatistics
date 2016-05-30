@@ -1,12 +1,12 @@
 <html xmlns="http://www.thymeleaf.org">
-<head th:include="/theme/home :: header"></head>
+<head th:include="theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: top" />
-	<div th:replace="/theme/home :: p-h" />
+	<div th:replace="theme/home :: top" />
+	<div th:replace="theme/home :: p-h" />
 	<div id="content">
-		<div th:replace="/theme/home :: left_menu" />
+		<div th:replace="theme/home :: left_menu" />
 		<div class="m-right">
-			<div th:replace="/theme/home :: right-nav" />
+			<div th:replace="theme/home :: right-nav" />
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
@@ -75,10 +75,10 @@
 	</div>
 
 </body>
-<footer th:replace="/theme/home :: footer"></footer>
-<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
 	navList(12);
 	color();

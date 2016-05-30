@@ -52,7 +52,7 @@ public class SysRoleController {
 		String code=sysRoleListForm.getCode();
 		String name=sysRoleListForm.getName();
 		String remark=sysRoleListForm.getRemark();
-		Long pageSize=(long) 5;	
+		Long pageSize=(long) 10;	
 		String countsql="select count(*) count from sys_role";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;

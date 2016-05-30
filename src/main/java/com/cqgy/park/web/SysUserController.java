@@ -52,7 +52,7 @@ public class SysUserController {
 		String name=userListForm.getName();
 		String loginpassword=userListForm.getLoginPassword();
 		Integer enabled=userListForm.getEnabled();
-		Long pageSize=(long) 5;	
+		Long pageSize=(long) 10;	
 		String countsql="select count(*) count from sys_user";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;

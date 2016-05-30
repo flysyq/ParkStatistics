@@ -1,11 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
-body{ background:url(/static/images/car-bg.jpg) no-repeat 50% 0; font-family:"微软雅黑"; margin:0; padding:0}
+body{ background-image:url(../../../images/car-bg.jpg); no-repeat 50% 0; font-family:"微软雅黑"; margin:0; padding:0}
 input{ border-radius:5px;}
 a{ text-decoration:none; color:#333;}
 .logo{ height:100px; text-align:center; margin-top:40px;}
 .logo a img { width:80px; height:80px}
-.bd{ background:url(/static/images/k-bg.png) repeat-x; height:450px; width:594px; margin:0 auto}
+.bd{ background:url(../../../images/k-bg.png) repeat-x; height:450px; width:594px; margin:0 auto}
 .name{ text-align:center; font-size:32px; font-weight:500; padding-top:36px}
 .r1, .r2 {
     background: #c3c8c8;
