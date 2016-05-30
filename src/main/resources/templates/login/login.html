@@ -1,35 +1,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<link th:href="@{/static/bootstrap/dist/css/style.css}"
-	rel="stylesheet" />
+<link th:href="@{/static/bootstrap/dist/css/style.css}" rel="stylesheet" />
 </head>
 <body>
 
-<div class="container">
-<div class="logo"> <a href="#"><img src="/static/images/car-logo.png"/></a> </div>
+	<div class="container">
+		<div class="logo">
+			<a href="#"><img src="../static/images/car-logo.png" /></a>
+		</div>
 
-<div class="content">
-<div class="bd">
-<div class="name">洋世达停车场统计系统</div>
+		<div class="content">
+			<div class="bd">
+				<div class="name">洋世达停车场统计系统</div>
 
-<div class="box">
-<form method="post" action="/login/login.do">
-<div class="ipbox">
-<input type="text" name="login_code" placeholder="请输入您的用户名" /><br/>
-<input type="password" name="login_password" placeholder="请输入密码"/></div>
-<div class="Lobutton">
-<a href="index.html" class="hov"><input type="submit" tabindex="3" class="btn-login" value="立 即 登 录"/></a></div>
-</form>
-<div style=" padding:20px 260px 0 0;"><a href="#">忘记密码？</a></div>
-</div>
-</div>
-</div>
-<div class="pic"><img src="/static/images/car.png"/></div>
-</div>
+				<div class="box">
+					<form method="post" action="login.do">
+						<div class="ipbox">
+							<input type="text" name="login_code" placeholder="请输入您的用户名" /><br />
+							<input type="password" name="login_password" placeholder="请输入密码" />
+						</div>
+						<div class="Lobutton">
+							<a class="hov"><input type="submit"
+								tabindex="3" class="btn-login" value="立 即 登 录" /></a>
+						</div>
+					</form>
+					<div style="padding: 20px 260px 0 0;">
+						<a href="#">忘记密码？</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pic">
+			<img src="../static/images/car.png" />
+		</div>
+	</div>
 
 </body>
 <footer th:replace="theme/home :: footer"></footer>
-<script th:src="@{static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
 </html>

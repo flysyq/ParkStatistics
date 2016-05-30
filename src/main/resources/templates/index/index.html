@@ -1,16 +1,16 @@
 <html xmlns="http://www.thymeleaf.org">
-<head th:include="/theme/home :: header"></head>
+<head th:include="theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: top" />
-	<div th:replace="/theme/home :: p-h" />
-	<div th:replace="/theme/home :: content"/>
+	<div th:replace="theme/home :: top" />
+	<div th:replace="theme/home :: p-h" />
+	<div th:replace="theme/home :: content" />
 
 </body>
-<footer th:replace="/theme/home :: footer"></footer>
+<footer th:replace="theme/home :: footer"></footer>
 
-<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/menu.js}"></script>
 <script>
 	navList(12);
 </script>

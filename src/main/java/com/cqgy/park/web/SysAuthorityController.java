@@ -69,7 +69,7 @@ public class SysAuthorityController {
 		Integer grade = authorityListForm.getGrade();
 		String title = authorityListForm.getTitle();
 
-		Long pageSize=(long) 5;	
+		Long pageSize=(long) 10;	
 		String countsql="select count(*) count from sys_authority";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
 		long pageMax;
@@ -141,7 +141,7 @@ public class SysAuthorityController {
 		String forword="authority/edit";
 		return forword;
 	}
-	@RequestMapping(value="/authority/father.do",method=RequestMethod.GET)
+	@RequestMapping(value="authority/father.do",method=RequestMethod.GET)
 	public @ResponseBody List<SysAuthority> getByFather(Integer grade,Long father_id,Model model){
 		List<SysAuthority> fsysAuthoritys = null;
 

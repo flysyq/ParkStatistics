@@ -41,7 +41,7 @@ public class SysUserRolesController {
 		String forword="sysuserroles/userrolesedit";
 		return forword;
 	}
-	@RequestMapping(value="/sysuserroles/getroles.do",method=RequestMethod.GET)
+	@RequestMapping(value="sysuserroles/getroles.do",method=RequestMethod.GET)
 	public @ResponseBody List<SysRole> getRoles(){
 		String sql="select * from sys_role";
 		return sysUserService.getRoles(sql);	

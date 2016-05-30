@@ -1,10 +1,10 @@
 <html xmlns="http://www.thymeleaf.org">
-<head th:include="/theme/home :: header"></head>
+<head th:include="theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: top" />
-	<div th:replace="/theme/home :: p-h" />
+	<div th:replace="theme/home :: top" />
+	<div th:replace="theme/home :: p-h" />
 	<div id="content">
-		<div th:replace="/theme/home :: left_menu" />
+		<div th:replace="theme/home :: left_menu" />
 		<div class="m-right">
 			<div th:replace="/theme/home :: right-nav" />
 			<div class="main">
@@ -52,7 +52,7 @@
 									<li><a href="#" id="where2" data-value="card_type"
 										data-value1="--卡类型--">卡类型</a></li>
 									<li><a href="#" id="where3" data-value="card_no"
-										data-value1="--卡类型--">卡号</a></li>
+										data-value1="--卡号-">卡号</a></li>
 									<li><a href="#" id="where4" data-value="pay_money"
 										data-value1="--充值金额--">充值金额</a></li>
 									<li><a href="#" id="where5" data-value="park_id"
@@ -134,10 +134,10 @@
 	</div>
 
 </body>
-<footer th:replace="/theme/home :: footer"></footer>
-<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/menu.js}"></script>
 <script th:inline="javascript">
 	/*<![CDATA[*/
 	navList(12);

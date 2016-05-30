@@ -1,5 +1,5 @@
 <html xmlns="http://www.thymeleaf.org">
-<head th:include="/theme/home :: header"></head>
+<head th:include="theme/home :: header"></head>
 <body>
 
 	<form name="myform" method="get" action="usersave.do">
@@ -36,8 +36,8 @@
 		<br />
 	</form>
 </body>
-<footer th:replace="/theme/home :: footer"></footer>
-<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/autosize.min.js}"></script>
 </html>
