@@ -56,7 +56,7 @@ public class TestFilter implements Filter {
 		allow_urls.add("sysuserroles/getroles.do");
 		allow_urls.add("authority/father.do");
 		allow_urls.add("sysrole/sysroleauthoritylist.do");
-
+		allow_urls.add("carpaystats/genImage.do");
 
 
 		if(allow_urls.contains(uri)){

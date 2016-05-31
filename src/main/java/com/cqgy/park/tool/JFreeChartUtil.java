@@ -499,11 +499,11 @@ public class JFreeChartUtil {
         // y轴 //数据轴网格是否可见
         categoryplot.setRangeGridlinesVisible(true);
 
-        categoryplot.setRangeGridlinePaint(Color.WHITE);// 虚线色彩
+        categoryplot.setRangeGridlinePaint(Color.gray);// 虚线色彩
 
-        categoryplot.setDomainGridlinePaint(Color.WHITE);// 虚线色彩
+        categoryplot.setDomainGridlinePaint(Color.gray);// 虚线色彩
 
-        categoryplot.setBackgroundPaint(Color.lightGray);
+        categoryplot.setBackgroundPaint(new Color(255, 255, 204));
 
         // 设置轴和面板之间的距离
         // categoryplot.setAxisOffset(new RectangleInsets(5D, 5D, 5D, 5D));
@@ -535,9 +535,9 @@ public class JFreeChartUtil {
         lineandshaperenderer.setBaseLinesVisible(true); // series 点（即数据点）间有连线可见
 
         // 显示折点数据
-        // lineandshaperenderer.setBaseItemLabelGenerator(new
-        // StandardCategoryItemLabelGenerator());
-        // lineandshaperenderer.setBaseItemLabelsVisible(true);
+         lineandshaperenderer.setBaseItemLabelGenerator(new
+         StandardCategoryItemLabelGenerator());
+         lineandshaperenderer.setBaseItemLabelsVisible(true);
 
         FileOutputStream fos_jpg = null;
         try {
