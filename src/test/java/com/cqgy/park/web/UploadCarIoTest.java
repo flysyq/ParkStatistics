@@ -24,7 +24,7 @@ import junit.framework.Assert;
 public class UploadCarIoTest {
 	String host = "localhost";
 	String port = "8082";
-	String uri = "/upload.do";
+	String uri = "/park/upload.do";
 	String url = null;
 	UploadHead head = new UploadHead();
 	UploadCarIoParameter parameter=new UploadCarIoParameter();
@@ -34,7 +34,7 @@ public class UploadCarIoTest {
 	public void setUp() throws Exception {
 		this.host = "localhost";
 		this.port = "8082";
-		this.uri = "/upload.do";
+		this.uri = "/park/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
 		UploadHead head=new UploadHead();
 		uploadCarIo=new UploadCarIo(head, parameter);
@@ -45,8 +45,8 @@ public class UploadCarIoTest {
 		String imgFile = "D:/pic/a.jpg";
 		String imgB64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(imgFile)));
 		ObjectMapper mapper = new ObjectMapper();
-		uploadCarIo.getHead().setSysId("admin");
-		uploadCarIo.getHead().setPassword("66286027");
+		uploadCarIo.getHead().setSysId("sjgc");
+		uploadCarIo.getHead().setPassword("123456");
 		uploadCarIo.getHead().setFunctionId("8005");
 		uploadCarIo.getHead().setParkId("0001");
 		uploadCarIo.getParameter().setAccType(0);
@@ -55,7 +55,7 @@ public class UploadCarIoTest {
 		uploadCarIo.getParameter().setComePic(imgB64);
 		uploadCarIo.getParameter().setComeTime(CustomTime.getLocalTime());
 		uploadCarIo.getParameter().setEmpNo("10002");
-		uploadCarIo.getParameter().setEmpName("陈玄风");	
+		uploadCarIo.getParameter().setEmpName("梅彩凤");	
 		uploadCarIo.getParameter().setPlate("牛B54250");
 		String adminString = mapper.writeValueAsString(uploadCarIo);
 
@@ -70,8 +70,8 @@ public class UploadCarIoTest {
 		String imgFile = "D:/pic/a.jpg";
 		String imgB64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(imgFile)));
 		ObjectMapper mapper = new ObjectMapper();
-		uploadCarIo.getHead().setSysId("admin");
-		uploadCarIo.getHead().setPassword("66286027");
+		uploadCarIo.getHead().setSysId("sjgc");
+		uploadCarIo.getHead().setPassword("123456");
 		uploadCarIo.getHead().setFunctionId("8005");
 		uploadCarIo.getHead().setParkId("0001");
 		uploadCarIo.getParameter().setAccType(1);
@@ -81,7 +81,7 @@ public class UploadCarIoTest {
 		uploadCarIo.getParameter().setParkSpacePic(imgB64);
 		uploadCarIo.getParameter().setGoTime(CustomTime.getLocalTime());
 		uploadCarIo.getParameter().setEmpNo("10002");
-		uploadCarIo.getParameter().setEmpName("陈玄风");
+		uploadCarIo.getParameter().setEmpName("梅彩凤");
 		uploadCarIo.getParameter().setPlate("牛B54250");
 		String adminString = mapper.writeValueAsString(uploadCarIo);
 

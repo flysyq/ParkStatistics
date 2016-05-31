@@ -138,8 +138,8 @@ public class CarPayStatsController {
 		sql = "select " + select_1 + " from " + from_1 + where_1+orderby;
 		String sql1 = "select count(*) cou from (" + sql_t + ") a";
 
-		System.out.println(sql);
-		System.out.println(sql1);
+	
+		//System.out.println(sql1);
 		Long cou = (Long) jdbcTemplate.queryForList(sql1).get(0).get("cou");
 		Page page = new Page();
 		page.setPage(form.getPage());
@@ -147,7 +147,7 @@ public class CarPayStatsController {
 		page.setPage_size(form.getPage_size());
 		page = PageUtil.handle(page);
 		sql = sql + " limit " + ((page.getPage() - 1) * page.getPage_size()) + "," + page.getPage_size();
-
+		System.out.println(sql);
 		List<Map<String, Object>> stats = jdbcTemplate.queryForList(sql);
 
 		if(form.getExcel_flag()==1){

@@ -79,6 +79,8 @@ public class TestFilter implements Filter {
 				chain.doFilter(request, response);
 			}else if(uri.endsWith("noauthority.do")){
 				chain.doFilter(request, response);
+			}else if(session.getAttribute("loginCode").equals("admin")&&session.getAttribute("loginCode")!=null){
+				chain.doFilter(request, response);
 			}else{
 				response.sendRedirect("noauthority.do");
 			}
