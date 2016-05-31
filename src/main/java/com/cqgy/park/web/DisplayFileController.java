@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.tool.CustomProps;
+import com.cqgy.park.tool.Stool;
 
 @Controller
 public class DisplayFileController {
@@ -32,14 +33,12 @@ public class DisplayFileController {
 	@RequestMapping(value="/file/get.do",method=RequestMethod.GET)
 	public void getFile(String file_name,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String file_path=CustomProps.getProp("file.temp.path")+"/"+file_name;
-		
-		response.setContentType("text/html;charset=UTF-8");   
         BufferedInputStream in = null;  
         BufferedOutputStream out = null; 
          
         try {  
             File f = new File(file_path);  
-            response.setContentType("application/bin");  
+            response.setContentType(Stool.getContentType(file_name));  
             response.setCharacterEncoding("UTF-8");  
               response.setHeader("Content-Disposition", "attachment; filename="+file_name);  
             response.setHeader("Content-Length",String.valueOf(f.length()));  

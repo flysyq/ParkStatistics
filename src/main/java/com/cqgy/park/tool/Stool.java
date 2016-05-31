@@ -106,4 +106,18 @@ public class Stool {
 		UUID uuid = UUID.randomUUID();
 		return uuid.toString();		
 	}
+	//根据文件名返回Content类型
+	public static String getContentType(String fileName){
+		String ctype = "application/bin";
+		if(fileName.toLowerCase().endsWith("gif")){
+			ctype = "image/gif";
+		}
+		if(fileName.toLowerCase().endsWith("jpg")){
+			ctype = "image/jpeg";
+		}
+		if(fileName.toLowerCase().endsWith("png")){
+			ctype = "image/png";
+		}
+		return ctype;
+	}
 }

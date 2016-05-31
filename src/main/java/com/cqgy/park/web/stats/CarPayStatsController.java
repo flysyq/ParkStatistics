@@ -242,7 +242,7 @@ public class CarPayStatsController {
 				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
 			}
 
-			image.setImage(CustomProps.getProp("file.temp.url")+"/"+fileName);
+			image.setImage("../file/get.do?file_name="+fileName);
 		}
 		if(form.getFlag()==2){
 			sql = "select b.emp_name,a.sum_fee,a.sum_fee_free from (";
@@ -286,7 +286,7 @@ public class CarPayStatsController {
 				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
 			}
 
-			image.setImage(CustomProps.getProp("file.temp.url")+"/"+fileName);
+			image.setImage("../file/get.do?file_name="+fileName);
 		}
 		if(form.getFlag()==3){
 			sql = " SELECT	plate,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
@@ -329,7 +329,7 @@ public class CarPayStatsController {
 				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
 			}
 
-			image.setImage(CustomProps.getProp("file.temp.url")+"/"+fileName);
+			image.setImage("../file/get.do?file_name="+fileName);
 		}
 		if(form.getFlag()==4){
 			sql = " SELECT	DATE_FORMAT(end_time, '%Y-%c-%e') day,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
@@ -371,7 +371,7 @@ public class CarPayStatsController {
 				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
 			}
 
-			image.setImage(CustomProps.getProp("file.temp.url")+"/"+fileName);
+			image.setImage("../file/get.do?file_name="+fileName);
 		}
 		return image;
 	}
