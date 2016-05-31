@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -178,6 +179,9 @@ public class CarIoStatsController {
 		model.addAttribute("page", page);
 		model.addAttribute("stats", stats);
 		model.addAttribute("form", form);
+		HttpSession session = request.getSession();
+		session.setAttribute("fathertitle", "统计分析");
+		session.setAttribute("childrentitle", "车流量统计");
 		String forward="cariostats/list";
 		return forward;
 	}

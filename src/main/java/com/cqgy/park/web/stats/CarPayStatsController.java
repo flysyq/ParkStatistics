@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
@@ -184,6 +185,9 @@ public class CarPayStatsController {
 		model.addAttribute("page", page);
 		model.addAttribute("stats", stats);
 		model.addAttribute("form", form);
+		HttpSession session = request.getSession();
+		session.setAttribute("fathertitle", "统计分析");
+		session.setAttribute("childrentitle", "收费统计");
 		String forward = "carpaystats/list";
 		return forward;
 	}
