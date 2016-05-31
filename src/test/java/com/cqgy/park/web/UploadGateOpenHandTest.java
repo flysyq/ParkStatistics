@@ -17,7 +17,7 @@ import java.util.Base64;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
+import com.cqgy.park.form.upload.UploadGateOpenHandParameter;
 import com.cqgy.park.form.upload.UploadGateOpenHand;
 import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.form.upload.UploadParkAdmin;
@@ -34,17 +34,17 @@ public class UploadGateOpenHandTest {
 	String uri = "/upload.do";
 	String url = null;
 	UploadHead head = null;
-	InfoGateOpenHandParameter parameter = null;
+	UploadGateOpenHandParameter parameter = null;
 	UploadGateOpenHand uploadGateOpenHand = null;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.host = "localhost";
 		this.port = "8082";
-		this.uri = "/upload.do";
+		this.uri = "/park/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
-		String sysId = "admin";
-		String password = "66286027";
+		String sysId = "sjgc";
+		String password = "123456";
 		String functionId = "8007";
 		String parkId = "0001";
 		String imgFile = "D:/pic/a.jpg";
@@ -52,7 +52,7 @@ public class UploadGateOpenHandTest {
 		String imgB64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(imgFile)));
 		
 		head = new UploadHead(sysId, password, functionId, parkId);
-		parameter = new InfoGateOpenHandParameter("1002", "梅彩凤", imgB64, 2,CustomTime.getLocalTime(),CustomTime.getLocalTime());
+		parameter = new UploadGateOpenHandParameter("1002", "梅彩凤", imgB64, 2,CustomTime.getLocalTime(),CustomTime.getLocalTime());
 		uploadGateOpenHand = new UploadGateOpenHand(head, parameter);
 	}
 	

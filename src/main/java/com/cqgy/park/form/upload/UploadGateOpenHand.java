@@ -3,20 +3,20 @@ package com.cqgy.park.form.upload;
 public class UploadGateOpenHand {
 
 	private UploadHead head;
-	private InfoGateOpenHandParameter parameter;
+	private UploadGateOpenHandParameter parameter;
 	public UploadHead getHead() {
 		return head;
 	}
 	public void setHead(UploadHead head) {
 		this.head = head;
 	}
-	public InfoGateOpenHandParameter getParameter() {
+	public UploadGateOpenHandParameter getParameter() {
 		return parameter;
 	}
-	public void setParameter(InfoGateOpenHandParameter parameter) {
+	public void setParameter(UploadGateOpenHandParameter parameter) {
 		this.parameter = parameter;
 	}
-	public UploadGateOpenHand(UploadHead head, InfoGateOpenHandParameter parameter) {
+	public UploadGateOpenHand(UploadHead head, UploadGateOpenHandParameter parameter) {
 		this.head = head;
 		this.parameter = parameter;
 	}

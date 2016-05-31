@@ -25,6 +25,7 @@ public class GateOpenServiceImpl implements GateOpenService {
 			public InfoGateOpenHand mapRow(ResultSet rs, int Rownum) throws SQLException {
 				InfoGateOpenHand gateOpen=new InfoGateOpenHand();
 				gateOpen.setId(rs.getLong("id"));
+				gateOpen.setParkId(rs.getString("park_id"));
 				gateOpen.setOpenEmpName(rs.getString("open_emp_name"));
 				gateOpen.setOpenEmpNo(rs.getString("open_emp_no"));
 				gateOpen.setOpenPic(CustomProps.getProp("file.http.url")+"/"+CustomFile.getOpen_hand()+"/"+rs.getDate("open_time")+"/"+rs.getString("open_pic"));

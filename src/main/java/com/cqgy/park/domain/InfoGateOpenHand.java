@@ -23,7 +23,7 @@ public class InfoGateOpenHand {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+	private String parkId;
 	private String openEmpNo;
 	private String openPic;
 	private Integer openType;
@@ -76,9 +76,17 @@ public class InfoGateOpenHand {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public InfoGateOpenHand(Long id, String openEmpNo,String openEmpName, String openPic, Integer openType, Date openTime,
+	public String getParkId() {
+		return parkId;
+	}
+	public void setParkId(String parkId) {
+		this.parkId = parkId;
+	}
+	
+	public InfoGateOpenHand(Long id,String parkId, String openEmpNo,String openEmpName, String openPic, Integer openType, Date openTime,
 			Date updateTime) {
 		this.id = id;
+		this.parkId = parkId;
 		this.openEmpNo = openEmpNo;
 		this.openPic = openPic;
 		this.openType = openType;
@@ -89,5 +97,5 @@ public class InfoGateOpenHand {
 	public InfoGateOpenHand() {
 		super();
 	}
-	
+
 }

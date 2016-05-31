@@ -9,7 +9,7 @@
  */
 package com.cqgy.park.form.upload;
 
-public class InfoGateOpenHandParameter {
+public class UploadGateOpenHandParameter {
 	private String openEmpNo;
 	private String openEmpName;
 	private String openPic;
@@ -65,7 +65,7 @@ public class InfoGateOpenHandParameter {
 		this.updateTime = updateTime;
 	}
 
-	public InfoGateOpenHandParameter(String openEmpNo, String openEmpName, String openPic, Integer openType,
+	public UploadGateOpenHandParameter(String openEmpNo, String openEmpName, String openPic, Integer openType,
 			String openTime, String updateTime) {
 		this.openEmpNo = openEmpNo;
 		this.openPic = openPic;
@@ -75,7 +75,7 @@ public class InfoGateOpenHandParameter {
 		this.openEmpName = openEmpName;
 	}
 
-	public InfoGateOpenHandParameter() {
+	public UploadGateOpenHandParameter() {
 		super();
 	}
 

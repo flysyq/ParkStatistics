@@ -28,7 +28,7 @@ import com.cqgy.park.domain.InfoGateOpenHand;
 import com.cqgy.park.domain.InfoLogUpload;
 import com.cqgy.park.domain.InfoParkAdmin;
 import com.cqgy.park.domain.InfoParkEmp;
-import com.cqgy.park.form.upload.InfoGateOpenHandParameter;
+import com.cqgy.park.form.upload.UploadGateOpenHandParameter;
 import com.cqgy.park.form.upload.UploadCarIo;
 import com.cqgy.park.form.upload.UploadCarIoParameter;
 import com.cqgy.park.form.upload.UploadCarParkPay;
@@ -283,12 +283,13 @@ public class UploadParkLogic {
 
 		UploadGateOpenHand uploadGateOpenHand = mapper.readValue(json, UploadGateOpenHand.class);
 
-		InfoGateOpenHandParameter parameter = uploadGateOpenHand.getParameter();
+		UploadGateOpenHandParameter parameter = uploadGateOpenHand.getParameter();
 		UploadHead head = uploadGateOpenHand.getHead();
 
 		String openPic = parameter.getOpenPic();
 
 		InfoGateOpenHand infoGateOpenHand = new InfoGateOpenHand();	
+		infoGateOpenHand.setParkId(head.getParkId());
 		infoGateOpenHand.setOpenEmpNo(parameter.getOpenEmpNo());
 		infoGateOpenHand.setOpenTime(CustomTime.parseTime(parameter.getOpenTime()));
 		infoGateOpenHand.setOpenType(parameter.getOpenType());
