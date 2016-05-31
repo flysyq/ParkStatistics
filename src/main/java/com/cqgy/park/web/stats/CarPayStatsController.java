@@ -335,6 +335,48 @@ public class CarPayStatsController {
 
 			image.setImage(CustomProps.getProp("file.temp.url")+"/"+fileName);
 		}
+		if(form.getFlag()==4){
+			sql = " SELECT	DATE_FORMAT(end_time, '%Y-%c-%e') day,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
+			sql += " FROM info_car_park_pay a where start_time>'"+form.getStart_date()+"' and end_time<'"+form.getEnd_date()+"'";
+			sql += " GROUP BY DATE_FORMAT(end_time, '%Y-%c-%e')";
+			
+			String[] rowKeys = {"收费","免费"};
+			List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+			double[][] data = new double[2][list.size()]; 
+			String[] columnKeys = new String[list.size()];
+			for(int i=0;i<list.size();i++){
+				columnKeys[i]=(String)list.get(i).get("day");
+				data[0][i]=(Double)list.get(i).get("sum_fee");
+				data[1][i]=(Double)list.get(i).get("sum_fee_free");
+			}
+			dataSet = DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
+			xTitle = "时间";
+			yTitle = "收费情况";
+			title = "按日期统计收费情况";
+			JFreeChartUtil jfcu = new JFreeChartUtil();
+			if(form.getImage_flag()==1){
+				jfcu.createTimeXYChar(title, xTitle, yTitle, dataSet, filePath);
+			}
+			if(form.getImage_flag()==2){
+				jfcu.createBarChart(dataSet, xTitle, yTitle, title, filePath);
+			}
+			if(form.getImage_flag()==3){
+				double sum = 0;
+				for(int i=0;i<list.size();i++){
+					sum = data[0][i];
+				}
+				double[] percent = new double[list.size()];
+				
+				for(int i=0;i<list.size();i++){
+					percent[i]=data[0][i]/sum;
+				}
+				
+				PieDataset pdataSet = jfcu.getDataPieSetByUtil(percent, columnKeys);
+				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
+			}
+
+			image.setImage(CustomProps.getProp("file.temp.url")+"/"+fileName);
+		}
 		return image;
 	}
 }
