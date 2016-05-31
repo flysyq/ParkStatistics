@@ -1,23 +1,23 @@
+
 package com.cqgy.park.form.stats;
 
 import com.cqgy.park.tool.CustomTime;
 
-public class CarIoStatsForm {
-
+public class CardInStatsForm {
+	
 	private Integer page;
 	private Integer page_size;
 	private Integer page_count;
-
-	private String come_time;
-	private String go_time;
-
+	
+	private String start_date;
+	private String end_date;
+	
 	private String park_id;
-
+	
 	private Integer park_check;
 	private Integer plate_check;
-	private Integer in_emp_check;
-	private Integer out_emp_check;
-
+	private Integer emp_check;
+	
 	private Integer excel_flag;
 	private Integer pdf_flag;
 	private Integer img_flag;
@@ -39,17 +39,17 @@ public class CarIoStatsForm {
 	public void setPage_count(Integer page_count) {
 		this.page_count = page_count;
 	}
-	public String getCome_time() {
-		return come_time;
+	public String getStart_date() {
+		return start_date;
 	}
-	public void setCome_time(String come_time) {
-		this.come_time = come_time;
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
 	}
-	public String getGo_time() {
-		return go_time;
+	public String getEnd_date() {
+		return end_date;
 	}
-	public void setGo_time(String go_time) {
-		this.go_time = go_time;
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
 	}
 	public String getPark_id() {
 		return park_id;
@@ -69,17 +69,11 @@ public class CarIoStatsForm {
 	public void setPlate_check(Integer plate_check) {
 		this.plate_check = plate_check;
 	}
-	public Integer getIn_emp_check() {
-		return in_emp_check;
+	public Integer getEmp_check() {
+		return emp_check;
 	}
-	public void setIn_emp_check(Integer in_emp_check) {
-		this.in_emp_check = in_emp_check;
-	}
-	public Integer getOut_emp_check() {
-		return out_emp_check;
-	}
-	public void setOut_emp_check(Integer out_emp_check) {
-		this.out_emp_check = out_emp_check;
+	public void setEmp_check(Integer emp_check) {
+		this.emp_check = emp_check;
 	}
 	public Integer getExcel_flag() {
 		return excel_flag;
@@ -99,19 +93,19 @@ public class CarIoStatsForm {
 	public void setImg_flag(Integer img_flag) {
 		this.img_flag = img_flag;
 	}
-	public CarIoStatsForm() {
-		this.page = 1;
-		this.page_size = 10;
-		this.page_count = 0;
-		this.come_time = CustomTime.getLocalTimeMinusMonth(1);
-		this.go_time = CustomTime.getLocalTime();
-		this.park_check = 0;
-		this.plate_check = 0;
-		this.in_emp_check = 0;
-		this.out_emp_check = 0;
-		this.excel_flag = 0;
-		this.pdf_flag = 0;
-		this.img_flag = 0;
+	public CardInStatsForm() {
+		this.page=1;
+		this.page_size=10;
+		this.park_check=0;
+		this.page_count=0;
+		this.emp_check=0;
+		this.plate_check=0;
+		this.start_date=CustomTime.getLocalTimeMinusMonth(1);
+		this.end_date=CustomTime.getLocalTime();
+		this.excel_flag=0;
+		this.pdf_flag=0;
+		this.img_flag=0;
 	}
+	
 	
 }
