@@ -25,14 +25,13 @@ import com.cqgy.park.dao.InfoCardRepository;
 import com.cqgy.park.dao.InfoGateOpenHandRepository;
 import com.cqgy.park.dao.InfoLogUploadRepository;
 import com.cqgy.park.dao.InfoParkAdminRepository;
-import com.cqgy.park.dao.InfoParkEmpRepository;
+import com.cqgy.park.dao.InfoUploadUserLinkParkRepository;
 import com.cqgy.park.dao.InfoUploadUserRepository;
-import com.cqgy.park.domain.InfoUploadUserLinkParkRepository;
+import com.cqgy.park.dao.InfoUserLoginLogRepository;
 import com.cqgy.park.form.upload.UploadHead;
 import com.cqgy.park.qresult.upload.ReturnHead;
 import com.cqgy.park.qresult.upload.ReturnResult;
 import com.cqgy.park.tool.Stool;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -50,7 +49,7 @@ public class UploadParkController {
 	@Autowired
 	InfoParkAdminRepository infoParkAdminRepository;
 	@Autowired
-	InfoParkEmpRepository infoParkEmpRepository;
+	InfoUserLoginLogRepository infoUserLoginLogRepository;
 	@Autowired
 	InfoCardRepository infoCardRepository;
 	@Autowired
@@ -64,7 +63,7 @@ public class UploadParkController {
 	@Autowired
 	InfoGateOpenHandRepository infoGateOpenHandRepository;
 	
-	@RequestMapping(value = "/upload.do", method = RequestMethod.POST)
+	@RequestMapping(value = "upload/upload.do", method = RequestMethod.POST)
 	public ReturnResult upload(HttpServletRequest request) throws Exception {
 		ReturnResult result=new ReturnResult();
 		
@@ -89,7 +88,7 @@ public class UploadParkController {
 		case "8001":
 			return UploadParkLogic.saveInfoParkAdmin(infoParkAdminRepository, infoLogUploadRepository,json);
 		case "8002":
-			return UploadParkLogic.savaInfoParkEmp(infoParkEmpRepository, infoLogUploadRepository, json);
+			return UploadParkLogic.savainfoUserLoginLog(infoUserLoginLogRepository, infoLogUploadRepository, json);
 		case "8003":
 			return UploadParkLogic.savaInfoCard(infoCardRepository, infoLogUploadRepository, json);
 		case "8004":

@@ -1,26 +1,26 @@
 package com.cqgy.park.form.upload;
 
-public class UploadParkEmp {
+public class UploadUserLoginLog {
 	private UploadHead head;
-	private UploadParkEmpParameter parameter;
+	private UploadUserLoginLogParameter parameter;
 	public UploadHead getHead() {
 		return head;
 	}
 	public void setHead(UploadHead head) {
 		this.head = head;
 	}
-	public UploadParkEmpParameter getParameter() {
+	public UploadUserLoginLogParameter getParameter() {
 		return parameter;
 	}
-	public void setParameter(UploadParkEmpParameter parameter) {
+	public void setParameter(UploadUserLoginLogParameter parameter) {
 		this.parameter = parameter;
 	}
-	public UploadParkEmp(UploadHead head, UploadParkEmpParameter parameter) {
+	public UploadUserLoginLog(UploadHead head, UploadUserLoginLogParameter parameter) {
 		super();
 		this.head = head;
 		this.parameter = parameter;
 	}
-	public UploadParkEmp() {
+	public UploadUserLoginLog() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

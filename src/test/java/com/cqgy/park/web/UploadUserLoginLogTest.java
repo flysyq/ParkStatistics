@@ -1,7 +1,6 @@
 package com.cqgy.park.web;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,23 +9,22 @@ import org.junit.Test;
 
 import com.cqgy.park.form.upload.UploadGateOpenHand;
 import com.cqgy.park.form.upload.UploadHead;
-import com.cqgy.park.form.upload.UploadParkEmp;
-import com.cqgy.park.form.upload.UploadParkEmpParameter;
+import com.cqgy.park.form.upload.UploadUserLoginLog;
+import com.cqgy.park.form.upload.UploadUserLoginLogParameter;
 import com.cqgy.park.tool.CustomTime;
 import com.cqgy.park.tool.Stool;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.fabric.xmlrpc.base.Data;
 
 import junit.framework.Assert;
 
-public class UploadParkEmpTest {
+public class UploadUserLoginLogTest {
 	String host = "localhost";
 	String port = "8082";
 	String uri = "/upload.do";
 	String url = null;
 	UploadHead head = new UploadHead();
-	UploadParkEmpParameter parameter = new UploadParkEmpParameter();
-	UploadParkEmp uploadParkEmp = new UploadParkEmp();
+	UploadUserLoginLogParameter parameter = new UploadUserLoginLogParameter();
+	UploadUserLoginLog uploadUserLoginLog = new UploadUserLoginLog();
 	UploadGateOpenHand uploadGateOpenHand = null;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -43,27 +41,27 @@ public class UploadParkEmpTest {
 	public void setUp() throws Exception {
 		this.host = "localhost";
 		this.port = "8082";
-		this.uri = "/upload.do";
+		this.uri = "/park/upload/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
 		UploadHead head=new UploadHead();
-		uploadParkEmp=new UploadParkEmp(head, parameter);
+		uploadUserLoginLog=new UploadUserLoginLog(head, parameter);
 	}
 	@Test
-	public void testUploadParkEmp_normal() throws IOException {
+	public void testUploadUserLoginLog_normal() throws IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
-		uploadParkEmp.getHead().setSysId("admin");
-		uploadParkEmp.getHead().setPassword("66286027");
-		uploadParkEmp.getHead().setFunctionId("8002");
-		uploadParkEmp.getHead().setParkId("0001");
-		uploadParkEmp.getParameter().setEmpNo("10003");
-		uploadParkEmp.getParameter().setEmpName("梅");
-		uploadParkEmp.getParameter().setUserCode("m");
-		uploadParkEmp.getParameter().setOpTime(CustomTime.getLocalTime());
-		uploadParkEmp.getParameter().setOpType(1);
-		uploadParkEmp.getParameter().setUserType(1);
-		uploadParkEmp.getParameter().setUserTypeName("收费员");
-		String adminString = mapper.writeValueAsString(uploadParkEmp);
+		uploadUserLoginLog.getHead().setSysId("sjgc");
+		uploadUserLoginLog.getHead().setPassword("123456");
+		uploadUserLoginLog.getHead().setFunctionId("8002");
+		uploadUserLoginLog.getHead().setParkId("0001");
+		uploadUserLoginLog.getParameter().setEmpNo("10003");
+		uploadUserLoginLog.getParameter().setEmpName("梅");
+		uploadUserLoginLog.getParameter().setUserCode("m");
+		uploadUserLoginLog.getParameter().setOpTime(CustomTime.getLocalTime());
+		uploadUserLoginLog.getParameter().setOpType(1);
+		uploadUserLoginLog.getParameter().setUserType(1);
+		uploadUserLoginLog.getParameter().setUserTypeName("收费员");
+		String adminString = mapper.writeValueAsString(uploadUserLoginLog);
 
 		String returnString = Stool.postJson(this.url, adminString);
 

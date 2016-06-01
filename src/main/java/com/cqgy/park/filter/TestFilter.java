@@ -44,15 +44,22 @@ public class TestFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse)res;
 		HttpSession session = request.getSession();
 		String uri=request.getRequestURI();
-		int index=uri.indexOf("/");
-		index=uri.indexOf("/",index+1);
-		uri=uri.substring(index+1);
+		String result="";
+		int i = 0;
+		while(i < 2) {
+			int lastFirst = uri.lastIndexOf('/');
+			result = uri.substring(lastFirst) + result;
+			uri = uri.substring(0, lastFirst);
+			i++;
+		}
+		uri=result.substring(1);
 		System.out.println(uri);
+
 		ArrayList<String> allow_urls = new ArrayList<String>();
 
 		allow_urls.add("login/login.do");
 		allow_urls.add("file/get.do");
-		allow_urls.add("upload.do");
+		allow_urls.add("upload/upload.do");
 		allow_urls.add("sysuserroles/getroles.do");
 		allow_urls.add("authority/father.do");
 		allow_urls.add("sysrole/sysroleauthoritylist.do");

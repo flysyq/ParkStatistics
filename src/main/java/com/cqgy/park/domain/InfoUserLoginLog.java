@@ -9,7 +9,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class InfoParkEmp {
+public class InfoUserLoginLog {
 
 	@Id
 	@GeneratedValue
@@ -17,11 +17,11 @@ public class InfoParkEmp {
 	
 	private String parkId;
 	private String userCode;
-	private String empNo;
+	private String userEmpNo;
 	private String empName;
 	private Integer userType;
 	private String userTypeName;
-	private Integer isEnable;
+	private Integer opType;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date opTime;
@@ -45,11 +45,11 @@ public class InfoParkEmp {
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
 	}
-	public String getEmpNo() {
-		return empNo;
+	public String getUserEmpNo() {
+		return userEmpNo;
 	}
-	public void setEmpNo(String empNo) {
-		this.empNo = empNo;
+	public void setUserEmpNo(String userEmpNo) {
+		this.userEmpNo = userEmpNo;
 	}
 	public String getEmpName() {
 		return empName;
@@ -69,11 +69,11 @@ public class InfoParkEmp {
 	public void setUserTypeName(String userTypeName) {
 		this.userTypeName = userTypeName;
 	}
-	public Integer getIsEnable() {
-		return isEnable;
+	public Integer getOpType() {
+		return opType;
 	}
-	public void setIsEnable(Integer isEnable) {
-		this.isEnable = isEnable;
+	public void setOpType(Integer opType) {
+		this.opType = opType;
 	}
 	public Date getOpTime() {
 		return opTime;
@@ -81,27 +81,27 @@ public class InfoParkEmp {
 	public void setOpTime(Date opTime) {
 		this.opTime = opTime;
 	}
-
 	public Date getUpdateTime() {
 		return updateTime;
 	}
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public InfoParkEmp(Long id, String parkId, String userCode, String empNo, String empName, Integer userType,
-			String userTypeName, Integer isEnable, Date opTime, Date updateTime) {
+	public InfoUserLoginLog(Long id, String parkId, String userCode, String userEmpNo, String empName, Integer userType,
+			String userTypeName, Integer opType, Date opTime, Date updateTime) {
+		super();
 		Id = id;
 		this.parkId = parkId;
 		this.userCode = userCode;
-		this.empNo = empNo;
+		this.userEmpNo = userEmpNo;
 		this.empName = empName;
 		this.userType = userType;
 		this.userTypeName = userTypeName;
-		this.isEnable = isEnable;
+		this.opType = opType;
 		this.opTime = opTime;
 		this.updateTime = updateTime;
 	}
-	public InfoParkEmp() {
+	public InfoUserLoginLog() {
 		super();
 	}
 	

@@ -1,7 +1,5 @@
 package com.cqgy.park.web;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,10 +11,8 @@ import org.junit.Test;
 import com.cqgy.park.form.upload.UploadCarIo;
 import com.cqgy.park.form.upload.UploadCarIoParameter;
 import com.cqgy.park.form.upload.UploadHead;
-import com.cqgy.park.form.upload.UploadParkEmp;
 import com.cqgy.park.tool.CustomTime;
 import com.cqgy.park.tool.Stool;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import junit.framework.Assert;

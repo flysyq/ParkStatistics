@@ -1,6 +1,6 @@
 package com.cqgy.park.form.upload;
 
-public class UploadParkEmpParameter {
+public class UploadUserLoginLogParameter {
 	
 	private String userCode;
 	private String empNo;
@@ -51,7 +51,7 @@ public class UploadParkEmpParameter {
 	public void setOpTime(String opTime) {
 		this.opTime = opTime;
 	}
-	public UploadParkEmpParameter(String userCode, String empNo, String empName, Integer userType, String userTypeName,
+	public UploadUserLoginLogParameter(String userCode, String empNo, String empName, Integer userType, String userTypeName,
 			Integer opType, String opTime) {
 		super();
 		this.userCode = userCode;
@@ -62,9 +62,8 @@ public class UploadParkEmpParameter {
 		this.opType = opType;
 		this.opTime = opTime;
 	}
-	public UploadParkEmpParameter() {
+	public UploadUserLoginLogParameter() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 }
