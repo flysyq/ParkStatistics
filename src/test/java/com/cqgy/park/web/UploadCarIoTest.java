@@ -20,7 +20,7 @@ import junit.framework.Assert;
 public class UploadCarIoTest {
 	String host = "localhost";
 	String port = "8082";
-	String uri = "/park/upload.do";
+	String uri = "/park/upload/upload.do";
 	String url = null;
 	UploadHead head = new UploadHead();
 	UploadCarIoParameter parameter=new UploadCarIoParameter();
@@ -30,7 +30,7 @@ public class UploadCarIoTest {
 	public void setUp() throws Exception {
 		this.host = "localhost";
 		this.port = "8082";
-		this.uri = "/park/upload.do";
+		this.uri = "/park/upload/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
 		UploadHead head=new UploadHead();
 		uploadCarIo=new UploadCarIo(head, parameter);
@@ -50,9 +50,9 @@ public class UploadCarIoTest {
 		uploadCarIo.getParameter().setCardType(1);
 		uploadCarIo.getParameter().setComePic(imgB64);
 		uploadCarIo.getParameter().setComeTime(CustomTime.getLocalTime());
-		uploadCarIo.getParameter().setEmpNo("10002");
-		uploadCarIo.getParameter().setEmpName("梅彩凤");	
-		uploadCarIo.getParameter().setPlate("牛B54250");
+		uploadCarIo.getParameter().setEmpNo("007");
+		uploadCarIo.getParameter().setEmpName("王大勇");	
+		uploadCarIo.getParameter().setPlate("牛B54222");
 		String adminString = mapper.writeValueAsString(uploadCarIo);
 
 		String returnString = Stool.postJson(this.url, adminString);
@@ -76,9 +76,9 @@ public class UploadCarIoTest {
 		uploadCarIo.getParameter().setGoPic(imgB64);
 		uploadCarIo.getParameter().setParkSpacePic(imgB64);
 		uploadCarIo.getParameter().setGoTime(CustomTime.getLocalTime());
-		uploadCarIo.getParameter().setEmpNo("10002");
-		uploadCarIo.getParameter().setEmpName("梅彩凤");
-		uploadCarIo.getParameter().setPlate("牛B54250");
+		uploadCarIo.getParameter().setEmpNo("007");
+		uploadCarIo.getParameter().setEmpName("王大勇");	
+		uploadCarIo.getParameter().setPlate("牛B54251");
 		String adminString = mapper.writeValueAsString(uploadCarIo);
 
 		String returnString = Stool.postJson(this.url, adminString);

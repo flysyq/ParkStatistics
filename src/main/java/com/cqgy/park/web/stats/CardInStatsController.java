@@ -14,18 +14,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.PieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqgy.park.bo.Page;
 import com.cqgy.park.bo.PageUtil;
 import com.cqgy.park.form.stats.CardInStatsForm;
+import com.cqgy.park.form.stats.StatsImageForm;
+import com.cqgy.park.qresult.stats.ReturnImage;
 import com.cqgy.park.tool.CustomProps;
 import com.cqgy.park.tool.CustomTime;
+import com.cqgy.park.tool.JFreeChartUtil;
+import com.cqgy.park.tool.Stool;
 
 @Controller
 public class CardInStatsController {
@@ -165,5 +173,187 @@ public class CardInStatsController {
 		session.setAttribute("childrentitle", "收入统计");
 		String forward="cardinstats/list";
 		return forward;
+	}
+	
+	@RequestMapping(value = "cardinstats/genImage.do", method = RequestMethod.GET)
+	public @ResponseBody ReturnImage getImage(StatsImageForm form){
+		ReturnImage image = new ReturnImage();
+		String fileName = Stool.uuid()+".png";
+		String filePath = CustomProps.getProp("file.temp.path")+"/"+fileName;
+		String sql = "";
+		ArrayList<String> rowKeysL = new ArrayList<String>();		
+		ArrayList<String> columnKeysL = new ArrayList<String>();
+		String xTitle = "";
+		String yTitle = "";
+		String title = "";
+		CategoryDataset dataSet;
+		
+		if(form.getFlag()==1){
+			sql = "select b.park_name,a.sum_pay_money from (";
+			sql += " SELECT	park_id,sum(pay_money) sum_pay_money";
+			sql += " FROM info_card_in a where start_date>'"+form.getStart_date()+"' and end_date<'"+form.getEnd_date()+"'";
+			sql += " GROUP BY park_id) a,info_park b where a.park_id=b.park_code";
+			
+			String[] rowKeys = {"充值"};
+			List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+			double[][] data = new double[1][list.size()]; 
+			String[] columnKeys = new String[list.size()];
+			for(int i=0;i<list.size();i++){
+				columnKeys[i]=(String)list.get(i).get("park_name");
+				data[0][i]=(Double)list.get(i).get("sum_pay_money");
+			}
+			dataSet = DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
+			xTitle = "停车场";
+			yTitle = "充值情况";
+			title = "按停车场统计充值情况";
+			JFreeChartUtil jfcu = new JFreeChartUtil();
+			if(form.getImage_flag()==1){
+				jfcu.createTimeXYChar(title, xTitle, yTitle, dataSet, filePath);
+			}
+			if(form.getImage_flag()==2){
+				jfcu.createBarChart(dataSet, xTitle, yTitle, title, filePath);
+			}
+			if(form.getImage_flag()==3){
+				double sum = 0;
+				for(int i=0;i<list.size();i++){
+					sum = data[0][i];
+				}
+				double[] percent = new double[list.size()];
+				
+				
+				for(int i=0;i<list.size();i++){
+					percent[i]=data[0][i]/sum;
+				}
+				System.out.println("percent："+percent.length+"columnKeys:"+columnKeys.length);
+				PieDataset pdataSet = jfcu.getDataPieSetByUtil(percent, columnKeys);
+				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
+			}
+
+			image.setImage("../file/get.do?file_name="+fileName);
+		}
+		if(form.getFlag()==2){
+			sql = "select b.emp_name,a.sum_pay_money from (";
+			sql += " SELECT	park_id,accept_emp_no,sum(pay_money) sum_pay_money ";
+			sql += " FROM info_card_in a where start_date>'"+form.getStart_date()+"' and end_date<'"+form.getEnd_date()+"'";
+			sql += " GROUP BY park_id,accept_emp_no) a,info_park_admin b where a.park_id=b.park_id and a.accept_emp_no=b.emp_no";
+			System.out.println(sql);
+				
+			String[] rowKeys = {"充值"};
+			List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+			double[][] data = new double[1][list.size()]; 
+			String[] columnKeys = new String[list.size()];
+			for(int i=0;i<list.size();i++){
+				columnKeys[i]=(String)list.get(i).get("emp_name");
+				data[0][i]=(Double)list.get(i).get("sum_pay_money");
+			}
+			dataSet = DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
+			xTitle = "操作员";
+			yTitle = "充值情况";
+			title = "按操作员统计充值情况";
+			JFreeChartUtil jfcu = new JFreeChartUtil();
+			if(form.getImage_flag()==1){
+				jfcu.createTimeXYChar(title, xTitle, yTitle, dataSet, filePath);
+			}
+			if(form.getImage_flag()==2){
+				jfcu.createBarChart(dataSet, xTitle, yTitle, title, filePath);
+			}
+			if(form.getImage_flag()==3){
+				
+				double sum = 0;
+				for(int i=0;i<list.size();i++){
+					sum = data[0][i];
+				}
+				double[] percent = new double[list.size()];
+				for(int i=0;i<list.size();i++){
+					percent[i]=data[0][i]/sum;
+				}
+				PieDataset pdataSet = jfcu.getDataPieSetByUtil(percent, columnKeys);
+				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
+			}
+
+			image.setImage("../file/get.do?file_name="+fileName);
+		}
+		if(form.getFlag()==3){
+			sql = " SELECT	plate,sum(pay_money) sum_pay_money";
+			sql += " FROM info_card_in a where start_date>'"+form.getStart_date()+"' and end_date<'"+form.getEnd_date()+"'";
+			sql += " GROUP BY plate";
+			System.out.println(sql);
+			
+			String[] rowKeys = {"充值"};
+			List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+			double[][] data = new double[1][list.size()]; 
+			String[] columnKeys = new String[list.size()];
+			for(int i=0;i<list.size();i++){
+				columnKeys[i]=(String)list.get(i).get("plate");
+				data[0][i]=(Double)list.get(i).get("sum_pay_money");
+			}
+			dataSet = DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
+			xTitle = "车牌号";
+			yTitle = "充值情况";
+			title = "按车牌号统计充值情况";
+			JFreeChartUtil jfcu = new JFreeChartUtil();
+			if(form.getImage_flag()==1){
+				jfcu.createTimeXYChar(title, xTitle, yTitle, dataSet, filePath);
+			}
+			if(form.getImage_flag()==2){
+				jfcu.createBarChart(dataSet, xTitle, yTitle, title, filePath);
+			}
+			if(form.getImage_flag()==3){
+				double sum = 0;
+				for(int i=0;i<list.size();i++){
+					sum = data[0][i];
+				}
+				double[] percent = new double[list.size()];
+				for(int i=0;i<list.size();i++){
+					percent[i]=data[0][i]/sum;
+				}
+				System.out.println("percent："+percent.length+"columnKeys:"+columnKeys.length);
+				PieDataset pdataSet = jfcu.getDataPieSetByUtil(percent, columnKeys);
+				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
+			}
+
+			image.setImage("../file/get.do?file_name="+fileName);
+		}
+		if(form.getFlag()==4){
+			sql = " SELECT	DATE_FORMAT(end_date, '%Y-%c-%e') day,sum(pay_money) sum_pay_money ";
+			sql += " FROM info_card_in a where start_date>'"+form.getStart_date()+"' and end_date<'"+form.getEnd_date()+"'";
+			sql += " GROUP BY DATE_FORMAT(end_date, '%Y-%c-%e')";
+			
+			String[] rowKeys = {"充值"};
+			List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+			double[][] data = new double[1][list.size()]; 
+			String[] columnKeys = new String[list.size()];
+			for(int i=0;i<list.size();i++){
+				columnKeys[i]=(String)list.get(i).get("day");
+				data[0][i]=(Double)list.get(i).get("sum_pay_money");
+			}
+			dataSet = DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
+			xTitle = "时间";
+			yTitle = "充值情况";
+			title = "按日期统计充值情况";
+			JFreeChartUtil jfcu = new JFreeChartUtil();
+			if(form.getImage_flag()==1){
+				jfcu.createTimeXYChar(title, xTitle, yTitle, dataSet, filePath);
+			}
+			if(form.getImage_flag()==2){
+				jfcu.createBarChart(dataSet, xTitle, yTitle, title, filePath);
+			}
+			if(form.getImage_flag()==3){
+				double sum = 0;
+				for(int i=0;i<list.size();i++){
+					sum = data[0][i];
+				}
+				double[] percent = new double[list.size()];
+				for(int i=0;i<list.size();i++){
+					percent[i]=data[0][i]/sum;
+				}
+				System.out.println("percent："+percent.length+"columnKeys:"+columnKeys.length);
+				PieDataset pdataSet = jfcu.getDataPieSetByUtil(percent, columnKeys);
+				jfcu.createValidityComparePimChar(pdataSet, title, filePath, columnKeys);
+			}
+
+			image.setImage("../file/get.do?file_name="+fileName);
+		}
+		return image;
 	}
 }

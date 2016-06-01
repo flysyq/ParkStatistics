@@ -9,6 +9,10 @@
  */
 package com.cqgy.park.web.stats;
 
+import static com.cqgy.park.tool.ExcelUtil.createExcel;
+import static com.cqgy.park.tool.PdfUtil.createPdf;
+import static com.cqgy.park.tool.Stool.uuid;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +37,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cqgy.park.bo.Page;
 import com.cqgy.park.bo.PageUtil;
 import com.cqgy.park.form.stats.CarPayStatsForm;
-import com.cqgy.park.form.stats.CarPayStatsImageForm;
+import com.cqgy.park.form.stats.StatsImageForm;
 import com.cqgy.park.qresult.stats.ReturnImage;
 import com.cqgy.park.tool.CustomProps;
 import com.cqgy.park.tool.CustomTime;
 import com.cqgy.park.tool.JFreeChartUtil;
 import com.cqgy.park.tool.Stool;
-
-import static com.cqgy.park.tool.Stool.*;
-import static com.cqgy.park.tool.ExcelUtil.*;
-import static com.cqgy.park.tool.PdfUtil.*;
 @Controller
 public class CarPayStatsController {
 
@@ -193,7 +193,7 @@ public class CarPayStatsController {
 	}
 	
 	@RequestMapping(value = "carpaystats/genImage.do", method = RequestMethod.GET)
-	public @ResponseBody ReturnImage getImage(CarPayStatsImageForm form){
+	public @ResponseBody ReturnImage getImage(StatsImageForm form){
 		ReturnImage image = new ReturnImage();
 		String fileName = Stool.uuid()+".png";
 		String filePath = CustomProps.getProp("file.temp.path")+"/"+fileName;

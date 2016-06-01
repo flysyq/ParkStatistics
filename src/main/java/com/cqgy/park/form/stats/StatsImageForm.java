@@ -9,7 +9,7 @@
  */
 package com.cqgy.park.form.stats;
 
-public class CarPayStatsImageForm {
+public class StatsImageForm {
 
 	private String start_date;
 	private String end_date;
