@@ -49,7 +49,7 @@ public class CarIoStatsController {
 		if (Objects.isNull(form)) {
 			form=new CarIoStatsForm();
 		}
-		where="where go_time>'"+form.getCome_time()+"' and go_time<'"+form.getGo_time()+"' or go_time is null ";
+		where="where go_time>'"+form.getCome_time()+"' and go_time<'"+form.getGo_time()+"' or go_time is null  and come_time>'"+form.getCome_time()+"' and come_time<'"+form.getGo_time()+"' or come_time is null ";
 		String groupby="";
 		//Excel　&& PDF
 		ArrayList<String> excel_names=new ArrayList<String>();
