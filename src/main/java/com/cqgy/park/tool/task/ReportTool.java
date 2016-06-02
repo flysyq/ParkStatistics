@@ -9,6 +9,7 @@
  */
 package com.cqgy.park.tool.task;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -20,15 +21,15 @@ import com.cqgy.park.tool.CustomTime;
 
 public class ReportTool {
 
-	public static String getSearchTime(JdbcTemplate jdbcTemplate) {
+	public static String getSearchTime(JdbcTemplate jdbcTemplate,String parkId) {
 
 		String sql = "select date_format(start_time,'%Y-%m-%d %T') start_time from ("
-				+ "select max(task_start_time) start_time from info_duty_shrift_report_log) a";
+				+ "select max(task_end_time) start_time from info_duty_shrift_report_log where park_id='"+parkId+"') a";
 
 		String start_time = jdbcTemplate.queryForObject(sql, String.class);
 		if (Objects.isNull(start_time)) {
 			sql = "select date_format(start_time,'%Y-%m-%d %T') start_time from ("
-					+ " select min(update_time) start_time from info_user_login_log where user_type=1) a";
+					+ " select min(op_time) start_time from info_user_login_log where user_type=1 and park_id='"+parkId+"') a";
 			// System.out.println(sql);
 			start_time = jdbcTemplate.queryForObject(sql, String.class);
 		}
@@ -36,20 +37,22 @@ public class ReportTool {
 		return start_time;
 	}
 
-	public static Integer getComeNum(JdbcTemplate jdbcTemplate, InfoDutyShriftReport report) {
+	public static Long getComeNum(JdbcTemplate jdbcTemplate, InfoDutyShriftReport report) {
 		String sql = "select count(*) cou from info_car_io " + "where park_id='" + report.getParkId()
 				+ "' and come_time>'" + CustomTime.parseString(report.getOnTime()) + "' and come_time<'"
 				+ CustomTime.parseString(report.getDownTime()) + "'";
-		Integer comeNum = jdbcTemplate.queryForObject(sql, Integer.class);
+		System.out.println(sql);
+		Long comeNum = jdbcTemplate.queryForObject(sql, Long.class);
 		report.setComeNum(comeNum);
 		return comeNum;
 	}
 
-	public static Integer getGoNum(JdbcTemplate jdbcTemplate, InfoDutyShriftReport report) {
+	public static Long getGoNum(JdbcTemplate jdbcTemplate, InfoDutyShriftReport report) {
 		String sql = "select count(*) cou from info_car_io " + "where park_id='" + report.getParkId()
 				+ "' and come_time>'" + CustomTime.parseString(report.getOnTime()) + "' and come_time<'"
 				+ CustomTime.parseString(report.getDownTime()) + "'";
-		Integer goNum = jdbcTemplate.queryForObject(sql, Integer.class);
+		System.out.println(sql);
+		Long goNum = jdbcTemplate.queryForObject(sql, Long.class);		
 		report.setGoNum(goNum);
 		return goNum;
 	}
@@ -66,19 +69,20 @@ public class ReportTool {
 				+ " where park_id='" + report.getParkId() + "' " + "and update_time>'"
 				+ CustomTime.parseString(report.getOnTime()) + "' " + "and update_time<'"
 				+ CustomTime.parseString(report.getDownTime()) + "'";
-
+		System.out.println(sql);
 		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-
-		report.setPayMoney((Double) map.get("sum_fee"));
-		report.setPayCars((Integer) map.get("cou_pay"));
-		report.setFreeMoney((Double) map.get("sum_fee_free"));
-		report.setFreeCars((Integer) map.get("cou_free_pay"));
-		report.setFreeCardNum((Integer) map.get("cou_free_card"));
-		report.setFreeCardMoney((Double) map.get("sum_free_card_pay"));
-		report.setFreeCheckNum((Integer) map.get("cou_fee_check"));
-		report.setFreeCheckMoney((Double) map.get("sum_free_check_pay"));
-		report.setFreePercentNum((Integer) map.get("cou_free_percent"));
-		report.setFreePercentMoney((Double) map.get("sum_free_percent_pay"));
+		if(map.get("sum_fee")!=null){
+			report.setPayMoney((Double) map.get("sum_fee"));
+			report.setPayCars(((BigDecimal) map.get("cou_pay")).longValue());
+			report.setFreeMoney((Double) map.get("sum_fee_free"));
+			report.setFreeCars(((BigDecimal) map.get("cou_free_pay")).longValue());
+			report.setFreeCardNum(((BigDecimal) map.get("cou_free_card")).longValue());
+			report.setFreeCardMoney((Double) map.get("sum_free_card_pay"));
+			report.setFreeCheckNum(((BigDecimal) map.get("cou_free_check")).longValue());
+			report.setFreeCheckMoney((Double) map.get("sum_free_check_pay"));
+			report.setFreePercentNum(((BigDecimal) map.get("cou_free_percent")).longValue());
+			report.setFreePercentMoney((Double) map.get("sum_free_percent_pay"));
+		}		
 		return map;
 	}
 
@@ -86,9 +90,17 @@ public class ReportTool {
 		String sql = "select count(*) cou,sum(balance) sum_balance from info_card where park_id='" + report.getParkId()
 				+ "' " + "and spread_time>'" + CustomTime.parseString(report.getOnTime()) + "' " + "and spread_time<'"
 				+ CustomTime.parseString(report.getDownTime()) + "'";
+		System.out.println(sql);
 		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-		report.setCardNewNum((Integer) map.get("cou"));
-		report.setCardNewMoney((Double) map.get("sum_balance"));
+		if(map.get("sum_balance")==null){
+			
+			report.setCardNewNum((long)0);
+			report.setCardNewMoney((double)0);
+		}else{
+			report.setCardNewNum((Long) map.get("cou"));
+			report.setCardNewMoney((Double) map.get("sum_balance"));
+		}
+		
 		return map;
 
 	}
@@ -97,20 +109,38 @@ public class ReportTool {
 		String sql = "select count(*) cou,sum(pay_money) sum_pay from info_card_in where park_id='" + report.getParkId()
 				+ "' " + "and update_time>'" + CustomTime.parseString(report.getOnTime()) + "' " + "and update_time<'"
 				+ CustomTime.parseString(report.getDownTime()) + "'";
+		System.out.println(sql);
 		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-		report.setCardInNum((Integer) map.get("cou"));
-		report.setCardInMoney((Double) map.get("sum_pay"));
+		if(map.get("sum_pay")==null){
+			report.setCardInNum((long)0);
+			report.setCardInMoney((double)0);
+			
+		}else{
+			report.setCardInNum((Long) map.get("cou"));
+			report.setCardInMoney((Double) map.get("sum_pay"));
+				
+		}
 		return map;
 	}
 
 	public static Map<String, Object> getOpenHand(JdbcTemplate jdbcTemplate, InfoDutyShriftReport report) {
 		String sql = "select sum(if(open_type=1,1,0)) sum_hand,sum(if(open_type=2,1,0)) sum_ex from info_gate_open_hand"
-				+ " where park_id='" + report.getParkId()
-				+ "' " + "and update_time>'" + CustomTime.parseString(report.getOnTime()) + "' " + "and update_time<'"
+				+ " where park_id='" + report.getParkId() + "' " + "and update_time>'"
+				+ CustomTime.parseString(report.getOnTime()) + "' " + "and update_time<'"
 				+ CustomTime.parseString(report.getDownTime()) + "'";
+		System.out.println(sql);
 		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-		report.setGateOpenHandNum((Integer) map.get("sum_hand"));
-		report.setGateOpenHandExNum((Integer) map.get("sum_ex"));
-		return map;
+		System.out.println(Objects.isNull(map.get("sum_hand")));
+		if(map.get("sum_hand")==null){
+			report.setGateOpenHandNum((long)0);
+			report.setGateOpenHandExNum((long)0);
+		}else{
+			BigDecimal b_sum_hand = (BigDecimal) map.get("sum_hand");
+			BigDecimal b_sum_ex = (BigDecimal) map.get("sum_ex");
+			report.setGateOpenHandNum(b_sum_hand.longValue());
+			report.setGateOpenHandExNum(b_sum_ex.longValue());
+		}		
+
+		return null;
 	}
 }

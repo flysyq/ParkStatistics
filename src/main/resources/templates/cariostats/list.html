@@ -1,12 +1,12 @@
 <html xmlns="http://www.thymeleaf.org">
-<head th:include="/theme/home :: header"></head>
+<head th:include="theme/home :: header"></head>
 <body>
-	<div th:replace="/theme/home :: top" />
-	<div th:replace="/theme/home :: p-h" />
+	<div th:replace="theme/home :: top" />
+	<div th:replace="theme/home :: p-h" />
 	<div id="content">
-		<div th:replace="/theme/home :: left_menu" />
+		<div th:replace="theme/home :: left_menu" />
 		<div class="m-right">
-			<div th:replace="/theme/home :: right-nav" />
+			<div th:replace="theme/home :: right-nav" />
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
@@ -29,9 +29,9 @@
 								<div class="col-md-2">
 
 									<div class="input-group" style="vertical-align: middle">
-										每页显示
+										姣忛〉鏄剧ず
 										<div class="input-group-btn">
-											每页显示
+											姣忛〉鏄剧ず
 											<button id="page_title" type="button"
 												class="btn btn-default dropdown-toggle"
 												data-toggle="dropdown" aria-haspopup="true"
@@ -48,22 +48,22 @@
 									</div>
 								</div>
 								<div class="col-md-6">
-									统计筛选: <input type="checkbox" name="park_check" value="1"
-										th:checked="${park_check==1}?'true':'false'" />车库 <input
-										type="checkbox" name="in_emp_check" value="1" />入场操作人员 <input
-										type="checkbox" name="out_emp_check" value="1" />出场操作人员 <input
-										type="checkbox" name="plate_check" value="1" />车牌
+									缁熻绛涢��: <input type="checkbox" name="park_check" value="1"
+										th:checked="${park_check==1}?'true':'false'" />杞﹀簱 <input
+										type="checkbox" name="in_emp_check" value="1" />鍏ュ満鎿嶄綔浜哄憳 <input
+										type="checkbox" name="out_emp_check" value="1" />鍑哄満鎿嶄綔浜哄憳 <input
+										type="checkbox" name="plate_check" value="1" />杞︾墝
 								</div>
 								<div class="col-md-3">
-									<button id="statButton" class="btn btn-default">统计</button>
-									<button id="excelButton" class="btn btn-default">下载Excel</button>
-									<button id="pdfButton" class="btn btn-default">下载Pdf</button>
+									<button id="statButton" class="btn btn-default">缁熻</button>
+									<button id="excelButton" class="btn btn-default">涓嬭浇Excel</button>
+									<button id="pdfButton" class="btn btn-default">涓嬭浇Pdf</button>
 								</div>
 							</div>
 							<br />
 							<div class="row" th:inline="text">
 								<div class="col-md-5">
-									<label for="come_time" class="col-md-3 control-label">入场时间</label>
+									<label for="come_time" class="col-md-3 control-label">鍏ュ満鏃堕棿</label>
 									<div id="come_datetime" class="input-group date form_datetime"
 										th:data-date="${form.come_time}"
 										data-date-format="yyyy-mm-dd  hh:ii"
@@ -77,7 +77,7 @@
 									</div>
 								</div>
 								<div class="col-md-5">
-									<label for="go_time" class="col-md-3 control-label">结束时间</label>
+									<label for="go_time" class="col-md-3 control-label">缁撴潫鏃堕棿</label>
 									<div id="go_datetime" class="input-group date form_datetime"
 										th:data-date="${form.go_time}"
 										data-date-format="yyyy-mm-dd  hh:ii"
@@ -98,20 +98,20 @@
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">出入信息统计</div>
+										<div class="panel-heading">鍑哄叆淇℃伅缁熻</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
 												<tr>
-													<td>编号</td>
-													<td th:if="${form.park_check}==1">ͣ停车场</td>
-													<td th:if="${form.park_check}==1">ͣ停车场编号</td>
-													<td th:if="${form.in_emp_check}==1">入场操作员姓名</td>
-													<td th:if="${form.in_emp_check}==1">入场操作员工号</td>
-													<td th:if="${form.out_emp_check}==1">出场操作员姓名</td>
-													<td th:if="${form.out_emp_check}==1">出场操作员工号</td>
-													<td th:if="${form.plate_check}==1">车牌号</td>
-													<td>进场次数</td>
-													<td>出场次数</td>
+													<td>缂栧彿</td>
+													<td th:if="${form.park_check}==1">停鍋滆溅鍦�</td>
+													<td th:if="${form.park_check}==1">停鍋滆溅鍦虹紪鍙�</td>
+													<td th:if="${form.in_emp_check}==1">鍏ュ満鎿嶄綔鍛樺鍚�</td>
+													<td th:if="${form.in_emp_check}==1">鍏ュ満鎿嶄綔鍛樺伐鍙�</td>
+													<td th:if="${form.out_emp_check}==1">鍑哄満鎿嶄綔鍛樺鍚�</td>
+													<td th:if="${form.out_emp_check}==1">鍑哄満鎿嶄綔鍛樺伐鍙�</td>
+													<td th:if="${form.plate_check}==1">杞︾墝鍙�</td>
+													<td>杩涘満娆℃暟</td>
+													<td>鍑哄満娆℃暟</td>
 												</tr>
 											</thead>
 											<tbody>
@@ -133,14 +133,14 @@
 											<tfoot>
 												<tr>
 													<td align="center" colspan="8"><a
-														href="javascript:sub(1)" class="btn btn-primary">首页</a> <a
+														href="javascript:sub(1)" class="btn btn-primary">棣栭〉</a> <a
 														th:href="'javascript:sub('+${page.page-1}+')'"
-														class="btn btn-primary">前页</a> <span
-														th:text="'当前页:'+${page.page}+'/总页数:'+${page.page_count}"></span>
+														class="btn btn-primary">鍓嶉〉</a> <span
+														th:text="'褰撳墠椤�:'+${page.page}+'/鎬婚〉鏁�:'+${page.page_count}"></span>
 														<a th:href="'javascript:sub('+${page.page+1}+')'"
-														class="btn btn-primary">后页</a> <a
+														class="btn btn-primary">鍚庨〉</a> <a
 														th:href="'javascript:sub('+${page.page_count}+')'"
-														class="btn btn-primary">末页</a></td>
+														class="btn btn-primary">鏈〉</a></td>
 												</tr>
 											</tfoot>
 										</table>
@@ -160,7 +160,7 @@
 	</div>
 
 </body>
-<footer th:replace="/theme/home :: footer"></footer>
+<footer th:replace="theme/home :: footer"></footer>
 <script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{../static/jquery/dist/menu.js}"></script>

@@ -30,7 +30,7 @@ public class UploadCarIoTest {
 	public void setUp() throws Exception {
 		this.host = "localhost";
 		this.port = "8082";
-		this.uri = "/park/upload.do";
+		this.uri = "/park/upload/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
 		UploadHead head=new UploadHead();
 		uploadCarIo=new UploadCarIo(head, parameter);

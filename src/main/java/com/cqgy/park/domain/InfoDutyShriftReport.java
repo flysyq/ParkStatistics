@@ -34,32 +34,32 @@ public class InfoDutyShriftReport {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date downTime;
 	
-	private Integer comeNum;
-	private Integer goNum;
+	private Long comeNum;
+	private Long goNum;
 	
 	private Double payMoney;
-	private Integer payCars;
+	private Long payCars;
 	
 	private Double freeMoney;
-	private Integer freeCars;
+	private Long freeCars;
 	
-	private Integer freeCardNum;
+	private Long freeCardNum;
 	private Double freeCardMoney;
 	
-	private Integer freeCheckNum;
+	private Long freeCheckNum;
 	private Double freeCheckMoney;
 	
-	private Integer freePercentNum;
+	private Long freePercentNum;
 	private Double freePercentMoney;
 	
-	private Integer cardNewNum;
+	private Long cardNewNum;
 	private Double cardNewMoney;
 	
-	private Integer cardInNum;
+	private Long cardInNum;
 	private Double cardInMoney;
 	
-	private Integer gateOpenHandNum;
-	private Integer gateOpenHandExNum;
+	private Long gateOpenHandNum;
+	private Long gateOpenHandExNum;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
@@ -115,19 +115,19 @@ public class InfoDutyShriftReport {
 		this.downTime = downTime;
 	}
 
-	public Integer getComeNum() {
+	public Long getComeNum() {
 		return comeNum;
 	}
 
-	public void setComeNum(Integer comeNum) {
+	public void setComeNum(Long comeNum) {
 		this.comeNum = comeNum;
 	}
 
-	public Integer getGoNum() {
+	public Long getGoNum() {
 		return goNum;
 	}
 
-	public void setGoNum(Integer goNum) {
+	public void setGoNum(Long goNum) {
 		this.goNum = goNum;
 	}
 
@@ -139,11 +139,11 @@ public class InfoDutyShriftReport {
 		this.payMoney = payMoney;
 	}
 
-	public Integer getPayCars() {
+	public Long getPayCars() {
 		return payCars;
 	}
 
-	public void setPayCars(Integer payCars) {
+	public void setPayCars(Long payCars) {
 		this.payCars = payCars;
 	}
 
@@ -155,19 +155,19 @@ public class InfoDutyShriftReport {
 		this.freeMoney = freeMoney;
 	}
 
-	public Integer getFreeCars() {
+	public Long getFreeCars() {
 		return freeCars;
 	}
 
-	public void setFreeCars(Integer freeCars) {
+	public void setFreeCars(Long freeCars) {
 		this.freeCars = freeCars;
 	}
 
-	public Integer getFreeCardNum() {
+	public Long getFreeCardNum() {
 		return freeCardNum;
 	}
 
-	public void setFreeCardNum(Integer freeCardNum) {
+	public void setFreeCardNum(Long freeCardNum) {
 		this.freeCardNum = freeCardNum;
 	}
 
@@ -179,11 +179,11 @@ public class InfoDutyShriftReport {
 		this.freeCardMoney = freeCardMoney;
 	}
 
-	public Integer getFreeCheckNum() {
+	public Long getFreeCheckNum() {
 		return freeCheckNum;
 	}
 
-	public void setFreeCheckNum(Integer freeCheckNum) {
+	public void setFreeCheckNum(Long freeCheckNum) {
 		this.freeCheckNum = freeCheckNum;
 	}
 
@@ -195,11 +195,11 @@ public class InfoDutyShriftReport {
 		this.freeCheckMoney = freeCheckMoney;
 	}
 
-	public Integer getFreePercentNum() {
+	public Long getFreePercentNum() {
 		return freePercentNum;
 	}
 
-	public void setFreePercentNum(Integer freePercentNum) {
+	public void setFreePercentNum(Long freePercentNum) {
 		this.freePercentNum = freePercentNum;
 	}
 
@@ -211,11 +211,11 @@ public class InfoDutyShriftReport {
 		this.freePercentMoney = freePercentMoney;
 	}
 
-	public Integer getCardNewNum() {
+	public Long getCardNewNum() {
 		return cardNewNum;
 	}
 
-	public void setCardNewNum(Integer cardNewNum) {
+	public void setCardNewNum(Long cardNewNum) {
 		this.cardNewNum = cardNewNum;
 	}
 
@@ -227,11 +227,11 @@ public class InfoDutyShriftReport {
 		this.cardNewMoney = cardNewMoney;
 	}
 
-	public Integer getCardInNum() {
+	public Long getCardInNum() {
 		return cardInNum;
 	}
 
-	public void setCardInNum(Integer cardInNum) {
+	public void setCardInNum(Long cardInNum) {
 		this.cardInNum = cardInNum;
 	}
 
@@ -243,19 +243,19 @@ public class InfoDutyShriftReport {
 		this.cardInMoney = cardInMoney;
 	}
 
-	public Integer getGateOpenHandNum() {
+	public Long getGateOpenHandNum() {
 		return gateOpenHandNum;
 	}
 
-	public void setGateOpenHandNum(Integer gateOpenHandNum) {
+	public void setGateOpenHandNum(Long gateOpenHandNum) {
 		this.gateOpenHandNum = gateOpenHandNum;
 	}
 
-	public Integer getGateOpenHandExNum() {
+	public Long getGateOpenHandExNum() {
 		return gateOpenHandExNum;
 	}
 
-	public void setGateOpenHandExNum(Integer gateOpenHandExNum) {
+	public void setGateOpenHandExNum(Long gateOpenHandExNum) {
 		this.gateOpenHandExNum = gateOpenHandExNum;
 	}
 
@@ -273,6 +273,37 @@ public class InfoDutyShriftReport {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
-	}	
+	}
+
+	public InfoDutyShriftReport() {
+		this.comeNum = (long)0;
+		this.goNum = (long)0;
+		
+		this.payMoney=(double)0;
+		this.payCars=0L;
+		
+		this.freeMoney=0.0;
+		this.freeCars=0L;
+		
+		this.freeCardNum=0L;
+		this.freeCardMoney=0.0;
+		
+		this.freeCheckNum=0L;
+		this.freeCheckMoney=0.0;
+		
+		this.freePercentNum=0L;
+		this.freePercentMoney=0.0;
+		
+		this.cardNewNum=0L;
+		this.cardNewMoney=0.0;
+		
+		this.cardInNum=0L;
+		this.cardInMoney=0.0;
+		
+		this.gateOpenHandNum=0L;
+		this.gateOpenHandExNum=0L;
+	}
+
+	
 	
 }
