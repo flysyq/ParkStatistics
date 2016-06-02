@@ -100,8 +100,8 @@ public class SysRoleController {
 		List<SysRole> sysRoles = sysRoleService.getRoles(sql);
 		model.addAttribute("sysRoles", sysRoles);
 		HttpSession session = request.getSession();
-		session.setAttribute("fathertitle", "车库管理");
-		session.setAttribute("childrentitle", "车库管理");
+		session.setAttribute("fathertitle", "系统管理");
+		session.setAttribute("childrentitle", "角色管理");
 		session.setAttribute("currentpage", page);
 		session.setAttribute("prevpage", prevPage);
 		session.setAttribute("nextpage", nextPage);

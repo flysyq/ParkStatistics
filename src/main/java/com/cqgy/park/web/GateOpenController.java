@@ -98,7 +98,7 @@ public class GateOpenController {
 		model.addAttribute("gateOpenHands", gateOpenHands);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");
-		session.setAttribute("childrentitle", "场内记录");
+		session.setAttribute("childrentitle", "开闸记录");
 		session.setAttribute("currentpage", page);
 		session.setAttribute("pagesize", pageSize);
 		session.setAttribute("prevpage", prevPage);

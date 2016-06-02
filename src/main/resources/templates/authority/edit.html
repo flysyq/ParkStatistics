@@ -4,14 +4,15 @@
 	<br />
 	<br />
 	<form name="myform" method="get" action="save.do">
-		<input type="hidden" name="id" th:value="${sysAuthority.id}" /> 
-		<input type="hidden" id="hgrade" name="grade" th:value="${sysAuthority.grade}" /> 
-		<input type="hidden" id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
+		<input type="hidden" name="id" th:value="${sysAuthority.id}" /> <input
+			type="hidden" id="hgrade" name="grade"
+			th:value="${sysAuthority.grade}" /> <input type="hidden"
+			id="father_id" name="father_id" th:value="${sysAuthority.fatherId}" />
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">标题</div>
 			<div class="col-md-2">
 				<input type="text" class="form-control" name="title"
-					th:value="${sysAuthority.title}" />
+					th:value="${sysAuthority.title}" id="title" /> <span class="stitle"></span>
 			</div>
 		</div>
 		<br />
@@ -19,7 +20,7 @@
 			<div class="col-md-1 col-md-offset-5">URI</div>
 			<div class="col-md-3">
 				<input type="text" class="form-control" name="uri"
-					th:value="${sysAuthority.uri}" />
+					th:value="${sysAuthority.uri}" id="uri" />
 			</div>
 		</div>
 		<br />
@@ -49,6 +50,7 @@
 						<li><a href="#" id="grade1" data-value="一级" data-value1="1">一级</a></li>
 						<li><a href="#" id="grade2" data-value="二级" data-value1="2">二级</a></li>
 					</ul>
+					<span id="sgrade"></span>
 				</div>
 			</div>
 		</div>
@@ -71,8 +73,8 @@
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">排序</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" name="sort_level"
-					th:value="${sysAuthority.sortLevel}" />
+				<input type="text" class="form-control" name="sort_level" id="sort_level"
+					th:value="${sysAuthority.sortLevel}" /> <span id="ssort_level"></span>
 			</div>
 		</div>
 		<br />
@@ -86,7 +88,7 @@
 		<br />
 		<div class="form-group">
 			<div class="col-md-2 col-md-offset-6">
-				<button class="btn btn-primary form-control">提交</button>
+				<button id="submit" class="btn btn-primary form-control">提交</button>
 			</div>
 		</div>
 		<br />
@@ -98,7 +100,7 @@
 <script th:src="@{/static/jquery/dist/autosize.min.js}"></script>
 
 
-<script  th:inline="javascript">
+<script th:inline="javascript">
 	/*<![CDATA[*/
 	$(function() {
 		$("#father_div").hide();
@@ -145,6 +147,17 @@
 							+ '<span class="caret"></span>';			
 					$("#father1").html($father1);
 				});
+		$("#submit").click(function(e){
+			if($("#title").val()==""||$("#title").val()==null){
+				alert($("#title").val());
+				e.preventDefault();
+				$(".stitle").html("标题不能为空")
+			}
+			else if($("#sort_level").val()==""||$("#sort_level").val()==null){
+				e.preventDefault();
+				$("#ssort_level").html("排序不能为空")
+			}
+		});
 
 	});
 	/*]]>*/
