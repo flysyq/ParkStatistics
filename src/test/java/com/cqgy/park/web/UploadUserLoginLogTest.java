@@ -54,11 +54,11 @@ public class UploadUserLoginLogTest {
 		uploadUserLoginLog.getHead().setPassword("123456");
 		uploadUserLoginLog.getHead().setFunctionId("8002");
 		uploadUserLoginLog.getHead().setParkId("0001");
-		uploadUserLoginLog.getParameter().setEmpNo("10003");
-		uploadUserLoginLog.getParameter().setEmpName("梅");
+		uploadUserLoginLog.getParameter().setEmpNo("10022");
+		uploadUserLoginLog.getParameter().setEmpName("梅122");
 		uploadUserLoginLog.getParameter().setUserCode("m");
 		uploadUserLoginLog.getParameter().setOpTime(CustomTime.getLocalTime());
-		uploadUserLoginLog.getParameter().setOpType(1);
+		uploadUserLoginLog.getParameter().setOpType(2);
 		uploadUserLoginLog.getParameter().setUserType(1);
 		uploadUserLoginLog.getParameter().setUserTypeName("收费员");
 		String adminString = mapper.writeValueAsString(uploadUserLoginLog);
