@@ -46,7 +46,7 @@
 								</button>
 								<ul class="dropdown-menu">
 									<li><a href="#" id="where2" data-value="park_id"
-										data-value1="--停车场--">停车场</a></li>
+										data-value1="--停车场编号--">停车场编号</a></li>
 									<li><a href="#" id="where1" data-value="open_type"
 										data-value1="--开闸类型--">开闸类型</a></li>
 									<li><a href="#" id="where2" data-value="open_emp_name"
@@ -66,7 +66,8 @@
 											<thead class="thead_success">
 												<tr class="h-tr">
 													<td>编号</td>
-													<td>停车场</td>
+													<td>停车场编号</td>
+													<td>停车场名称</td>
 													<td>开闸时间</td>
 													<td>开闸类型</td>
 													<td>开闸图片</td>
@@ -76,12 +77,13 @@
 											<tbody>
 												<tr th:each="gateOpenHand,iterStat : ${gateOpenHands}">
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${gateOpenHand.parkId}"></td>
-													<td th:text="${gateOpenHand.openTime}"></td>
-													<td id="openType" th:text="${gateOpenHand.openType}"></td>
-													<td><img th:src="${gateOpenHand.openPic}"
+													<td th:text="${gateOpenHand.park_id}"></td>
+													<td th:text="${gateOpenHand.park_name}"></td>
+													<td th:text="${gateOpenHand.open_time}"></td>
+													<td id="openType" th:text="${gateOpenHand.open_type}"></td>
+													<td><img th:src="${gateOpenHand.open_pic_path}"
 														width="102px" height="86px" /></td>
-													<td th:text="${gateOpenHand.openEmpName}"></td>
+													<td th:text="${gateOpenHand.open_emp_name}"></td>
 												</tr>
 											</tbody>
 											<tfoot>
@@ -134,6 +136,7 @@
 		});
 		$("[id^=pagesize]").click(
 				function(e) {
+					$(".page").val(1);
 					$pagesize = $(this).attr("data-value");
 					$("#hpagesize").val($pagesize);
 					$bpagesize = $(this).attr("data-value")

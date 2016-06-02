@@ -1,7 +1,7 @@
 package com.cqgy.park.web;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.CarIoService;
-import com.cqgy.park.domain.InfoCarIo;
+import com.cqgy.park.tool.CustomProps;
 import com.google.common.base.Strings;
 
 @Controller
@@ -86,18 +86,18 @@ public class CarIoController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_car_io";
+		String select = "select a.*,b.park_name,concat('"+CustomProps.getProp("file.http.url")+"/car_in/',date_format(come_time,'%Y-%m-%d'),'/',come_pic) come_pic_path,concat('"+CustomProps.getProp("file.http.url")+"/car_out/',date_format(go_time,'%Y-%m-%d'),'/',go_pic) go_pic_path,concat('"+CustomProps.getProp("file.http.url")+"/car_park_space/',date_format(go_time,'%Y-%m-%d'),'/',park_space_pic) park_space_pic_path from info_car_io a,info_park b";
 		String limit=" limit "+pageStart+","+pageSize;
-		String where = "";
+		String where = " where a.park_id=b.park_code";
 		String sql;
 		if(!Strings.isNullOrEmpty(clause)){
-			where += " where "+clause;
+			where += " and "+clause;
 		}
 		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
 		}
 		sql=select+where+limit;
-		List<InfoCarIo> carIos = carIoService.getCarIos(sql);
+		List<Map<String, Object>> carIos = jdbcTemplate.queryForList(sql);
 		model.addAttribute("carIos", carIos);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");

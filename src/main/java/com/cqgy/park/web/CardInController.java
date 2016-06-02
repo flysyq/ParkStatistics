@@ -2,6 +2,7 @@
 package com.cqgy.park.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -122,14 +123,14 @@ public class CardInController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_card_in";
+		String select = "select b.park_name,a.* from info_card_in a,info_park b";
 		String limit=" limit "+pageStart+","+pageSize;
-		String where = "";
+		String where = " where a.park_id=b.park_code";
 		String sql;
 
 
 		if(!Strings.isNullOrEmpty(clause)){
-			where += " where "+clause;
+			where += " and "+clause;
 		}
 		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
@@ -137,7 +138,7 @@ public class CardInController {
 		sql=select+where+limit;
 		System.out.println(sql);
 		//String sql="select * from info_card_in";
-		List<InfoCardIn> cardIns = cardInService.getCardIns(sql);
+		List<Map<String, Object>> cardIns = jdbcTemplate.queryForList(sql);
 		model.addAttribute("cardIns", cardIns);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");

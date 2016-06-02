@@ -56,7 +56,7 @@
 									<li><a href="#" id="where4" data-value="pay_money"
 										data-value1="--充值金额--">充值金额</a></li>
 									<li><a href="#" id="where5" data-value="park_id"
-										data-value1="--停车场--">停车场</a></li>
+										data-value1="--停车场编号--">停车场编号</a></li>
 									<li><a href="#" id="where6" data-value="accept_emp_name"
 										data-value1="--收费人--">收费人</a></li>
 								</ul>
@@ -75,7 +75,8 @@
 											<thead class="thead_success">
 												<tr class="h-tr">
 													<td>编号</td>
-													<td>停车场</td>
+													<td>停车场编号</td>
+													<td>停车场名称</td>
 													<td>卡号</td>
 													<td>车牌号</td>
 													<td>卡类型</td>
@@ -89,15 +90,16 @@
 											<tbody>
 												<tr th:each="cardIn,iterStat : ${cardIns}">
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${cardIn.parkId}"></td>
-													<td th:text="${cardIn.cardNo}"></td>
+													<td th:text="${cardIn.park_id}"></td>
+													<td th:text="${cardIn.park_name}"></td>
+													<td th:text="${cardIn.card_no}"></td>
 													<td th:text="${cardIn.plate}"></td>
-													<td id="cardType" th:text="${cardIn.cardType}"></td>
-													<td th:text="${cardIn.payMoney}"></td>
-													<td th:text="${cardIn.startDate}"></td>
-													<td th:text="${cardIn.endDate}"></td>
-													<td th:text="${cardIn.acceptEmpName}"></td>
-													<td th:text="${cardIn.updateTime}"></td>
+													<td id="cardType" th:text="${cardIn.card_type}"></td>
+													<td th:text="${cardIn.pay_money}"></td>
+													<td th:text="${cardIn.start_date}"></td>
+													<td th:text="${cardIn.end_date}"></td>
+													<td th:text="${cardIn.accept_emp_name}"></td>
+													<td th:text="${cardIn.update_time}"></td>
 												</tr>
 											</tbody>
 											<tfoot>
@@ -156,6 +158,7 @@
 
 		$("[id^=pagesize]").click(
 				function(e) {
+					$(".page").val(1);
 					$pagesize = $(this).attr("data-value");
 					$("#hpagesize").val($pagesize);
 					$bpagesize = $(this).attr("data-value")
