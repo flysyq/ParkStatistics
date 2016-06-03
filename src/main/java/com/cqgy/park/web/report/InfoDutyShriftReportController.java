@@ -28,7 +28,7 @@ public class InfoDutyShriftReportController {
 		if (Objects.isNull(form)) {
 			form=new InfoDutyShriftReportForm();
 		}
-		String cousql="select count(*) cou from info_duty_shrift_report where on_time>'"+form.getStart_date()+"' and on_time<'"+form.getEnd_date()+"' and down_time>'"+form.getStart_date()+"' and down_time<'"+form.getEnd_date();
+		String cousql="select count(*) cou from info_duty_shrift_report where  down_time>'"+form.getStart_date()+"' and down_time<'"+form.getEnd_date()+"'";
 		Long cou = (Long) jdbcTemplate.queryForList(cousql).get(0).get("cou");
 		Page page=new Page();
 		page.setPage(form.getPage());
@@ -36,7 +36,7 @@ public class InfoDutyShriftReportController {
 		page.setPage_size(form.getPage_size());
 		page = PageUtil.handle(page);
 		String select="select a.*,b.park_name ";
-		String from="from info_duty_shrift_report a join info_park b on a.park_id=b.park_code and a.on_time>'"+form.getStart_date()+"' and a.on_time<'"+form.getEnd_date()+"' and a.down_time>'"+form.getStart_date()+"' and a.down_time<'"+form.getEnd_date();
+		String from="from info_duty_shrift_report a join info_park b on a.park_id=b.park_code and a.down_time>'"+form.getStart_date()+"' and a.down_time<'"+form.getEnd_date()+"'";
 		String where="";
 		String limit=" limit " + ((page.getPage() - 1) * page.getPage_size()) + "," + page.getPage_size();
 		
@@ -52,6 +52,7 @@ public class InfoDutyShriftReportController {
 			}
 		}
 		String sql=select+from+where+limit;
+		System.out.println(sql);
 		List<Map<String, Object>> report = jdbcTemplate.queryForList(sql);
 		model.addAttribute("page", page);
 		model.addAttribute("form", form);
