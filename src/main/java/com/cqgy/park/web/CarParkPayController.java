@@ -1,6 +1,7 @@
 package com.cqgy.park.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,18 +84,18 @@ public class CarParkPayController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_car_park_pay";
+		String select = "select b.park_name,a.* from info_car_park_pay a,info_park b";
 		String limit=" limit "+pageStart+","+pageSize;
-		String where = "";
+		String where = " where a.park_id=b.park_code";
 		String sql;
 		if(!Strings.isNullOrEmpty(clause)){
-			where += " where "+clause;
+			where += " and "+clause;
 		}
 		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
 		}
 		sql=select+where+limit;
-		List<InfoCarParkPay> carParkPays = carParkPayService.getCarParkPays(sql);
+		List<Map<String, Object>> carParkPays = jdbcTemplate.queryForList(sql);
 		model.addAttribute("carParkPays", carParkPays);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");

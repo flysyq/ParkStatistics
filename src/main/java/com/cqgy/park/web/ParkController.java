@@ -37,7 +37,7 @@ public class ParkController {
 	SysUserService sysUserService;
 	@Autowired
 	EmpChoiceParkRepository choiceParkRepository;
-	@RequestMapping(value="/park/parklist.do",method=RequestMethod.GET)
+	@RequestMapping(value="park/parklist.do",method=RequestMethod.GET)
 	public String list(Long del_id,Long page,HttpServletRequest request,Model model){
 		if (!Objects.isNull(del_id)) {
 			String delsql="delete from info_park where id="+del_id;
@@ -89,7 +89,7 @@ public class ParkController {
 		return forword;
 	}
 
-	@RequestMapping(value="/park/parkedit.do",method=RequestMethod.GET)
+	@RequestMapping(value="park/parkedit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
 		InfoPark infoPark=new InfoPark(new Integer(0).longValue(), "", "", "", null, null, null);
 		if (!Objects.isNull(id)) {
@@ -125,7 +125,7 @@ public class ParkController {
 
 	}
 
-	@RequestMapping(value="/park/choiceparklist.do",method=RequestMethod.GET)
+	@RequestMapping(value="park/choiceparklist.do",method=RequestMethod.GET)
 	public String choiceParkList(Long page,HttpServletRequest request,Model model){
 		Long pageSize=(long) 5;	
 		String countsql="select count(*) count from sys_user";
@@ -155,6 +155,7 @@ public class ParkController {
 		String select = "select * from sys_user limit "+pageStart+","+pageSize;
 		String where = "";
 		String sql = select+where;
+		System.out.println(sql);
 		List<SysUser> sysUsers=sysUserService.getSysUsers(sql);
 		model.addAttribute("sysUsers", sysUsers);
 		HttpSession session = request.getSession();
@@ -168,7 +169,7 @@ public class ParkController {
 		return forword;
 	}
 
-	@RequestMapping(value="/park/choiceparkedit.do",method=RequestMethod.GET)
+	@RequestMapping(value="park/choiceparkedit.do",method=RequestMethod.GET)
 	public String choiceParkEdit(Long id,Model model){
 		String select = "SELECT ip.*,ecp.user_id FROM info_park ip LEFT JOIN emp_choice_park ecp ON ip.id=ecp.park_id AND user_id="+id;
 		String where = "";
@@ -181,7 +182,7 @@ public class ParkController {
 
 	}
 
-	@RequestMapping(value="/park/choiceparksave.do",method=RequestMethod.GET)
+	@RequestMapping(value="park/choiceparksave.do",method=RequestMethod.GET)
 	public String choiceParkSave(Long userId,Long[] parkId,Model model,HttpServletRequest request){
 		String sql="delete from emp_choice_park where user_id="+userId;
 		jdbcTemplate.update(sql);

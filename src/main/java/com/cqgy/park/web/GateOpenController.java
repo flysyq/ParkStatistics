@@ -1,6 +1,8 @@
 package com.cqgy.park.web;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cqgy.park.dao.GateOpenService;
 import com.cqgy.park.domain.InfoGateOpenHand;
+import com.cqgy.park.tool.CustomProps;
 import com.google.common.base.Strings;
 
 
@@ -79,22 +82,23 @@ public class GateOpenController {
 		}
 		Long pageStart=(page-1)*pageSize;
 
-		String select = "select * from info_gate_open_hand";
+		String select = "select a.*,b.park_name,concat('"+CustomProps.getProp("file.http.url")+"/open_hand/',date_format(open_time,'%Y-%m-%d'),'/',open_pic) open_pic_path from info_gate_open_hand a,info_park b";
 		String limit=" limit "+pageStart+","+pageSize;
-		String where = "";
+		String where = " where a.park_id=b.park_code";
 		String sql;
 		if(!Strings.isNullOrEmpty(clause)){
-			where += " where "+clause;
+			where += " and "+clause;
 		}
 		if(!Strings.isNullOrEmpty(orderby)){
 			where += " order by "+orderby;
 		}
 		sql=select+where+limit;
-		List<InfoGateOpenHand> gateOpenHands = gateOpenService.getGateOpens(sql);
+		List<Map<String, Object>> gateOpenHands = jdbcTemplate.queryForList(sql);
+
 		model.addAttribute("gateOpenHands", gateOpenHands);
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "记录查询");
-		session.setAttribute("childrentitle", "场内记录");
+		session.setAttribute("childrentitle", "开闸记录");
 		session.setAttribute("currentpage", page);
 		session.setAttribute("pagesize", pageSize);
 		session.setAttribute("prevpage", prevPage);

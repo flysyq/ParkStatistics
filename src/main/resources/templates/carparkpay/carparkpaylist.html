@@ -52,7 +52,7 @@
 									<li><a href="#" id="where3" data-value="card_no"
 										data-value1="--卡号--">卡号</a></li>
 									<li><a href="#" id="where5" data-value="park_id"
-										data-value1="--停车场--">停车场</a></li>
+										data-value1="--停车场编号--">停车场编号</a></li>
 									<li><a href="#" id="where6" data-value="emp_name"
 										data-value1="--收费人--">操作人</a></li>
 									<li><a href="#" id="where7" data-value="pay_type"
@@ -74,7 +74,8 @@
 											<thead class="thead_success">
 												<tr class="h-tr">
 													<td>编号</td>
-													<td>所在车库</td>
+													<td>停车场编号</td>
+													<td>停车场名称</td>
 													<td>卡号</td>
 													<td>卡类型</td>
 													<td>车牌号</td>
@@ -91,18 +92,19 @@
 											<tbody>
 												<tr th:each="carParkPay,iterStat : ${carParkPays}">
 													<td th:text="${iterStat.count}"></td>
-													<td th:text="${carParkPay.parkId}"></td>
-													<td th:text="${carParkPay.cardNo}"></td>
-													<td id="cardType" th:text="${carParkPay.cardType}"></td>
+													<td th:text="${carParkPay.park_id}"></td>
+													<td th:text="${carParkPay.park_name}"></td>
+													<td th:text="${carParkPay.card_no}"></td>
+													<td id="cardType" th:text="${carParkPay.card_type}"></td>
 													<td th:text="${carParkPay.plate}"></td>
 													<td th:text="${carParkPay.fee}"></td>
-													<td th:text="${carParkPay.realPay}"></td>
-													<td id="freeType" th:text="${carParkPay.freeType}"></td>
-													<td th:text="${carParkPay.feeFree}"></td>
-													<td id="payType" th:text="${carParkPay.payType}"></td>
-													<td th:text="${carParkPay.empName}"></td>
-													<td th:text="${carParkPay.startTime}"></td>
-													<td th:text="${carParkPay.endTime}"></td>
+													<td th:text="${carParkPay.real_pay}"></td>
+													<td id="freeType" th:text="${carParkPay.free_type}"></td>
+													<td th:text="${carParkPay.fee_free}"></td>
+													<td id="payType" th:text="${carParkPay.pay_type}"></td>
+													<td th:text="${carParkPay.emp_name}"></td>
+													<td th:text="${carParkPay.start_time}"></td>
+													<td th:text="${carParkPay.end_time}"></td>
 												</tr>
 											</tbody>
 											<tfoot>
@@ -182,6 +184,7 @@
 
 		$("[id^=pagesize]").click(
 				function(e) {
+					$(".page").val(1);
 					$pagesize = $(this).attr("data-value");
 					$("#hpagesize").val($pagesize);
 					$bpagesize = $(this).attr("data-value")
