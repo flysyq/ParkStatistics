@@ -67,6 +67,8 @@ public class InfoDutyShriftReport {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
 
+	private String pdfName;
+	
 	public Long getId() {
 		return id;
 	}
@@ -273,6 +275,14 @@ public class InfoDutyShriftReport {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getPdfName() {
+		return pdfName;
+	}
+
+	public void setPdfName(String pdfName) {
+		this.pdfName = pdfName;
 	}
 
 	public InfoDutyShriftReport() {
