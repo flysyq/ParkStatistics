@@ -35,7 +35,7 @@ public class InfoDutyShriftReportLog {
 		page.setCount(cou);
 		page.setPage_size(form.getPage_size());
 		page = PageUtil.handle(page);
-		String sql="select * from info_duty_shrift_report_log where task_time>'"+form.getStart_date()+"' and task_time<'"+form.getEnd_date()+"' limit "+((page.getPage() - 1) * page.getPage_size()) + "," + page.getPage_size();
+		String sql="select a.*,b.park_name from info_duty_shrift_report_log a left join info_park b on a.park_id=b.park_code and task_time>'"+form.getStart_date()+"' and task_time<'"+form.getEnd_date()+"' limit "+((page.getPage() - 1) * page.getPage_size()) + "," + page.getPage_size();
 		List<Map<String, Object>> log = jdbcTemplate.queryForList(sql);
 		model.addAttribute("page", page);
 		model.addAttribute("log", log);

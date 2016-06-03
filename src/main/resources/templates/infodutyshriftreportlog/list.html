@@ -85,22 +85,27 @@
 											<thead class="thead_success">
 												<tr>
 													<td>编号</td>
-													<td>类型</td>
-													<td>消息内容</td>
-													<td>上传接口</td>
-													<td>上传时间</td>
+													<td>停车场编号</td>
+													<td>停车场名称</td>
+													<td>任务类型</td>
+													<td>任务开始时间</td>
+													<td>任务结束时间</td>
+													<td>搜索开始时间</td>
+													<td>搜索结束时间</td>
 												</tr>
 											</thead>
 											<tbody>
 												<tr th:each="log,iterStat : ${log}">
 													<td
 														th:text="${iterStat.count+(page.page-1)*page.page_size}"></td>
-													<td th:text="${log.code}"></td>
-													<td th:text="${log.message}"></td>
+													<td th:text="${log.park_id}"></td>
+													<td th:text="${log.park_name}"></td>
+													<td th:id="'flag'+${log.flag}" th:text="${log.flag}"></td>
+													<td th:text="${log.task_start_time}"></td>
+													<td th:text="${log.task_end_time}"></td>
+													<td th:text="${log.search_start_time}"></td>
+													<td th:text="${log.search_end_time}"></td>
 
-													<td th:id="'function_id'+${log.function_id}"
-														th:text="${log.function_id}"></td>
-													<td th:text="${log.upload_time}">职位</td>
 												</tr>
 											</tbody>
 											<tfoot>
@@ -174,7 +179,17 @@
 			forceParse : 0,
 			showMeridian : 1
 		});
-
+		
+		$("#flag").each(function(){
+			if($(this).attr("id").substring==1){
+				$(this).html("进行中");
+			}else if($(this).attr("id").substring==2){
+				$(this).html("成功结束");
+			}else if($(this).attr("id").substring==3){
+				$(this).html("异常");
+			}
+		});
+		
 	});
 	/*]]>*/
 </script>

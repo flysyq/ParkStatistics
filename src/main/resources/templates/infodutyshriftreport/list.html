@@ -1,0 +1,472 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="theme/home :: header"></head>
+
+<body>
+	<div th:replace="theme/home :: top" />
+	<div th:replace="theme/home :: p-h" />
+	<div id="content">
+		<div th:replace="theme/home :: left_menu" />
+		<div class="m-right">
+			<div th:replace="theme/home :: right-nav" />
+			<div class="main">
+				<div class="table-responsive">
+					<form name="myform" method="get" id="myform">
+						<input type="hidden" name="del_id" id="del_id" value="" /> <input
+							type="hidden" name="page" id="page" th:value="${page.page}" /> <input
+							type="hidden" name="page_size" id="page_size"
+							th:value="${page.page_size}" /> <input type="hidden"
+							name="page_count" id="page_count" th:value="${page.page_count}" />
+						<input type="hidden" name="pdf_flag" id="pdf_flag" value="0" />
+						<div class="container">
+							<br />
+							<div class="row">
+								<div class="col-md-2">
+
+									<div class="input-group" style="vertical-align: middle">
+										每页显示
+										<div class="input-group-btn">
+											每页显示
+											<button id="page_title" type="button"
+												class="btn btn-default dropdown-toggle"
+												data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false" th:text="${page.page_size}">
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu">
+												<li><a name="page_s">10</a></li>
+												<li><a name="page_s">20</a></li>
+												<li><a name="page_s">30</a></li>
+												<li><a name="page_s">50</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<div class="input-group" style="vertical-align: middle">
+										搜索条件
+										<div class="input-group-btn">
+											搜索条件
+											<button id="bwhere" type="button"
+												class="btn btn-default dropdown-toggle"
+												data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false"">
+												--搜索条件-- <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu">
+												<li><a name="where" id="where1" date-value="park_id">停车场编号</a></li>
+												<li><a name="where" id="where2" date-value="park_name">停车场名字</a></li>
+												<li><a name="where" id="where3" date-value="emp_no">员工编号</a></li>
+											</ul>
+										</div>
+										<input type="text" name="clause" /><button  name="search" class="btn btn-primary" value="搜索"></button>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<button id="pdfButton" class="btn btn-default">下载Pdf</button>
+								</div>
+							</div>
+							<br />
+							<div class="row" th:inline="text">
+								<div class="col-md-5">
+									<label for="start_date" class="col-md-3 control-label">开始时间</label>
+									<div id="start_datetime" class="input-group date form_datetime"
+										th:data-date="${form.start_date}"
+										data-date-format="yyyy-mm-dd  hh:ii"
+										data-link-field="start_date">
+										<input class="form-control" size="16" type="text"
+											th:value="${form.start_date}" readonly="true" /> <span
+											class="input-group-addon"><span
+											class="glyphicon glyphicon-remove"></span></span> <span
+											class="input-group-addon"><span
+											class="glyphicon glyphicon-th"></span></span>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<label for="end_date" class="col-md-3 control-label">结束时间</label>
+									<div id="end_datetime" class="input-group date form_datetime"
+										th:data-date="${form.end_date}"
+										data-date-format="yyyy-mm-dd  hh:ii"
+										data-link-field="end_date">
+										<input class="form-control" size="16" type="text"
+											th:value="${form.end_date}" readonly="true" /> <span
+											class="input-group-addon"><span
+											class="glyphicon glyphicon-remove"></span></span> <span
+											class="input-group-addon"><span
+											class="glyphicon glyphicon-th"></span></span>
+									</div>
+									<input type="hidden" name="start_date" id="start_date"
+										th:value="${form.start_date}" /><br /> <input type="hidden"
+										name="end_date" id="end_date" th:value="${form.end_date}" /><br />
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<!-- Default panel contents -->
+										<div class="panel-heading">交班记录</div>
+										<table class="table table-bordered table-hover">
+											<thead class="thead_success">
+												<tr>
+													<td>编号</td>
+													<td>停车场编号</td>
+													<td>停车场名称</td>
+													<td>员工编号</td>
+													<td>上班时间</td>
+													<td>下班时间</td>
+													<td>车场进车数量</td>
+													<td>出场出车数量</td>
+													<td>收费金额</td>
+													<td>收费车辆</td>
+													<td>免费金额</td>
+													<td>免费车辆数量</td>
+													<td>免费卡数量</td>
+													<td>免费卡金额</td>
+													<td>领导审批数量</td>
+													<td>领导审批金额</td>
+													<td>折扣卡数量</td>
+													<td>折扣卡金额</td>
+													<td>新开卡数量</td>
+													<td>新开卡金额</td>
+													<td>充值数量</td>
+													<td>充值金额</td>
+													<td>手动开闸数量</td>
+													<td>异常开闸数量</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="report,iterStat : ${report}">
+													<td
+														th:text="${iterStat.count+(page.page-1)*page.page_size}"></td>
+													<td th:text="${report.park_id}">停车场编号</td>
+													<td th:text="${report.park_name}">停车场名称</td>
+													<td th:text="${report.emp_no}">员工编号</td>
+													<td th:text="${report.on_time}">上班时间</td>
+													<td th:text="${report.down_time}">下班时间</td>
+													<td th:text="${report.com_num}">车场进车数量</td>
+													<td th:text="${report.go_num}">出场出车数量</td>
+													<td th:text="${report.pay_money}">收费金额</td>
+													<td th:text="${report.pay_cars}">收费车辆</td>
+													<td th:text="${report.free_money}">免费金额</td>
+													<td th:text="${report.free_cars}">免费车辆数量</td>
+													<td th:text="${report.free_card_num}">免费卡数量</td>
+													<td th:text="${report.free_card_money}">免费卡金额</td>
+													<td th:text="${report.free_check_num}">领导审批数量</td>
+													<td th:text="${report.free_check_money}">领导审批金额</td>
+													<td th:text="${report.free_percent_num}">折扣卡数量</td>
+													<td th:text="${report.free_percent_money}">折扣卡金额</td>
+													<td th:text="${report.card_new_num}">新开卡数量</td>
+													<td th:text="${report.card_new_money}">新开卡金额</td>
+													<td th:text="${report.card_in_num}">充值数量</td>
+													<td th:text="${report.card_in_money}">充值金额</td>
+													<td th:text="${report.gate_open_hand_num}">手动开闸数量</td>
+													<td th:text="${report.gate_open_hand_ex_num}">异常开闸数量</td>
+
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td align="center" colspan="8"><a
+														href="javascript:sub(1)" class="btn btn-primary">首页</a> <a
+														th:href="'javascript:sub('+${page.page-1}+')'"
+														class="btn btn-primary">前页</a> <span
+														th:text="'当前页:'+${page.page}+'/总页数:'+${page.page_count}"></span>
+														<a th:href="'javascript:sub('+${page.page+1}+')'"
+														class="btn btn-primary">后页</a> <a
+														th:href="'javascript:sub('+${page.page_count}+')'"
+														class="btn btn-primary">末页</a></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+							<br />
+
+
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	<div class="source-code runnable"></div>
+
+
+</body>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{../static/jquery/dist/menu.js}"></script>
+<script
+	th:src="@{../static/bootstrap/dist/js/bootstrap-datetimepicker.min.js}"></script>
+<script
+	th:src="@{../static/bootstrap/dist/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script th:src="@{../static/bootstrap/dist/js/bootstrap-dialog.min.js}"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	function sub(page) {
+		$("#page").val(page);
+		$("#myform").submit();
+	}
+
+	 $.fn.modal.Constructor.prototype.enforceFocus = function() {}; 
+	$(function() {
+		
+		navList(12);
+		color();
+		setCheck();
+		function setCheck() {
+			if ($("#park_check_1").val() == 1) {
+				$("[name=park_check]").attr("checked", "true");
+			} else {
+				$("[name=park_check]").removeAttr("checked");
+			}
+			if ($("#emp_check_1").val() == 1) {
+				$("[name=emp_check]").attr("checked", "true");
+			} else {
+				$("[name=emp_check]").removeAttr("checked");
+			}
+			if ($("#plate_check_1").val() == 1) {
+				$("[name=plate_check]").attr("checked", "true");
+			} else {
+				$("[name=plate_check]").removeAttr("checked");
+			}
+		}
+
+		$("[name=page_s]").click(function(e) {
+			e.preventDefault();
+			$("#page_title").text($(this).text());
+			$("#page_size").val($(this).text());
+			$("#page").val(1);
+			$("#myform").submit();
+		});
+		$('#start_datetime,#end_datetime')
+				.datetimepicker({
+					language : 'zh-CN',
+					weekStart : 1,
+					todayBtn : 1,
+					autoclose : 1,
+					todayHighlight : 1,
+					startView : 2,
+					forceParse : 0,
+					showMeridian : 1
+				});
+		
+		$("#excelButton").click(function(e) {
+			e.preventDefault();
+			$("#excel_flag").val(1);
+			$("#img_flag").val(0);
+			$("#pdf_flag").val(0);
+			$("#myform").submit();
+		});
+		$("#pdfButton").click(function(e) {
+			e.preventDefault();
+			$("#excel_flag").val(0);
+			$("#img_flag").val(0);
+			$("#pdf_flag").val(1);
+			$("#myform").submit();
+		});
+		$("#statButton").click(function(e) {
+			e.preventDefault();
+			$("#excel_flag").val(0);
+			$("#img_flag").val(0);
+			$("#pdf_flag").val(0);
+			$("#myform").submit();
+		});
+
+		function removeCheck(flag, n) {
+			for (var i = 1; i < n + 1; i++) {
+				$("#flag" + i).removeAttr("checked");
+			}
+		}
+		$("#imgButton")
+				.click(
+						function(e) {
+							e.preventDefault();
+
+							var ustr = "start_date=" + $("#start_date").val()
+									+ "&end_date=" + $("#end_date").val();
+
+							var msg = "<div class='row'><div class='col-md-12' align='center'>";
+							msg += "<img id='chart' src='' width='auto'></img>";
+							msg += "</div></div><br/>";
+							msg += "<div class='row'><div class='col-md-12' align='center'>";
+							msg += "<input type=radio id=flag1 name='flag' value='1' checked/>停车场统计";
+							msg += "<input type=radio id=flag2 name='flag' value='2'/>操作员统计";
+							msg += "<input type=radio id=flag3 name='flag' value='3'/>车牌号统计";
+							msg += "<input type=radio id=flag4 name='flag' value='4'/>按日期统计";
+							msg += "<input type=hidden id=image_flag value='1'/>";
+							msg += "</div></div>";
+							msg += "<div class='row'>";
+							msg += '<div class="col-md-5">';
+							msg += '<label for="start_date1" class="col-md-3 control-label">开始时间</label>';
+							msg += '<div id="start_datetime1" class="input-group date form_datetime"';
+							msg += ' th:data-date="${form.start_date}"';
+							msg += ' data-date-format="yyyy-mm-dd  hh:ii"';
+							msg += ' data-link-field="start_date1">';
+							msg += '<input class="form-control" size="16" type="text "';
+							msg += " value=[[${form.start_date}]]";
+							msg += ' readonly="true" /> <span ';
+							msg += ' class="input-group-addon"><span';
+							msg += ' class="glyphicon glyphicon-remove"></span></span> <span';
+							msg += ' class="input-group-addon"><span';
+							msg += ' class="glyphicon glyphicon-th"></span></span>';
+							msg += ' </div>';
+							msg += ' </div>';
+							msg += '<div class="col-md-5">';
+							msg += '<label for="end_date1" class="col-md-3 control-label">开始时间</label>';
+							msg += '<div id="end_datetime1" class="input-group date form_datetime"';
+							msg += ' th:data-date="${form.end_date}"';
+							msg += ' data-date-format="yyyy-mm-dd  hh:ii"';
+							msg += ' data-link-field="end_date1">';
+							msg += '<input class="form-control" size="16" type="text "';
+							msg += " value=[[${form.end_date}]]";
+							msg += ' readonly="true" /> <span ';
+							msg += ' class="input-group-addon"><span';
+							msg += ' class="glyphicon glyphicon-remove"></span></span> <span';
+							msg += ' class="input-group-addon"><span';
+							msg += ' class="glyphicon glyphicon-th"></span></span>';
+							msg += ' </div>';
+							msg += ' </div>';
+							msg += ' <input type="hidden" name="start_date1" id="start_date1"';
+							msg += " value=[[${form.start_date}]]";
+							msg += ' /><br /> <input type="hidden"';
+							msg += ' name="end_date1" id="end_date1"'
+							msg += " value=[[${form.end_date}]] />";
+							msg += "</div>";
+							console.log(msg);
+							BootstrapDialog.show({
+								title : "收费统计图形",
+								size : "size-wide",
+								draggable : true,
+								message : msg,
+								onshown : function(dialog) {
+									var url = dialog.getData('url')
+											+ '&flag=1&image_flag=1';
+									//alert(url);
+									$.get(url, function(data, status) {
+										$("[id=flag1]").prop("checked", true);
+										$("#image_flag").val(1);
+										//alert(data.image);
+										$("#chart").attr("src", data.image);
+									});
+									$('#start_datetime1,#end_datetime1')
+									.datetimepicker({
+										language : 'zh-CN',
+										weekStart : 1,
+										todayBtn : 1,
+										autoclose : 1,
+										todayHighlight : 1,
+										startView : 2,
+										forceParse : 0,
+										showMeridian : 1,
+										pickerPosition:'top-left'
+									});
+								},
+								buttons : [
+										{
+											id : 'btn-line',
+											icon : 'glyphicon glyphicon-check',
+											label : '折线图',
+											cssClass : 'btn-primary',
+											autospin : false,
+											action : function(dialog) {
+												var flag = $(
+														"[name=flag]:checked")
+														.val();
+												var image_flag = 1;
+												ustr = "start_date=" + $("#start_date1").val()
+												+ "&end_date=" + $("#end_date1").val();
+												var url = dialog.getData('uri')+ustr
+														+ '&flag=' + flag
+														+ "&image_flag="
+														+ image_flag;
+												$.get(url, function(data,
+														status) {
+
+													removeCheck("flag", 4);
+													$("[id=flag" + flag + "]")
+															.prop("checked",
+																	true);
+													$("#image_flag").val(
+															image_flag);
+													$("#chart").attr("src",
+															data.image);
+												});
+											}
+										},
+										{
+											id : 'btn-cat',
+											icon : 'glyphicon glyphicon-check',
+											label : '柱图',
+											cssClass : 'btn-primary',
+											autospin : false,
+											action : function(dialog) {
+												var flag = $(
+														"[name=flag]:checked")
+														.val();
+												var image_flag = 2;
+												ustr = "start_date=" + $("#start_date1").val()
+												+ "&end_date=" + $("#end_date1").val();
+												var url = dialog.getData('uri')+ustr
+														+ '&flag=' + flag
+														+ "&image_flag="
+														+ image_flag;
+												$.get(url, function(data,
+														status) {
+													removeCheck("flag", 4);
+													$("[id=flag" + flag + "]")
+															.prop("checked",
+																	true);
+													$("#image_flag").val(
+															image_flag);
+													$("#chart").attr("src",
+															data.image);
+												});
+											}
+										},
+										{
+											id : 'btn-pie',
+											icon : 'glyphicon glyphicon-check',
+											label : '饼图',
+											cssClass : 'btn-primary',
+											autospin : false,
+											action : function(dialog) {
+												var flag = $(
+														"[name=flag]:checked")
+														.val();
+												var image_flag = 3;
+												ustr = "start_date=" + $("#start_date1").val()
+												+ "&end_date=" + $("#end_date1").val();
+												var url = dialog.getData('uri')+ustr
+														+ '&flag=' + flag
+														+ "&image_flag="
+														+ image_flag;
+												$.get(url, function(data,
+														status) {
+													removeCheck("flag", 4);
+													$("[id=flag" + flag + "]")
+															.prop("checked",
+																	true);
+													$("#image_flag").val(
+															image_flag);
+													$("#chart").attr("src",
+															data.image);
+												});
+											}
+										} ],
+								data : {
+									url : './genImage.do?' + ustr,
+									uri : './genImage.do?'
+								}
+							});
+						});
+
+	});
+	/*]]>*/
+</script>
+</html>
