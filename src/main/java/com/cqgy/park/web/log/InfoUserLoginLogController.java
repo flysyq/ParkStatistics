@@ -19,11 +19,11 @@ import com.cqgy.park.bo.PageUtil;
 import com.cqgy.park.form.log.TimeCommonForm;
 
 @Controller
-public class ShiftLogController {
+public class InfoUserLoginLogController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	@RequestMapping(value="shiftlog/list.do",method=RequestMethod.GET)
+	@RequestMapping(value="infouserloginlog/list.do",method=RequestMethod.GET)
 	public String list(TimeCommonForm form,Model model,HttpServletRequest request){
 		String cousql="select count(*) cou from info_user_login_log where op_time>'"+form.getStart_date()+"' and op_time<'"+form.getEnd_date()+"'";
 		if (Objects.isNull(form)) {
@@ -43,7 +43,7 @@ public class ShiftLogController {
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "系统日志");
 		session.setAttribute("childrentitle", "交班日志");
-		String forward="shiftlog/list";
+		String forward="infouserloginlog/list";
 		return forward;
 	}
 }

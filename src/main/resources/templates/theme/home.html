@@ -56,10 +56,10 @@
 					</h4>
 					<div class="list-item none">
 						<ul>
-							<li><a href='../shiftlog/list.do'>交接班日志</a></li>
-							<li><a href=''>报表生成日志</a></li>
+							<li><a href='../infouserloginlog/list.do'>交接班日志</a></li>
+							<li><a href='../infodutyshriftreportlog/list.do'>报表生成日志</a></li>
 							<li><a href=''>邮件发送日志</a></li>
-							<li><a href='../uploadlog/list.do'>数据上传日志</a></li>
+							<li><a href='../infologupload/list.do'>数据上传日志</a></li>
 						</ul>
 					</div>
 				</li>
@@ -95,7 +95,7 @@
 					</h4>
 					<div class="list-item none">
 						<ul>
-							<li><a href=''>交班记录</a></li>
+							<li><a href='../infodutyshriftreport/list.do'>交班记录</a></li>
 						</ul>
 					</div>
 				</li>
@@ -121,9 +121,9 @@
 							<img src="../static/images/home.png" />
 						</div></li>
 					<li style="margin-left: 25px;">您当前的位置：</li>
-					<li><a href="#" th:text="${session.fathertitle}"></a></li>
+					<li><a th:text="${session.fathertitle}"></a></li>
 					<li>></li>
-					<li><a href="#" th:text="${session.childrentitle}"></a></li>
+					<li><a th:text="${session.childrentitle}"></a></li>
 				</ul>
 			</div>
 			<div class="main" th:fragment="main">
