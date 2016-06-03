@@ -41,7 +41,7 @@ public class UploadGateOpenHandTest {
 	public void setUp() throws Exception {
 		this.host = "localhost";
 		this.port = "8082";
-		this.uri = "/park/upload.do";
+		this.uri = "/park/upload/upload.do";
 		this.url = "http://" + host + ":" + port + uri;
 		String sysId = "sjgc";
 		String password = "123456";

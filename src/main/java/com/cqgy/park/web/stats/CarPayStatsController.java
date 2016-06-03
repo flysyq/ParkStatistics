@@ -51,7 +51,7 @@ public class CarPayStatsController {
 
 	@RequestMapping(value = "carpaystats/list.do", method = RequestMethod.GET)
 	public String list(CarPayStatsForm form, HttpServletRequest request, Model model,HttpServletResponse response) throws IOException {
-		String select = " sum(fee) sum_fee,sum(fee_free) sum_fee_free";
+		String select = " sum(real_pay) sum_fee,sum(fee_free) sum_fee_free";
 		String from = " from info_car_park_pay ";
 		String where = "";
 		if (Objects.isNull(form)) {
@@ -207,7 +207,7 @@ public class CarPayStatsController {
 		
 		if(form.getFlag()==1){
 			sql = "select b.park_name,a.sum_fee,a.sum_fee_free from (";
-			sql += " SELECT	park_id,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
+			sql += " SELECT	park_id,sum(real_pay) sum_fee,sum(fee_free) sum_fee_free";
 			sql += " FROM info_car_park_pay a where start_time>'"+form.getStart_date()+"' and end_time<'"+form.getEnd_date()+"'";
 			sql += " GROUP BY park_id) a,info_park b where a.park_id=b.park_code";
 			
@@ -250,7 +250,7 @@ public class CarPayStatsController {
 		}
 		if(form.getFlag()==2){
 			sql = "select b.emp_name,a.sum_fee,a.sum_fee_free from (";
-			sql += " SELECT	park_id,emp_no,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
+			sql += " SELECT	park_id,emp_no,sum(real_pay) sum_fee,sum(fee_free) sum_fee_free";
 			sql += " FROM info_car_park_pay a where start_time>'"+form.getStart_date()+"' and end_time<'"+form.getEnd_date()+"'";
 			sql += " GROUP BY park_id,emp_no) a,info_park_admin b where a.park_id=b.park_id and a.emp_no=b.emp_no";
 			System.out.println(sql);
@@ -293,7 +293,7 @@ public class CarPayStatsController {
 			image.setImage("../file/get.do?file_name="+fileName);
 		}
 		if(form.getFlag()==3){
-			sql = " SELECT	plate,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
+			sql = " SELECT	plate,sum(real_pay) sum_fee,sum(fee_free) sum_fee_free";
 			sql += " FROM info_car_park_pay a where start_time>'"+form.getStart_date()+"' and end_time<'"+form.getEnd_date()+"'";
 			sql += " GROUP BY plate";
 			System.out.println(sql);
@@ -336,7 +336,7 @@ public class CarPayStatsController {
 			image.setImage("../file/get.do?file_name="+fileName);
 		}
 		if(form.getFlag()==4){
-			sql = " SELECT	DATE_FORMAT(end_time, '%Y-%c-%e') day,sum(fee) sum_fee,sum(fee_free) sum_fee_free";
+			sql = " SELECT	DATE_FORMAT(end_time, '%Y-%c-%e') day,sum(real_pay) sum_fee,sum(fee_free) sum_fee_free";
 			sql += " FROM info_car_park_pay a where start_time>'"+form.getStart_date()+"' and end_time<'"+form.getEnd_date()+"'";
 			sql += " GROUP BY DATE_FORMAT(end_time, '%Y-%c-%e')";
 			
