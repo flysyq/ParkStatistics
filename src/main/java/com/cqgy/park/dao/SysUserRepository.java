@@ -19,4 +19,5 @@ public interface SysUserRepository extends JpaRepository<SysUser, Long> {
 	
 	List<SysUser> findByLoginCode(String loginCode);
 	SysUser findByLoginCodeAndLoginPassword(String loginCode,String loginPassword);
+	SysUser findOne(Long id);
 }

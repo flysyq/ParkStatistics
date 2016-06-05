@@ -1,13 +1,23 @@
 <html xmlns="http://www.thymeleaf.org">
-<head th:include="/theme/home :: header"></head>
+<head th:include="theme/home :: header"></head>
 <body>
 	<br />
 	<br />
 	<div class="alert alert-success" role="alert" th:text="${result}"></div>
 </body>
-<footer th:replace="/theme/home :: footer"></footer>
-<script th:src="@{../static/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{../static/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{../static/jquery/dist/autosize.min.js}"></script>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/autosize.min.js}"></script>
+<script th:inline="javascript">
+
+	function windowClose(){
+		window.opener.location.reload();
+		window.close();		
+	}
+	  $(function() {
+		setTimeout("windowClose()",2000);
+	});
+</script>
 
 </html>

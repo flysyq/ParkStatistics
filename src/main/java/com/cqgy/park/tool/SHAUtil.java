@@ -38,6 +38,7 @@ public class SHAUtil {
      */
     public static void main(String args[]) throws Exception {
         String str = new String("123456");
+        String str = new String("66286027");
         System.out.println("原始：" + str);
         System.out.println("SHA后：" + shaEncode(str));        	
         

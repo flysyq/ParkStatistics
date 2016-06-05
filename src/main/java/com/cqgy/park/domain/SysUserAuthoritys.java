@@ -24,6 +24,7 @@ public class SysUserAuthoritys {
 	private Long authorityId;
 	
 	private Integer createUser;
+	private Long createUser;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	public Long getId() {
@@ -45,9 +46,11 @@ public class SysUserAuthoritys {
 		this.authorityId = authorityId;
 	}
 	public Integer getCreateUser() {
+	public Long getCreateUser() {
 		return createUser;
 	}
 	public void setCreateUser(Integer createUser) {
+	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
 	}
 	public Date getCreateTime() {
@@ -57,6 +60,7 @@ public class SysUserAuthoritys {
 		this.createTime = createTime;
 	}	
 	public SysUserAuthoritys(Long id, Long userId, Long authorityId, Integer createUser, Date createTime) {
+	public SysUserAuthoritys(Long id, Long userId, Long authorityId, Long createUser, Date createTime) {
 		super();
 		Id = id;
 		UserId = userId;

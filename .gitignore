@@ -1,2 +1,6 @@
 /target/
+
 /park/
+/park/*.log
+/.settings/
+/src/main/java/com/cqgy/park/web/.gitignore

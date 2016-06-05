@@ -1,0 +1,70 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="theme/home :: header"></head>
+<body>
+	<br />
+	<br />
+	<form name="myform" method="get" action="parksave.do">
+		<input type="hidden" name="id" th:value="${infoPark.id}" />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">停车场名称</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="parkName"
+					th:value="${infoPark.parkName}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">描述</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="parkDesc"
+					th:value="${infoPark.parkDesc}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">停车场编号</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="parkCode"
+					th:value="${infoPark.parkCode}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">停车位数量</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="allParkNum"
+					th:value="${infoPark.allParkNum}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">对外停车位</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="outParkNum"
+					th:value="${infoPark.outParkNum}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-1 col-md-offset-5">现有停车位</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="nowParkNum"
+					th:value="${infoPark.nowParkNum}" />
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+			<div class="col-md-2 col-md-offset-6">
+				<button class="btn btn-primary form-control">提交</button>
+			</div>
+		</div>
+		<br />
+	</form>
+</body>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/autosize.min.js}"></script>
+
+
+</html>

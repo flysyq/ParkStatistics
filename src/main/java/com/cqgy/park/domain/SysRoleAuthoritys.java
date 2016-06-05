@@ -25,9 +25,11 @@ public class SysRoleAuthoritys {
 	private Long Id;
 	
 	private Long UserId;
+	private Long roleId;
 	private Long authorityId;
 	
 	private Integer createUser;
+	private Long createUser;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	public Long getId() {
@@ -38,9 +40,13 @@ public class SysRoleAuthoritys {
 	}
 	public Long getUserId() {
 		return UserId;
+	public Long getRoleId() {
+		return roleId;
 	}
 	public void setUserId(Long userId) {
 		UserId = userId;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 	public Long getAuthorityId() {
 		return authorityId;
@@ -49,9 +55,11 @@ public class SysRoleAuthoritys {
 		this.authorityId = authorityId;
 	}
 	public Integer getCreateUser() {
+	public Long getCreateUser() {
 		return createUser;
 	}
 	public void setCreateUser(Integer createUser) {
+	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
 	}
 	public Date getCreateTime() {
@@ -61,8 +69,14 @@ public class SysRoleAuthoritys {
 		this.createTime = createTime;
 	}
 	public SysRoleAuthoritys(Long id, Long userId, Long authorityId, Integer createUser, Date createTime) {
+
+
+	public SysRoleAuthoritys(Long id, Long roleId, Long authorityId, Long createUser,
+			Date createTime) {
+		super();
 		Id = id;
 		UserId = userId;
+		this.roleId = roleId;
 		this.authorityId = authorityId;
 		this.createUser = createUser;
 		this.createTime = createTime;
@@ -70,4 +84,6 @@ public class SysRoleAuthoritys {
 	public SysRoleAuthoritys() {
 		super();
 	}	
+	}
+
 }

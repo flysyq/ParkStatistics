@@ -1,0 +1,248 @@
+<html xmlns="http://www.thymeleaf.org">
+<head th:include="theme/home :: header"></head>
+<body>
+	<div th:replace="theme/home :: top" />
+	<div th:replace="theme/home :: p-h" />
+	<div id="content">
+		<div th:replace="theme/home :: left_menu" />
+		<div class="m-right">
+			<div th:replace="theme/home :: right-nav" />
+			<div class="main">
+				<div class="table-responsive">
+					<form name="myform" method="get" id="myform"
+						class="navbar-form navbar-left" role="search">
+						<input type="hidden" name="page" class="page"
+							th:value="${session.currentpage}" /> <input type="hidden"
+							name="orderby" class="orderby" th:value="${session.orderby}" />
+						<input type="hidden" id="hpagesize" name="pageSize"
+							th:value="${session.pagesize}" /> <input type="hidden"
+							id="clause" name="clause" th:value="${session.clause}" />
+						<div class="container">
+							<div class="col-md-3">
+								每页显示
+								<div class="btn-group" role="group">
+									<button id="bpagesize" type="button"
+										class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"
+										th:text="${session.pagesize}">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#" id="pagesize1" data-value="10">10</a></li>
+										<li><a href="#" id="pagesize2" data-value="20">20</a></li>
+										<li><a href="#" id="pagesize2" data-value="30">30</a></li>
+										<li><a href="#" id="pagesize2" data-value="40">40</a></li>
+										<li><a href="#" id="pagesize2" data-value="50">50</a></li>
+									</ul>
+								</div>
+								条
+							</div>
+
+							<div class="btn-group" role="group">
+								<button id="bwhere" type="button"
+									class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">
+									--条件搜索--<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="#" id="where1" data-value="plate"
+										data-value1="--车牌号--">车牌号</a></li>
+									<li><a href="#" id="where2" data-value="card_type"
+										data-value1="--卡类型--">卡类型</a></li>
+									<li><a href="#" id="where3" data-value="card_no"
+										data-value1="--卡号--">卡号</a></li>
+									<li><a href="#" id="where5" data-value="park_id"
+										data-value1="--停车场编号--">停车场编号</a></li>
+									<li><a href="#" id="where6" data-value="emp_name"
+										data-value1="--收费人--">操作人</a></li>
+									<li><a href="#" id="where7" data-value="pay_type"
+										data-value1="--收费类型--">收费类型</a></li>
+									<li><a href="#" id="where8" data-value="free_type"
+										data-value1="--免费类型--">免费类型</a></li>
+								</ul>
+
+							</div>
+							&nbsp; <input type="text" id="twhere" /> &nbsp; <a id="search"
+								class="btn btn-primary">搜索</a> <br /> <br />
+							<div id="hwhere" value=""></div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<!-- Default panel contents -->
+										<div class="panel-heading">收费记录</div>
+										<table class="table table-bordered table-hover">
+											<thead class="thead_success">
+												<tr class="h-tr">
+													<td>编号</td>
+													<td>停车场编号</td>
+													<td>停车场名称</td>
+													<td>卡号</td>
+													<td>卡类型</td>
+													<td>车牌号</td>
+													<td>应收金额</td>
+													<td>实收金额</td>
+													<td>免费类型</td>
+													<td>免费金额</td>
+													<td>收费类型</td>
+													<td>操作人员</td>
+													<td>开始时间</td>
+													<td>结束时间</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="carParkPay,iterStat : ${carParkPays}">
+													<td th:text="${iterStat.count}"></td>
+													<td th:text="${carParkPay.park_id}"></td>
+													<td th:text="${carParkPay.park_name}"></td>
+													<td th:text="${carParkPay.card_no}"></td>
+													<td id="cardType" th:text="${carParkPay.card_type}"></td>
+													<td th:text="${carParkPay.plate}"></td>
+													<td th:text="${carParkPay.fee}"></td>
+													<td th:text="${carParkPay.real_pay}"></td>
+													<td id="freeType" th:text="${carParkPay.free_type}"></td>
+													<td th:text="${carParkPay.fee_free}"></td>
+													<td id="payType" th:text="${carParkPay.pay_type}"></td>
+													<td th:text="${carParkPay.emp_name}"></td>
+													<td th:text="${carParkPay.start_time}"></td>
+													<td th:text="${carParkPay.end_time}"></td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td align="center" colspan="13" class="choicepage"><a
+														id="first" class="btn btn-primary">首页</a> <a id="prev"
+														class="btn btn-primary">上一页</a> <span
+														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
+														<a id="next" class="btn btn-primary">下一页</a> <a id="last"
+														class="btn btn-primary">尾页</a></td>
+												</tr>
+												<tr>
+													<td align="center" colspan="13" class="choiceorder"><a
+														id="plate" class="btn btn-primary form-control">按车牌排序</a>
+														<a id="start_time" class="btn btn-primary form-control">按开始时间排序</a>
+														<a id="end_time" class="btn btn-primary form-control">按结束时间排序</a>
+														<a id="emp_name" class="btn btn-primary form-control">按操作人员排序</a>
+														<a id="free_type" class="btn btn-primary form-control">按免费类型排序</a>
+														<a id="pay_type" class="btn btn-primary form-control">按收费类型排序</a></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<footer th:replace="theme/home :: footer"></footer>
+<script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/jquery/dist/menu.js}"></script>
+<script th:inline="javascript">
+	navList(12);
+	color();
+	$(function() {
+		$("[id^=cardType]").each(function() {
+			if ($(this).text() == 1) {
+				$(this).html("月卡");
+			} else if ($(this).text() == 2) {
+				$(this).html("免费卡");
+			} else if ($(this).text() == 3) {
+				$(this).html("储蓄卡");
+			} else if ($(this).text() == 4) {
+				$(this).html("临时卡");
+			}
+
+		});
+		$("[id^=payType]").each(function() {
+			if ($(this).text() == 1) {
+				$(this).html("月卡");
+			} else if ($(this).text() == 2) {
+				$(this).html("免费卡");
+			} else if ($(this).text() == 3) {
+				$(this).html("储蓄卡");
+			} else if ($(this).text() == 4) {
+				$(this).html("现金");
+			} else if ($(this).text() == 5) {
+				$(this).html("会员积分");
+			}
+
+		});
+		$("[id^=freeType]").each(function() {
+			if ($(this).text() == 1) {
+				$(this).html("免费卡");
+			} else if ($(this).text() == 2) {
+				$(this).html("领导审批");
+			} else if ($(this).text() == 3) {
+				$(this).html("折扣卡");
+			}
+
+		});
+
+		$("[id^=pagesize]").click(
+				function(e) {
+					$(".page").val(1);
+					$pagesize = $(this).attr("data-value");
+					$("#hpagesize").val($pagesize);
+					$bpagesize = $(this).attr("data-value")
+							+ '<span class="caret"></span>';
+					$("#bpagesize").html($bpagesize);
+					$("#myform").submit();
+				});
+		$("[id^=where]").click(
+				function(e) {
+					$hwhere = $(this).attr("data-value");
+					$("#search").val($hwhere);
+					$bwhere = $(this).attr("data-value1")
+							+ '<span class="caret"></span>';
+					$("#bwhere").html($bwhere);
+				});
+		$("[id^=search]").click(function() {
+			$clause = $("#search").val() + '=' + $("#twhere").val();
+			if ($("#twhere").val() == '') {
+				alert('值不能为空');
+			} else if($("#search").val()==''){
+				alert('请选择条件');
+			}else{
+				$("#clause").val($clause);
+				$(".page").val("1")
+				$("#myform").submit();
+			}
+
+		});
+		
+		$(".choicepage").children().click(function(){
+			if($(this).attr("id")=="first"){
+				$(".page").val("1");
+			}else if($(this).attr("id")=="prev"){
+				$(".page").val(""+[[${session.prevpage}]]+"");
+			}else if($(this).attr("id")=="next"){
+				$(".page").val(""+[[${session.nextpage}]]+"");
+			}else if($(this).attr("id")=="last"){
+				$(".page").val(""+[[${session.maxpage}]]+"");
+			}
+			$("#myform").submit();
+		});
+		$(".choiceorder").children().click(function(){
+			if($(this).attr("id")=="plate"){
+				$(".orderby").val("plate");
+			}else if($(this).attr("id")=="start_time"){
+				$(".orderby").val("start_time");
+			}else if($(this).attr("id")=="end_time"){
+				$(".orderby").val("end_time");
+			}else if($(this).attr("id")=="emp_name"){
+				$(".orderby").val("emp_name");
+			}else if($(this).attr("id")=="free_type"){
+				$(".orderby").val("free_type");
+			}else if($(this).attr("id")=="pay_type"){
+				$(".orderby").val("pay_type");
+			}
+			$("#myform").submit();
+		});
+
+	});
+</script>
+</html>

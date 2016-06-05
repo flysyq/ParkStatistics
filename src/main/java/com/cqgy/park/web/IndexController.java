@@ -9,6 +9,11 @@
  */
 package com.cqgy.park.web;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,7 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 	
 	@RequestMapping("/")
-	String index(){
+	void index(HttpServletResponse res) throws IOException, ServletException{
+		res.sendRedirect("login/login.html");
+	}
+	@RequestMapping("login/login.html")
+	String index() throws IOException, ServletException{
 		return "login/login";
 	}
 	

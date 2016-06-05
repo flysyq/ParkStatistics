@@ -24,13 +24,13 @@ public class SysAuthority {
 	private Integer grade; // 1 一级 ，2 二级
 	private String uri;
 	private String remark;
-	private Integer fatherId;
+	private Long fatherId;
 	private String sortLevel;
 
-	private Integer createUser;
+	private Long createUser;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
-	private Integer updateUser;
+	private Long updateUser;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
 	
@@ -76,10 +76,10 @@ public class SysAuthority {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public Integer getFatherId() {
+	public Long getFatherId() {
 		return fatherId;
 	}
-	public void setFatherId(Integer fatherId) {
+	public void setFatherId(Long fatherId) {
 		this.fatherId = fatherId;
 	}
 	public String getSortLevel() {
@@ -88,13 +88,13 @@ public class SysAuthority {
 	public void setSortLevel(String sortLevel) {
 		this.sortLevel = sortLevel;
 	}
-	public Integer getCreateUser() {
+	public Long getCreateUser() {
 		return createUser;
 	}
-	public void setCreateUser(Integer createUser) {
+	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
 	}
-	public Integer getUpdateUser() {
+	public Long getUpdateUser() {
 		return updateUser;
 	}
 	public Date getCreateTime() {
@@ -109,11 +109,11 @@ public class SysAuthority {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public void setUpdateUser(Integer updateUser) {
+	public void setUpdateUser(Long updateUser) {
 		this.updateUser = updateUser;
 	}
 	public SysAuthority(Long id, String title, String code, Integer flag, Integer grade, String uri, String remark,
-			Integer fatherId, String sortLevel, Integer createUser, Date createTime, Integer updateUser,
+			Long fatherId, String sortLevel, Long createUser, Date createTime, Long updateUser,
 			Date updateTime) {
 		Id = id;
 		this.title = title;
@@ -133,7 +133,7 @@ public class SysAuthority {
 		super();
 	}
 	public SysAuthority(Long id, String title, String code, Integer flag, Integer grade, String uri, String remark,
-			Integer fatherId, String sortLevel) {
+			Long fatherId, String sortLevel) {
 		Id = id;
 		this.title = title;
 		this.code = code;
