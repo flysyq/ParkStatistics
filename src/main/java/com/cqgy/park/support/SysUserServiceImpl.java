@@ -27,6 +27,7 @@ public class SysUserServiceImpl implements SysUserService {
 				sysUser.setCreateTime(rs.getTimestamp("create_time"));
 				sysUser.setCreateUser(rs.getLong("create_user"));
 				sysUser.setEnabled(rs.getInt("enabled"));
+				sysUser.seteMmail(rs.getString("e_mail"));
 				sysUser.setLoginCode(rs.getString("login_code"));
 				sysUser.setLoginPassword(rs.getString("login_password"));
 				sysUser.setName(rs.getString("name"));
