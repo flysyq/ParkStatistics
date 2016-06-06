@@ -137,7 +137,7 @@ public class SysUserController {
 			}
 			sysUser.setName(name);
 			sysUser.setEnabled(enabled);
-			sysUser.seteMmail(email);
+			sysUser.seteMail(email);
 			sysUser.setUpdateTime(new Date());
 			sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
 			sysUserRepository.save(sysUser);

@@ -64,9 +64,10 @@ public class TestFilter implements Filter {
 		allow_urls.add("authority/father.do");
 		allow_urls.add("sysrole/sysroleauthoritylist.do");
 		allow_urls.add("carpaystats/genImage.do");
-
+		allow_urls.add("login/menuauthority.do");
 
 		if(allow_urls.contains(uri)){
+			System.out.println(uri);
 			chain.doFilter(request, response);
 		}else{
 			Long role_id = (Long) session.getAttribute("role_id");
@@ -87,6 +88,7 @@ public class TestFilter implements Filter {
 			}else if(uri.endsWith("noauthority.do")){
 				chain.doFilter(request, response);
 			}else if(session.getAttribute("loginCode").equals("admin")&&session.getAttribute("loginCode")!=null){
+				System.out.println(session.getAttribute("loginCode"));
 				chain.doFilter(request, response);
 			}else{
 				response.sendRedirect("noauthority.do");

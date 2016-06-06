@@ -1,6 +1,7 @@
 <html xmlns="http://www.thymeleaf.org">
 <head th:include="theme/home :: header"></head>
-<body>
+<body style="overflow:scroll">
+<div id="table-responsive" >
 	<form name="myform" method="get" id="myform"
 		action="sysroleauthoritysave.do">
 		<input type="hidden" name="role_id" id="role_id" th:value="${role_id}" />
@@ -9,7 +10,7 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<!-- Default panel contents -->
-						<div class="panel-heading">权限信息</div>
+						<div class="panel-heading" >权限信息</div>
 						<table class="table table-bordered table-hover">
 							<thead class="thead_success">
 								<tr class="h-tr">
@@ -45,8 +46,8 @@
 			</div>
 		</div>
 	</form>
+	</div>
 </body>
-<footer th:replace="theme/home :: footer"></footer>
 <script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/jquery/dist/menu.js}"></script>
@@ -107,4 +108,3 @@ navList(12);
 	/*]]>*/
 </script>
 </html>
-s
