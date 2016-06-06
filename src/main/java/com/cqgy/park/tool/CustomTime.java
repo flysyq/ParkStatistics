@@ -48,7 +48,11 @@ public class CustomTime {
 		String str=sdf.format(date);
 		return str;		
 	}
-	
+	public static String parseDate(Date date){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+		String str=sdf.format(date);
+		return str;		
+	}
 	public static void main(String args[]){
 		System.out.println(parseString(new Date()));
 	}

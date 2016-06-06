@@ -121,7 +121,7 @@ public class PdfUtil {
         return selector;
     }
 
-    private static PdfPTable createTableHead(PdfPTable table, String[] head, FontSelector selector) {
+    public static PdfPTable createTableHead(PdfPTable table, String[] head, FontSelector selector) {
         Phrase str = selector.process("编号");
         table.addCell(str);
         for (int i = 0; i < head.length; i++) {
@@ -131,7 +131,7 @@ public class PdfUtil {
         return table;
     }
 
-    private static PdfPTable createTableContent(PdfPTable table, List<Map<String, Object>> list, String[] code, FontSelector selector) {
+    public static PdfPTable createTableContent(PdfPTable table, List<Map<String, Object>> list, String[] code, FontSelector selector) {
 
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map = list.get(i);
@@ -150,7 +150,7 @@ public class PdfUtil {
         return table;
     }
 
-    private static void addTile(Document document, String title, int titleFontSize) throws DocumentException {
+    public static void addTile(Document document, String title, int titleFontSize) throws DocumentException {
         FontSelector titleSelector = getSelector(titleFontSize);
         Paragraph titleP = new Paragraph(titleSelector.process(title));
         titleP.setAlignment(Element.ALIGN_CENTER);
@@ -158,7 +158,13 @@ public class PdfUtil {
         document.add(Chunk.NEWLINE);
     }
 
-    private static void addDescribe(Document document, String describe, FontSelector selector) throws DocumentException {
+    public static void addSubTitle(Document document, String title, int titleFontSize) throws DocumentException {
+        FontSelector titleSelector = getSelector(titleFontSize);
+        Paragraph titleP = new Paragraph(titleSelector.process(title));
+        titleP.setAlignment(Element.ALIGN_LEFT);
+        document.add(titleP);
+    }
+    public static void addDescribe(Document document, String describe, FontSelector selector) throws DocumentException {
         Paragraph descP = new Paragraph(selector.process(describe));
         descP.setAlignment(Element.ALIGN_JUSTIFIED);
         descP.setIndentationLeft(document.getPageSize().getRight() * 3 / 7);
