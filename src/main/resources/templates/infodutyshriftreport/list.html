@@ -11,7 +11,7 @@
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
-						<input type="hidden" name="where" id="hwhere" val="" /> <input
+						<input type="hidden" name="where" id="hwhere" th:value="${form.where}" /> <input
 							type="hidden" name="page" id="page" th:value="${page.page}" /> <input
 							type="hidden" name="page_size" id="page_size"
 							th:value="${page.page_size}" /> <input type="hidden"
@@ -53,12 +53,12 @@
 												<li><a name="where" id="where1" data-value="park_id"
 													data-value1="--停车场编号--">停车场编号</a></li>
 												<li><a name="where" id="where2" data-value="park_name"
-													data-value1="--停车场名字--">停车场名字</a></li>
+													data-value1="--停车场名称--">停车场名称</a></li>
 												<li><a name="where" id="where3" data-value="emp_no"
 													data-value1="--员工编号--">员工编号</a></li>
 											</ul>
 										</div>
-										<input type="text" name="clause" id="clause" />
+										<input type="text" name="clause" id="clause" th:value="${form.clause}" />
 										<button name="search" id="search"
 											class="btn btn-default dropdown-toggle">搜索</button>
 									</div>
@@ -242,6 +242,20 @@
 							+ '<span class="caret"></span>';
 					$("#bwhere").html($bwhere);
 				});
+		$("#hwhere").each(function(){
+			if($(this).val()=="park_id"){
+				$bwhere='--停车场编号--<span class="caret"></span>';
+				$("#bwhere").html($bwhere);
+			}
+			if($(this).val()=="park_name"){
+				$bwhere='--停车场名称--<span class="caret"></span>';
+				$("#bwhere").html($bwhere);
+			}
+			if($(this).val()=="emp_no"){
+				$bwhere='--员工编号--<span class="caret"></span>';
+				$("#bwhere").html($bwhere);
+			}
+		});
 		$("[id^=search]").click(function(e) {
 			if ($("#hwhere").val() == "") {
 				e.preventDefault();
