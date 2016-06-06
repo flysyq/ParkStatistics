@@ -109,7 +109,7 @@ public class SysUserController {
 	}
 	@RequestMapping(value="/sysuser/useredit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
-		SysUser sysUser=new SysUser(new Integer(0).longValue(), "", "", "", 0);
+		SysUser sysUser=new SysUser(new Integer(0).longValue(), "", "", "", 0,"");
 		if (!Objects.isNull(id)) {
 			sysUser=sysUserRepository.findOne(id);
 		}
@@ -118,7 +118,7 @@ public class SysUserController {
 		return forword;	
 	}
 	@RequestMapping(value="/sysuser/usersave.do",method=RequestMethod.GET)
-	public String sava(Long id,String logincode,String loginpassword,String name,Integer enabled,Model model,HttpServletRequest request){
+	public String sava(Long id,String logincode,String loginpassword,String name,Integer enabled,String email,Model model,HttpServletRequest request){
 		SysUser sysUser=new SysUser();
 		sysUser.setId(id);
 		HttpSession session = request.getSession();
@@ -137,6 +137,7 @@ public class SysUserController {
 			}
 			sysUser.setName(name);
 			sysUser.setEnabled(enabled);
+			sysUser.seteMail(email);
 			sysUser.setUpdateTime(new Date());
 			sysUser.setUpdateUser((Long) session.getAttribute("login_id"));
 			sysUserRepository.save(sysUser);

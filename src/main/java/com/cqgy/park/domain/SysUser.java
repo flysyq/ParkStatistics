@@ -24,6 +24,7 @@ public class SysUser {
 	private String name;
 	private String loginPassword;
 	private Integer enabled;
+	private String eMail;
 	private Long createUser;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
@@ -60,6 +61,12 @@ public class SysUser {
 	public void setEnabled(Integer enabled) {
 		this.enabled = enabled;
 	}
+	public String geteMail() {
+		return eMail;
+	}
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
 	public Long getCreateUser() {
 		return createUser;
 	}
@@ -87,27 +94,31 @@ public class SysUser {
 	}
 	
 	
-	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled, Long createUser,
-			Date createTime, Long updateUser, Date updateTime) {
-		Id = id;
-		this.loginCode = loginCode;
-		this.name = name;
-		this.loginPassword = loginPassword;
-		this.enabled = enabled;
-		this.createUser = createUser;
-		this.createTime = createTime;
-		this.updateUser = updateUser;
-		this.updateTime = updateTime;
-	}
+
 	
 	
-	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled) {
+	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled, String eMail,
+			Long createUser, Date createTime, Long updateUser, Date updateTime) {
 		super();
 		Id = id;
 		this.loginCode = loginCode;
 		this.name = name;
 		this.loginPassword = loginPassword;
 		this.enabled = enabled;
+		this.eMail = eMail;
+		this.createUser = createUser;
+		this.createTime = createTime;
+		this.updateUser = updateUser;
+		this.updateTime = updateTime;
+	}
+	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled,String eMail) {
+		super();
+		Id = id;
+		this.loginCode = loginCode;
+		this.name = name;
+		this.loginPassword = loginPassword;
+		this.enabled = enabled;		
+		this.eMail = eMail;
 	}
 	public SysUser() {
 		super();
