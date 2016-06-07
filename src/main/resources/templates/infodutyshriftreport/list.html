@@ -157,13 +157,13 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td align="center" colspan="16"><a
-														href="javascript:sub(1)" class="btn btn-primary">首页</a> <a
+													<td align="center" colspan="16"><a id="choicepage1"
+														href="javascript:sub(1)" class="btn btn-primary">首页</a> <a id="choicepage2"
 														th:href="'javascript:sub('+${page.page-1}+')'"
 														class="btn btn-primary">前页</a> <span
 														th:text="'当前页:'+${page.page}+'/总页数:'+${page.page_count}"></span>
-														<a th:href="'javascript:sub('+${page.page+1}+')'"
-														class="btn btn-primary">后页</a> <a
+														<a id="choicepage3" th:href="'javascript:sub('+${page.page+1}+')'"
+														class="btn btn-primary">后页</a> <a id="choicepage4"
 														th:href="'javascript:sub('+${page.page_count}+')'"
 														class="btn btn-primary">末页</a></td>
 												</tr>
@@ -271,6 +271,12 @@
 			$value = $(this).attr("id");
 			$url = "../file/get.do?flag=1&file_name=duty_shift/"+$value.substring(4);
 			window.open($url);
+		});
+		$("[id^=choicepage]").click(function(e) {
+			if ($("#clause").val() == "") {
+				$("#hwhere").val("");
+				$("#bwhere").html('--搜索条件--<span class="caret"></span>');
+			}
 		});
 	});
 	/*]]>*/
