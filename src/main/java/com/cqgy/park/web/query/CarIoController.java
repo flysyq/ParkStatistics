@@ -99,10 +99,10 @@ public class CarIoController {
 				where="and card_no="+form.getClause();
 			}
 			if (form.getWhere().equals("in_emp_name")){
-				cwhere="where in_emp_name='"+form.getClause()+"'";
+				where="where in_emp_name='"+form.getClause()+"'";
 			}
 			if (form.getWhere().equals("out_emp_name")){
-				cwhere="where in_emp_name='"+form.getClause()+"'";
+				where="where in_emp_name='"+form.getClause()+"'";
 			}
 		}
 		String orderby="";
