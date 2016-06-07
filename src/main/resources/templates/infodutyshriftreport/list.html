@@ -269,7 +269,7 @@
 		$("[id^=pdf]").click(function(e){
 			e.preventDefault();
 			$value = $(this).attr("id");
-			$url = "../file/get.do?file_name=duty_shift/"+$value.substring(4));
+			$url = "../file/get.do?flag=1&file_name=duty_shift/"+$value.substring(4);
 			window.open($url);
 		});
 	});
