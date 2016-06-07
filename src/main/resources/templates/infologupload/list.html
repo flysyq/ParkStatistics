@@ -5,15 +5,14 @@
 	<div th:replace="theme/home :: top" />
 	<div th:replace="theme/home :: p-h" />
 	<div id="content">
-		<div class="left_menu" th:utext="${session.li}"/>
+		<div class="left_menu" th:utext="${session.li}" />
 		<div class="m-right">
 			<div th:replace="theme/home :: right-nav" />
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
-						<input type="hidden" name="del_id" id="del_id" value="" /> <input
-							type="hidden" name="page" id="page" th:value="${page.page}" /> <input
-							type="hidden" name="page_size" id="page_size"
+						<input type="hidden" name="page" id="page" th:value="${page.page}" />
+						<input type="hidden" name="page_size" id="page_size"
 							th:value="${page.page_size}" /> <input type="hidden"
 							name="page_count" id="page_count" th:value="${page.page_count}" />
 						<div class="container">
@@ -80,7 +79,7 @@
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">交班记录</div>
+										<div class="panel-heading">上传日志</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
 												<tr>
@@ -100,7 +99,7 @@
 
 													<td th:id="'function_id'+${log.function_id}"
 														th:text="${log.function_id}"></td>
-													<td th:text="${log.upload_time}">职位</td>
+													<td th:text="${log.upload_time}"></td>
 												</tr>
 											</tbody>
 											<tfoot>
