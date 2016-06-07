@@ -150,8 +150,8 @@
 														th:text="${report.card_in_num}+'/'+${report.card_in_money}"></td>
 													<td
 														th:text="${report.gate_open_hand_num}+'/'+${report.gate_open_hand_ex_num}"></td>
-													<td><div class="col-md-4">
-															<button id="pdfButton" class="btn btn-default">下载Pdf</button>
+													<td><div class="col-md-4" th:inline="javascript">
+															<button th:id="'pdf_'+${report.pdf_name}" class="btn btn-default">下载Pdf</button>
 														</div></td>
 												</tr>
 											</tbody>
@@ -265,6 +265,12 @@
 				alert('值不能为空');
 			}
 
+		});
+		$("[id^=pdf]").click(function(e){
+			e.preventDefault();
+			$value = $(this).attr("id");
+			$url = "../file/get.do?file_name=duty_shift/"+$value.substring(4));
+			window.open($url);
 		});
 	});
 	/*]]>*/

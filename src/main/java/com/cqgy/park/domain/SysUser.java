@@ -31,6 +31,16 @@ public class SysUser {
 	private Long updateUser;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
+	
+	private Integer mailFlag;
+	
+	
+	public Integer getMailFlag() {
+		return mailFlag;
+	}
+	public void setMailFlag(Integer mailFlag) {
+		this.mailFlag = mailFlag;
+	}
 	public Long getId() {
 		return Id;
 	}
