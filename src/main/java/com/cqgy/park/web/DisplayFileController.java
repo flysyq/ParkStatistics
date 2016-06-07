@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,8 +32,9 @@ import com.cqgy.park.tool.Stool;
 public class DisplayFileController {
 
 	@RequestMapping(value="/file/get.do",method=RequestMethod.GET)
-	public void getFile(String file_name,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public void getFile(String file_name,String flag,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String file_path=CustomProps.getProp("file.temp.path")+"/"+file_name;
+		System.out.println("flag="+flag);
         BufferedInputStream in = null;  
         BufferedOutputStream out = null; 
          
@@ -59,8 +61,10 @@ public class DisplayFileController {
             if (out != null) {  
                 out.close();  
             }  
+            if(Objects.isNull(flag)){
+                Files.delete(Paths.get(file_path));
+            }
 
-            Files.delete(Paths.get(file_path));
         }  
 	}
 }
