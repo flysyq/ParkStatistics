@@ -1,6 +1,6 @@
 <html xmlns="http://www.thymeleaf.org">
 <body>
-<div th:html="${session.li}"></div>
+<div th:utext="${session.li}"></div>
 </body>
 <footer th:replace="theme/home :: footer"></footer>
 <script th:src="@{/static/jquery/dist/jquery.min.js}"></script>

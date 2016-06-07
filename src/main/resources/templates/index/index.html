@@ -3,11 +3,12 @@
 <body>
 	<div th:replace="theme/home :: top" />
 	<div th:replace="theme/home :: p-h" />
-	<div th:replace="theme/home :: content" />
-
+	<div id="content">
+		<div class="left_menu" th:utext="${session.li}"/>
+		<div th:replace="theme/home :: m-right" />
+	</div>
 </body>
 <footer th:replace="theme/home :: footer"></footer>
-
 <script th:src="@{/static/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/static/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/jquery/dist/menu.js}"></script>
