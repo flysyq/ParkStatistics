@@ -39,7 +39,8 @@ public class MailTask {
 	InfoMailLogRepository infoMailLogRepository;
 	
 	
-	@Scheduled(cron="0 0 0 1 * * ")
+	//@Scheduled(cron="0 0 0 1 * * ")
+	@Scheduled(fixedRate=1000*5)
 	public void mailTo(){
 		
 		//获取接收邮件的用户的邮件地址
@@ -171,14 +172,56 @@ public class MailTask {
 			String nowCardInSql = "select ifnull(sum(pay_money),0) sum_pay from info_card_in"
 					+ " where update_time>concat(year(now()),'-',month(now()),'-',1)";
 			Double now_card_in = (Double)jdbcTemplate.queryForObject(nowCardInSql,Double.class);
+			
+			String preOpenHandSql = "select open_type,count(*) cou "
+					+ " from info_gate_open_hand "
+					+ " where open_time>concat(year(now()),'-',month(now())-1,'-',1) "
+					+ " and open_time<concat(year(now()),'-',month(now()),'-',1) "
+					+ " group by open_type "
+					+ " order by open_type asc";
+			List<Map<String,Object>> preOpenHandList = jdbcTemplate.queryForList(preOpenHandSql);
+			
+			Long pre_open_hand = 0L;
+			Long pre_open_ex = 0L;
+			
+			for(int j=0;j<preOpenHandList.size();j++){
+				if(preOpenHandList.get(j).get("open_type").equals(1)){
+					pre_open_hand =(Long) preOpenHandList.get(j).get("cou");
+				}
+				if(preOpenHandList.get(j).get("open_type").equals(2)){
+					pre_open_ex =(Long) preOpenHandList.get(j).get("cou");
+				}
+			}
+			
+			String nowOpenHandSql = "select open_type,count(*) cou "
+					+ " from info_gate_open_hand "
+					+ " where open_time>concat(year(now()),'-',month(now()),'-',1) "
+					+ " group by open_type "
+					+ " order by open_type asc";
+			List<Map<String,Object>> nowOpenHandList = jdbcTemplate.queryForList(nowOpenHandSql);
+			
+			Long now_open_hand = 0L;
+			Long now_open_ex = 0L;
+			
+			for(int j=0;j<nowOpenHandList.size();j++){
+				if(nowOpenHandList.get(j).get("open_type").equals(1)){
+					now_open_hand =(Long) nowOpenHandList.get(j).get("cou");
+				}
+				if(nowOpenHandList.get(j).get("open_type").equals(2)){
+					now_open_ex =(Long) nowOpenHandList.get(j).get("cou");
+				}
+			}
 			String preMonth = CustomTime.getLocalTimeFormatMinusMonths("yyyy-MM",1);
 			String nowMonth = CustomTime.getLocalTimeFormat("yyyy-MM");
 			
-			html += "<table width='80%' align='center'><tr><td>月份</td><td>进场车次</td><td>出厂车次</td><td>收费金额</td><td>免费金额</td><td>充值金额</td><td>新开卡数量</td></tr>";
+			html += "<table width='80%' align='center'><tr><td>月份</td><td>进场车次</td><td>出厂车次</td><td>收费金额</td><td>免费金额</td><td>充值金额</td><td>新开卡数量</td>";
+			html += "<td>手动开闸数量</td><td>异常开闸数量</td></tr>";
 			html +="<tr><td>"+preMonth+"</td><td>"+pre_car_in+"</td><td>"+pre_car_out+"</td><td>"+pre_sum_pay+"</td>";
-			html +="<td>"+pre_sum_fee_free+"</td><td>"+pre_card_in+"</td><td>"+pre_card_new+"</td></tr>";
+			html +="<td>"+pre_sum_fee_free+"</td><td>"+pre_card_in+"</td><td>"+pre_card_new+"</td>";
+			html +="<td>"+pre_open_hand+"</td><td>"+pre_open_ex+"</td></tr>";
 			html +="<tr><td>"+nowMonth+"</td><td>"+now_car_in+"</td><td>"+now_car_out+"</td><td>"+now_sum_pay+"</td>";
-			html +="<td>"+now_sum_fee_free+"</td><td>"+now_card_in+"</td><td>"+now_card_new+"</td></tr>";		
+			html +="<td>"+now_sum_fee_free+"</td><td>"+now_card_in+"</td><td>"+now_card_new+"</td>";
+			html +="<td>"+now_open_hand+"</td><td>"+now_open_ex+"</td></tr>";		
 			html +=" </table>";
 			html +="</body></html>";
 			System.out.println(html);
