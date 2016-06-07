@@ -3,6 +3,7 @@ package com.cqgy.park.web;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,9 +36,23 @@ public class SysUserRolesController {
 	@RequestMapping(value="/sysuser/userrolesedit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
 		SysUser fsysuser = sysUserRepository.findOne(id);
-		long roleid=0;
+		String sql="select * from sys_user_roles where user_id="+id;
+		List<Map<String, Object>> list = jdbcTmplate.queryForList(sql);
+		Long roleid;
+		if (list.isEmpty()) {
+			roleid=(long) 0;
+		}else{
+			roleid=(Long) list.get(0).get("role_id");
+			String sql_1="select * from sys_role where id="+roleid;
+			String name=(String) jdbcTmplate.queryForList(sql_1).get(0).get("name");
+			model.addAttribute("name", name);
+		}
+		
+		
+		
 		model.addAttribute("sysuser", fsysuser);
 		model.addAttribute("roleid", roleid);
+		
 		String forword="sysuserroles/userrolesedit";
 		return forword;
 	}

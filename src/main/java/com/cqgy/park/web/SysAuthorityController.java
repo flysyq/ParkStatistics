@@ -103,6 +103,16 @@ public class SysAuthorityController {
 		SysAuthority sysAuthority = new SysAuthority(new Integer(0).longValue(),"","",1,1,"","",(long) 0,"");
 		if(!Objects.isNull(id)){
 			sysAuthority = sysAuthorityRepository.findOne(id);
+			Long fatherId = sysAuthority.getFatherId();
+			if (fatherId!=0) {
+				String sql="select * from sys_authority where id="+fatherId;
+				List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+				if (!list.isEmpty()) {
+					String fatherTitle=(String) list.get(0).get("title");
+					System.out.println(fatherTitle);
+					model.addAttribute("fathertitle", fatherTitle);
+				}
+			}
 		}
 		//List<SysAuthority> fsysAuthoritys=sysAuthorityRepository.findByGradeOrderBySortLevel(1);
 		model.addAttribute("sysAuthority", sysAuthority);

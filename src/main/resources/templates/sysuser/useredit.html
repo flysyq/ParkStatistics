@@ -76,6 +76,17 @@
 							+ '<span class="caret"></span>';
 					$("#bmailflag").html($bmailflag);
 				});
+		$("#hmailflag").each(function(){
+			if($(this).val()==1){
+				$bmailflag ='是<span class="caret"></span>';
+				$("#bmailflag").html($bmailflag);
+			}
+			if($(this).val()==0){
+				$bmailflag ='否<span class="caret"></span>';
+				$("#bmailflag").html($bmailflag);
+			}
+			
+		});
 	});
 </script>
 </html>

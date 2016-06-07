@@ -24,7 +24,7 @@
 					<div class="col-md-1 col-md-offset-5">
 						<button id="broles" type="button"
 							class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false" style="width:100px">
+							aria-haspopup="true" aria-expanded="false" style="width:100px" th:value="${name}">
 							请选择<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" id="roles_list">
@@ -55,7 +55,7 @@
 				contentType : "json",
 				success : function(data) {
 					for (var i = 0; i < data.length; i++) {
-						var li = "<li><a href='#' id='roleId"+data[i].Id+"' data-value='"+data[i].name+"' data-value1='"+data[i].id+"' >"
+						var li = "<li><a href='#' id='roleId"+data[i].id+"' data-value='"+data[i].name+"' data-value1='"+data[i].id+"' >"
 								+ data[i].name + "</a></li>";
 						$("#roles_list").append(li);
 					}
@@ -68,6 +68,11 @@
 		$("#role_id").val($roleId);
 		$broles = $(this).attr("data-value") + '<span class="caret"></span>';
 		$("#broles").html($broles);
+	});
+	$("#broles").each(function(){
+		if($(this).val()!=""){
+			$("#broles").html($(this).val()+ '<span class="caret"></span>');
+		}
 	});
 	/*]]>*/
 </script>

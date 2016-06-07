@@ -12,7 +12,8 @@
 			<div class="col-md-1 col-md-offset-5">标题</div>
 			<div class="col-md-2">
 				<input type="text" class="form-control" name="title"
-					th:value="${sysAuthority.title}" id="title" /> <span class="stitle"></span>
+					th:value="${sysAuthority.title}" id="title" /> <span
+					class="stitle"></span>
 			</div>
 		</div>
 		<br />
@@ -61,7 +62,7 @@
 				<div class="btn-group" role="group">
 					<button id="father1" type="button"
 						class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">
+						aria-haspopup="true" aria-expanded="false" th:value="${fathertitle}">
 						请选择<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" id="father_list">
@@ -73,8 +74,9 @@
 		<div class="form-group">
 			<div class="col-md-1 col-md-offset-5">排序</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" name="sort_level" id="sort_level"
-					th:value="${sysAuthority.sortLevel}" /> <span id="ssort_level"></span>
+				<input type="text" class="form-control" name="sort_level"
+					id="sort_level" th:value="${sysAuthority.sortLevel}" /> <span
+					id="ssort_level"></span>
 			</div>
 		</div>
 		<br />
@@ -106,28 +108,31 @@
 		$("#father_div").hide();
 		$("#grade1").click(function() {
 			$("#father_div").hide();
+			$("#father_id").val("0");
+			$("#father1").html('请选择<span class="caret"></span>');
 		});
-		$("#grade2")
-				.click(
-						function() {
-							$("#father_div").show();
-							$
-									.ajax({
-										type : "get",
-										url : "../authority/father.do",
-										contentType : "application/json; charset=utf-8",
-										dataType : "json",
-										success : function(data) {
-											for (var i = 0; i < data.length; i++) {
-												var li = "<li><a href='#' id='fatherId"+data[i].fatherId+"' data-value='"+data[i].title+"' data-value1='"+data[i].id+"'>"
-														+ data[i].title
-														+ "</a></li>";
-												$("#father_list").append(li);
-											}
+		$("#grade2").click(function() {
+			$("#father_div").show();
 
-										}
-									});
-						});
+		});
+		$("#father_div").click(function(){
+			$
+			.ajax({
+				type : "get",
+				url : "../authority/father.do",
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(data) {
+					for (var i = 0; i < data.length; i++) {
+						var li = "<li><a href='#' id='fatherId"+data[i].fatherId+"' data-value='"+data[i].title+"' data-value1='"+data[i].id+"'>"
+								+ data[i].title
+								+ "</a></li>";
+						$("#father_list").append(li);
+					}
+
+				}
+			});
+		});
 		autosize($("textarea"));
 		$("[id^=grade]").click(
 				function(e) {
@@ -136,6 +141,7 @@
 					$bgrade = $(this).attr("data-value")
 							+ '<span class="caret"></span>';
 					$("#bgrade").html($bgrade);
+					
 				});
 		$("body").on(
 				"click",
@@ -144,18 +150,35 @@
 					$fatherId = $(this).attr("data-value1");
 					$("#father_id").val($fatherId);
 					$father1 = $(this).attr("data-value")
-							+ '<span class="caret"></span>';			
+							+ '<span class="caret"></span>';
 					$("#father1").html($father1);
 				});
-		$("#submit").click(function(e){
-			if($("#title").val()==""||$("#title").val()==null){
-				alert($("#title").val());
-				e.preventDefault();
-				$(".stitle").html("标题不能为空")
+		$("#submit").click(
+				function(e) {
+					if ($("#title").val() == "" || $("#title").val() == null) {
+						alert($("#title").val());
+						e.preventDefault();
+						$(".stitle").html("标题不能为空")
+					} else if ($("#sort_level").val() == ""
+							|| $("#sort_level").val() == null) {
+						e.preventDefault();
+						$("#ssort_level").html("排序不能为空")
+					}
+				});
+		$("#hgrade").each(function() {
+			if ($(this).val() == 1) {
+				$bgrade = '一级<span class="caret"></span>';
+				$("#bgrade").html($bgrade);
 			}
-			else if($("#sort_level").val()==""||$("#sort_level").val()==null){
-				e.preventDefault();
-				$("#ssort_level").html("排序不能为空")
+			if ($(this).val() == 2) {
+				$bgrade = '二级<span class="caret"></span>';
+				$("#bgrade").html($bgrade);
+				$("#father_div").show();
+			}
+		});
+		$("#father1").each(function(){
+			if($(this).val()!="0"){
+				$("#father1").html($(this).val()+ '<span class="caret"></span>');
 			}
 		});
 
