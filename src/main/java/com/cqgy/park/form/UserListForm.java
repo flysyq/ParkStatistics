@@ -5,6 +5,9 @@ public class UserListForm {
 	private String name;
 	private String loginPassword;
 	private Integer enabled;
+	private Integer page;
+	private Integer page_size;
+	private Integer page_count;
 	public String getLoginCode() {
 		return loginCode;
 	}
@@ -29,16 +32,34 @@ public class UserListForm {
 	public void setEnabled(Integer enabled) {
 		this.enabled = enabled;
 	}
-	public UserListForm(String loginCode, String name, String loginPassword, Integer enabled) {
-		super();
-		this.loginCode = loginCode;
-		this.name = name;
-		this.loginPassword = loginPassword;
-		this.enabled = enabled;
+	public Integer getPage() {
+		return page;
+	}
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+	public Integer getPage_size() {
+		return page_size;
+	}
+	public void setPage_size(Integer page_size) {
+		this.page_size = page_size;
+	}
+	public Integer getPage_count() {
+		return page_count;
+	}
+	public void setPage_count(Integer page_count) {
+		this.page_count = page_count;
 	}
 	public UserListForm() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.loginCode = "";
+		this.name = "";
+		this.loginPassword = "";
+		this.enabled = 0;
+		this.page = 1;
+		this.page_size = 10;
+		this.page_count = 0;
 	}
+	
+
 	
 }

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqgy.park.bo.Page;
+import com.cqgy.park.bo.PageUtil;
 import com.cqgy.park.dao.SysAuthorityRepository;
 import com.cqgy.park.dao.SysAuthorityService;
 import com.cqgy.park.domain.SysAuthority;
@@ -41,8 +43,11 @@ public class SysAuthorityController {
 	SysAuthorityRepository sysAuthorityRepository;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	@RequestMapping(value="/authority/list.do",method=RequestMethod.GET)
-	public String list(AuthorityListForm authorityListForm,Long page,Long del_id,HttpServletRequest request,Model model){
+	@RequestMapping(value="authority/list.do",method=RequestMethod.GET)
+	public String list(AuthorityListForm form,Long del_id,HttpServletRequest request,Model model){
+		if (Objects.isNull(form)) {
+			 form = new AuthorityListForm();
+		}
 		if(!Objects.isNull(del_id)){
 			String findgrade="select grade from sys_authority where id="+del_id;
 			List<Map<String, Object>> foundGrade = jdbcTemplate.queryForList(findgrade);
@@ -60,58 +65,24 @@ public class SysAuthorityController {
 					}
 				}
 			}
-		
+
 			jdbcTemplate.update(delRoleAuthority);
 			jdbcTemplate.update(delsql);
 		}
 
-		Integer flag = authorityListForm.getFlag();
-		Integer grade = authorityListForm.getGrade();
-		String title = authorityListForm.getTitle();
 
-		Long pageSize=(long) 10;	
 		String countsql="select count(*) count from sys_authority";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
-		long pageMax;
-		if (count%pageSize==0) {
-			pageMax=count/pageSize;
-		}else{
-			pageMax=count/pageSize+1;
-		}
-		if (page==0) {
-			page=(long) 1;
-		}
-		if (pageMax==0) {
-			pageMax=1;
-		}
-		Long prevPage=page-1;
-		Long nextPage=page+1;
-		if (prevPage==0) {
-			prevPage=(long) 1;
-		}
-		if (nextPage>pageMax) {
-			nextPage=pageMax;
-		}
-		Long pageStart=(page-1)*pageSize;
+		Page page=new Page();
+		page.setPage(form.getPage());
+		page.setCount(count);
+		page.setPage_size(form.getPage_size());
+		page = PageUtil.handle(page);
 
-		String select = "select *, if(father_id=0,id,father_id) fid from sys_authority order by fid,grade,sort_level limit "+pageStart+","+pageSize;
+
+		String select = "select *, if(father_id=0,id,father_id) fid from sys_authority order by fid,grade,sort_level limit "+((page.getPage() - 1) * page.getPage_size()) + "," + page.getPage_size();
 		String where = "";
-		if(!Objects.isNull(flag)){
-			where += " flag = "+flag;
-		}
-		if(!Objects.isNull(grade)){
-			where += " and grade="+grade;
-		}
-		if(!Strings.isNullOrEmpty(title)){
-			where += " and title like '%"+title+"%'";
-		}
-		if(where.startsWith(" and")){
-			where = where.substring(4);
-		}
 
-		if(where.trim().length()>0){
-			where = " where "+where;
-		}		
 		String sql = select + where;
 		List<SysAuthority> sysAuthoritys=sysAuthorityService.getAuthoritys(sql);
 		List<SysAuthority> fsysAuthoritys=sysAuthorityRepository.findByGradeOrderBySortLevel(1);
@@ -120,15 +91,13 @@ public class SysAuthorityController {
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "菜单管理");
-		session.setAttribute("currentpage", page);
-		session.setAttribute("prevpage", prevPage);
-		session.setAttribute("nextpage", nextPage);
-		session.setAttribute("maxpage", pageMax);
+		model.addAttribute("page", page);
+		model.addAttribute("form", form);
 		String forword = "authority/list";
 		return forword;		
 	}
 
-	@RequestMapping(value="/authority/edit.do",method=RequestMethod.GET)
+	@RequestMapping(value="authority/edit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
 
 		SysAuthority sysAuthority = new SysAuthority(new Integer(0).longValue(),"","",1,1,"","",(long) 0,"");
@@ -154,7 +123,7 @@ public class SysAuthorityController {
 		return fsysAuthoritys;
 	}
 
-	@RequestMapping(value="/authority/save.do",method=RequestMethod.GET)
+	@RequestMapping(value="authority/save.do",method=RequestMethod.GET)
 	public String save(Long id,String title,String remark,String sort_level,
 			Integer flag,Integer grade,Long father_id,String uri,Model model,HttpServletRequest request){
 

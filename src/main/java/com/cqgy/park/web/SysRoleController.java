@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cqgy.park.bo.Page;
+import com.cqgy.park.bo.PageUtil;
 import com.cqgy.park.dao.SysRoleRepository;
 import com.cqgy.park.dao.SysRoleService;
 import com.cqgy.park.dao.SysUserRolesRepository;
@@ -31,8 +33,11 @@ public class SysRoleController {
 	SysUserRolesRepository sysUserRolesRepository;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	@RequestMapping(value="/sysrole/rolelist.do",method=RequestMethod.GET)
-	public String list(SysRoleListForm sysRoleListForm,Long page,Long del_id,HttpServletRequest request,Model model){
+	@RequestMapping(value="sysrole/rolelist.do",method=RequestMethod.GET)
+	public String list(SysRoleListForm form,Long del_id,HttpServletRequest request,Model model){
+		if (Objects.isNull(form)) {
+			form=new SysRoleListForm();
+		}
 		if (!Objects.isNull(del_id)) {
 			//sysRoleRepository.delete(del_id);
 			String delRoleAuthority="delete from sys_role_authoritys where role_id="+del_id;
@@ -49,52 +54,17 @@ public class SysRoleController {
 			}
 			
 		}
-		String code=sysRoleListForm.getCode();
-		String name=sysRoleListForm.getName();
-		String remark=sysRoleListForm.getRemark();
-		Long pageSize=(long) 10;	
 		String countsql="select count(*) count from sys_role";
 		Long count = (Long)jdbcTemplate.queryForList(countsql).get(0).get("count");
-		long pageMax;
-		if (count%pageSize==0) {
-			pageMax=count/pageSize;
-		}else{
-			pageMax=count/pageSize+1;
-		}
-		if (page==0) {
-			page=(long) 1;
-		}
-		if (pageMax==0) {
-			pageMax=1;
-		}
-		Long prevPage=page-1;
-		Long nextPage=page+1;
-		if (prevPage==0) {
-			prevPage=(long) 1;
-		}
-		if (nextPage>pageMax) {
-			nextPage=pageMax;
-		}
-		Long pageStart=(page-1)*pageSize;
+		Page page=new Page();
+		page.setPage(form.getPage());
+		page.setCount(count);
+		page.setPage_size(form.getPage_size());
+		page = PageUtil.handle(page);
 
-		String select = "select * from sys_role limit "+pageStart+","+pageSize;
+		String select = "select * from sys_role limit "+((page.getPage() - 1) * page.getPage_size()) + "," + page.getPage_size();
 		String where = "";
-		if (!Strings.isNullOrEmpty(code)) {
-			where+="and code="+code;
-		}
-		if (!Strings.isNullOrEmpty(name)) {
-			where+=" and name like '%"+name+"%'";
-		}
-		if (!Strings.isNullOrEmpty(remark)) {
-			where+=" and remark+"+remark;
-		}
-		if(where.startsWith(" and")){
-			where = where.substring(4);
-		}
 		
-		if(where.trim().length()>0){
-			where = " where "+where;
-		}		
 
 		String sql = select+where;
 		List<SysRole> sysRoles = sysRoleService.getRoles(sql);
@@ -102,14 +72,12 @@ public class SysRoleController {
 		HttpSession session = request.getSession();
 		session.setAttribute("fathertitle", "系统管理");
 		session.setAttribute("childrentitle", "角色管理");
-		session.setAttribute("currentpage", page);
-		session.setAttribute("prevpage", prevPage);
-		session.setAttribute("nextpage", nextPage);
-		session.setAttribute("maxpage", pageMax);
+		model.addAttribute("page", page);
+		model.addAttribute("form", form);
 		String forword="sysrole/rolelist";
 		return forword;
 	}
-	@RequestMapping(value="/sysrole/roleedit.do",method=RequestMethod.GET)
+	@RequestMapping(value="sysrole/roleedit.do",method=RequestMethod.GET)
 	public String edit(Long id,Model model){
 		SysRole sysRole=new SysRole(new Integer(0).longValue(), "", "", "");
 		if (!Objects.isNull(id)) {
@@ -119,7 +87,7 @@ public class SysRoleController {
 		String forword="sysrole/roleedit";
 		return forword;
 		}
-	@RequestMapping(value="/sysrole/rolesave.do",method=RequestMethod.GET)
+	@RequestMapping(value="sysrole/rolesave.do",method=RequestMethod.GET)
 	public String save(Long id,String code,String name,String remark,Model model,HttpServletRequest request){
 		SysRole sysRole=new SysRole();
 		sysRole.setId(id);

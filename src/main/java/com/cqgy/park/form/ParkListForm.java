@@ -1,31 +1,9 @@
 package com.cqgy.park.form;
 
-public class SysRoleListForm {
-	private String code;
-	private String name;
-	private String remark;
+public class ParkListForm {
 	private Integer page;
 	private Integer page_size;
 	private Integer page_count;
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	
 	public Integer getPage() {
 		return page;
 	}
@@ -44,10 +22,7 @@ public class SysRoleListForm {
 	public void setPage_count(Integer page_count) {
 		this.page_count = page_count;
 	}
-	public SysRoleListForm() {
-		this.code = "";
-		this.name = "";
-		this.remark = "";
+	public ParkListForm() {
 		this.page = 1;
 		this.page_size = 10;
 		this.page_count = 0;

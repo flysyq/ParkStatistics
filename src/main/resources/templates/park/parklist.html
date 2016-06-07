@@ -50,17 +50,16 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td align="center" colspan="8"><a
-														href="../park/parklist.do?page=1" class="btn btn-primary">首页</a>
-														<a
-														th:href="'../park/parklist.do?page='+${session.prevpage}"
-														class="btn btn-primary">上一页</a> <span
-														th:text="'当前第'+${session.currentpage}+'页/总共有'+${session.maxpage}+'页'"></span>
-														<a
-														th:href="'../park/parklist.do?page='+${session.nextpage}"
-														class="btn btn-primary">下一页</a> <a
-														th:href="'../park/parklist.do?page='+${session.maxpage}"
-														class="btn btn-primary">尾页</a></td>
+													<td align="center" colspan="11"><a id="choicepage1"
+														href="javascript:sub(1)" class="btn btn-primary">首页</a> <a
+														id="choicepage2" th:href="'javascript:sub('+${page.page-1}+')'"
+														class="btn btn-primary">前页</a> <span
+														th:text="'当前页:'+${page.page}+'/总页数:'+${page.page_count}"></span>
+														<a id="choicepage3"
+														th:href="'javascript:sub('+${page.page+1}+')'"
+														class="btn btn-primary">后页</a> <a id="choicepage4"
+														th:href="'javascript:sub('+${page.page_count}+')'"
+														class="btn btn-primary">末页</a></td>
 												</tr>
 											</tfoot>
 										</table>
@@ -92,6 +91,10 @@
 <script th:inline="javascript">
 	navList(12);
 	color();
+	function sub(page) {
+		$("#page").val(page);
+		$("#myform").submit();
+	}
 	$(function() {
 
 		$("[id^=ddel]").click(function(e) {
