@@ -55,7 +55,7 @@ public class ReportTask {
 	@Autowired
 	InfoDutyShriftReportLogRepository infoDutyShriftReportLogRepository;
 
-	@Scheduled(fixedRate = 1000 * 500)
+	@Scheduled(fixedRate = 1000 * 600)
 	public void genReport() {
 		//遍历info_park表，分park进行操作
 		String parkSql = "select park_code from info_park";

@@ -25,12 +25,24 @@ public class InfoMailLog {
 	
 	private Long userId;
 	private String userCode;
+	private String name;
 	private String userMail;
 	private Integer mailState;
 	private String resultDesc;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date searchEndTime;
+
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Long getId() {
 		return Id;
@@ -87,5 +99,13 @@ public class InfoMailLog {
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
+
+	public Date getSearchEndTime() {
+		return searchEndTime;
+	}
+
+	public void setSearchEndTime(Date searchEndTime) {
+		this.searchEndTime = searchEndTime;
+	}	
 	
 }
