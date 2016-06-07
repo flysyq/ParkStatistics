@@ -33,6 +33,7 @@ public class SysUserServiceImpl implements SysUserService {
 				sysUser.setName(rs.getString("name"));
 				sysUser.setUpdateTime(rs.getTimestamp("update_time"));
 				sysUser.setUpdateUser(rs.getLong("update_user"));
+				sysUser.setMailFlag(rs.getInt("mail_flag"));
 
 				return sysUser;
 			}

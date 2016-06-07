@@ -108,7 +108,7 @@ public class SysUser {
 	
 	
 	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled, String eMail,
-			Long createUser, Date createTime, Long updateUser, Date updateTime) {
+			Long createUser, Date createTime, Long updateUser, Date updateTime,Integer mailFlag) {
 		super();
 		Id = id;
 		this.loginCode = loginCode;
@@ -120,8 +120,9 @@ public class SysUser {
 		this.createTime = createTime;
 		this.updateUser = updateUser;
 		this.updateTime = updateTime;
+		this.mailFlag=mailFlag;
 	}
-	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled,String eMail) {
+	public SysUser(Long id, String loginCode, String name, String loginPassword, Integer enabled,String eMail,Integer mailFlag) {
 		super();
 		Id = id;
 		this.loginCode = loginCode;
@@ -129,6 +130,7 @@ public class SysUser {
 		this.loginPassword = loginPassword;
 		this.enabled = enabled;		
 		this.eMail = eMail;
+		this.mailFlag=mailFlag;
 	}
 	public SysUser() {
 		super();

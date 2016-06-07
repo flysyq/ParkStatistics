@@ -4,7 +4,7 @@
 	<div th:replace="theme/home :: top" />
 	<div th:replace="theme/home :: p-h" />
 	<div id="content">
-		<div th:replace="theme/home :: left_menu" />
+		<div class="left_menu" th:utext="${session.li}"/>
 		<div class="m-right">
 			<div th:replace="theme/home :: right-nav" />
 			<div class="main">

@@ -5,15 +5,14 @@
 	<div th:replace="theme/home :: top" />
 	<div th:replace="theme/home :: p-h" />
 	<div id="content">
-		<div th:replace="theme/home :: left_menu" />
+		<div class="left_menu" th:utext="${session.li}" />
 		<div class="m-right">
 			<div th:replace="theme/home :: right-nav" />
 			<div class="main">
 				<div class="table-responsive">
 					<form name="myform" method="get" id="myform">
-						<input type="hidden" name="del_id" id="del_id" value="" /> <input
-							type="hidden" name="page" id="page" th:value="${page.page}" /> <input
-							type="hidden" name="page_size" id="page_size"
+						<input type="hidden" name="page" id="page" th:value="${page.page}" />
+						<input type="hidden" name="page_size" id="page_size"
 							th:value="${page.page_size}" /> <input type="hidden"
 							name="page_count" id="page_count" th:value="${page.page_count}" />
 						<div class="container">
@@ -80,7 +79,7 @@
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">交班记录</div>
+										<div class="panel-heading">交换班日志</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
 												<tr>
@@ -104,7 +103,8 @@
 													<td th:text="${log.emp_name}"></td>
 													<td th:text="${log.user_emp_no}"></td>
 													<td th:text="${log.user_type_name}"></td>
-													<td th:id="'op_type'+${log.op_type}" th:text="${log.op_type}"></td>
+													<td th:id="'op_type'+${log.op_type}"
+														th:text="${log.op_type}"></td>
 													<td th:text="${log.op_time}"></td>
 													<td th:text="${log.user_code}"></td>
 
@@ -159,8 +159,9 @@
 		$("#myform").submit();
 	}
 
-	 $.fn.modal.Constructor.prototype.enforceFocus = function() {}; 
-	$(function() {	
+	$.fn.modal.Constructor.prototype.enforceFocus = function() {
+	};
+	$(function() {
 		navList(12);
 		color();
 		$("[name=page_s]").click(function(e) {
@@ -170,23 +171,22 @@
 			$("#page").val(1);
 			$("#myform").submit();
 		});
-		$('#start_datetime,#end_datetime')
-				.datetimepicker({
-					language : 'zh-CN',
-					weekStart : 1,
-					todayBtn : 1,
-					autoclose : 1,
-					todayHighlight : 1,
-					startView : 2,
-					forceParse : 0,
-					showMeridian : 1
-				});
+		$('#start_datetime,#end_datetime').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			forceParse : 0,
+			showMeridian : 1
+		});
 
 	});
-	$("[id^=op_type]").each(function(){
-		if($(this).attr("id").substring(7)==1){
+	$("[id^=op_type]").each(function() {
+		if ($(this).attr("id").substring(7) == 1) {
 			$(this).html("登陆");
-		}else{
+		} else {
 			$(this).html("退出");
 		}
 	});

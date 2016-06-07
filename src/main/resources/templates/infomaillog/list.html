@@ -79,32 +79,29 @@
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<!-- Default panel contents -->
-										<div class="panel-heading">报表生成日志</div>
+										<div class="panel-heading">邮件发送日志</div>
 										<table class="table table-bordered table-hover">
 											<thead class="thead_success">
 												<tr>
 													<td>编号</td>
-													<td>停车场编号</td>
-													<td>停车场名称</td>
-													<td>任务类型</td>
-													<td>任务开始时间</td>
-													<td>任务结束时间</td>
-													<td>搜索开始时间</td>
-													<td>搜索结束时间</td>
+													<td>发送结果</td>
+													<td>用户名</td>
+													<td>用户姓名</td>
+													<td>用户邮箱</td>
+													<td>发送时间</td>
+													<td>搜索时间</td>
 												</tr>
 											</thead>
 											<tbody>
 												<tr th:each="log,iterStat : ${log}">
 													<td
 														th:text="${iterStat.count+(page.page-1)*page.page_size}"></td>
-													<td th:text="${log.park_id}"></td>
-													<td th:text="${log.park_name}"></td>
-													<td th:id="'flag'+${log.flag}" th:text="${log.flag}"></td>
-													<td th:text="${log.task_start_time}"></td>
-													<td th:text="${log.task_end_time}"></td>
-													<td th:text="${log.search_start_time}"></td>
+													<td th:text="${log.result_desc}"></td>
+													<td th:text="${log.user_code}"></td>
+													<td th:text="${log.name}"></td>
+													<td th:text="${log.user_mail}"></td>
+													<td th:text="${log.start_time}"></td>
 													<td th:text="${log.search_end_time}"></td>
-
 												</tr>
 											</tbody>
 											<tfoot>
@@ -178,17 +175,7 @@
 			forceParse : 0,
 			showMeridian : 1
 		});
-		
-		$("#flag").each(function(){
-			if($(this).attr("id").substring==1){
-				$(this).html("进行中");
-			}else if($(this).attr("id").substring==2){
-				$(this).html("成功结束");
-			}else if($(this).attr("id").substring==3){
-				$(this).html("异常");
-			}
-		});
-		
+
 	});
 	/*]]>*/
 </script>

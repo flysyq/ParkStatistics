@@ -13,6 +13,7 @@ import static com.cqgy.park.tool.SHAUtil.shaEncode;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -70,22 +71,42 @@ public class LoginController {
 			Date date = new Date();
 			ActionLog actionLog = new ActionLog(null,login_code,1,date);
 			actionLogRepository.save(actionLog);
-			String  li = "<div class='left_menu' th:fragment='left_menu'><ul id='nav_dot'>";
+			String  li = "\n<ul id='nav_dot'>\n";
+			System.out.println("菜单长度："+menu.size());
+			
+			
+			
 			for (int i = 0; i < menu.size(); i++) {
-				if (menu.get(i).get("grade").equals("1")) {
-					li += "<li><h4 class='M1'><span></span>"
+
+				if ((Integer)menu.get(i).get("grade")==1) {
+					String h4="";
+					if (menu.get(i).get("title").equals("系统管理")) {
+						h4="M1";
+					}else if (menu.get(i).get("title").equals("系统日志")) {
+						h4="M2";
+					}else if (menu.get(i).get("title").equals("记录查询")) {
+						h4="M3";
+					}else if (menu.get(i).get("title").equals("统计分析")) {
+						h4="M4";
+					}else if (menu.get(i).get("title").equals("交接班报表")) {
+						h4="M5";
+					}else if (menu.get(i).get("title").equals("车库管理")) {
+						h4="M6";
+					}
+					li += "<li>\n<h4 class='"+h4+"'>\n<span></span>\n"
 							+ menu.get(i).get("title")
-							+ "</h4><div class='list-item none'><ul>";
+							+ "</h4>\n<div class='list-item none'>\n<ul>\n";
 				}
-				if (menu.get(i).get("grade").equals("2")) {
+				if ((Integer)menu.get(i).get("grade")==2) {
 					li += "<li><a href='../"+menu.get(i).get("uri")+"'>"
-							+ menu.get(i).get("title") + "</a></li>";
+							+ menu.get(i).get("title") + "</a></li>\n";
 				}
-				if (i < menu.size() - 1 && menu.get(i+1).get("grade").equals("1")) {
-					li += "</ul></div></li>";
+				if (i < menu.size() - 1 && (Integer)menu.get(i+1).get("grade")==1) {
+					li += "</ul>\n</div>\n</li>";
 				}
 			}
-			li += "</ul></div>";
+			li += "</ul>\n</div>";
+			System.out.println(li);
 			HttpSession session = req.getSession();
 			session.setAttribute("login_id", user.getId());
 			session.setAttribute("loginCode", login_code);
