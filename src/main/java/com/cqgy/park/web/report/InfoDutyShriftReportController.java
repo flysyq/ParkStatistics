@@ -28,7 +28,20 @@ public class InfoDutyShriftReportController {
 		if (Objects.isNull(form)) {
 			form=new InfoDutyShriftReportForm();
 		}
-		String cousql="select count(*) cou from info_duty_shrift_report where  down_time>'"+form.getStart_date()+"' and down_time<'"+form.getEnd_date()+"'";
+		String couselect="select count(*) cou from info_duty_shrift_report a join info_park b on a.park_id=b.park_code and  down_time>'"+form.getStart_date()+"' and down_time<'"+form.getEnd_date()+"'";
+		String couwhere="";
+		if (form.getWhere()!=null) {
+			if (form.getWhere().equals("park_id")) {
+				couwhere=" and a.park_id="+form.getClause();
+			}
+			if (form.getWhere().equals("park_name")) {
+				couwhere=" and b.park_name like '%"+form.getClause()+"%'";
+			}
+			if (form.getWhere().equals("emp_no")) {
+				couwhere=" and emp_no ='"+form.getClause()+"'";
+			}
+		}
+		String cousql=couselect+couwhere;
 		Long cou = (Long) jdbcTemplate.queryForList(cousql).get(0).get("cou");
 		Page page=new Page();
 		page.setPage(form.getPage());
@@ -42,13 +55,13 @@ public class InfoDutyShriftReportController {
 		
 		if (form.getWhere()!=null) {
 			if (form.getWhere().equals("park_id")) {
-				where+=" and a.park_id="+form.getClause();
+				where=" and a.park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("park_name")) {
-				where+=" and b.park_name like '%"+form.getClause()+"%'";
+				where=" and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("emp_no")) {
-				where+=" and emp_no ='"+form.getClause()+"'";
+				where=" and emp_no ='"+form.getClause()+"'";
 			}
 		}
 		String sql=select+from+where+limit;
