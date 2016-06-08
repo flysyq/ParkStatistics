@@ -25,18 +25,20 @@ public class CarIoController {
 	JdbcTemplate jdbcTemplate;
 	@RequestMapping(value="cario/list.do",method=RequestMethod.GET)
 	public String list(QueryForm form,HttpServletRequest request,Model model){
-		System.out.println("进来了");
 		if (Objects.isNull(form)) {
 			form=new QueryForm();
 		}
 		String couselect="select count(*) cou from info_car_io ";
 		String cwhere="";
 		if (form.getWhere()!=null) {
+			if (form.getWhere().equals("park_name")) {
+				cwhere="a join info_park b on a.park_id=b.park_code and b.park_name like '%"+form.getClause()+"%'";
+			}
 			if (form.getWhere().equals("park_id")) {
 				cwhere="where park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("plate")) {
-				cwhere="where plate='"+form.getClause()+"'";
+				cwhere="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
 				if (form.getClause().equals("月卡")) {
@@ -55,10 +57,10 @@ public class CarIoController {
 				cwhere="where card_no="+form.getClause();
 			}
 			if (form.getWhere().equals("in_emp_name")){
-				cwhere="where in_emp_name='"+form.getClause()+"'";
+				cwhere="where in_emp_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("out_emp_name")){
-				cwhere="where in_emp_name='"+form.getClause()+"'";
+				cwhere="where out_emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String cousql=couselect+cwhere;
@@ -77,10 +79,10 @@ public class CarIoController {
 				where="and park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("park_name")) {
-				where="and b.park_name='"+form.getClause()+"'";
+				where="and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("plate")) {
-				where="where plate='"+form.getClause()+"'";
+				where="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
 				if (form.getClause().equals("月卡")) {
@@ -99,10 +101,10 @@ public class CarIoController {
 				where="and card_no="+form.getClause();
 			}
 			if (form.getWhere().equals("in_emp_name")){
-				where="where in_emp_name='"+form.getClause()+"'";
+				where="where in_emp_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("out_emp_name")){
-				where="where in_emp_name='"+form.getClause()+"'";
+				where="where out_emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String orderby="";

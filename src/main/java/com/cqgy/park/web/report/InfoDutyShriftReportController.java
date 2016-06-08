@@ -45,7 +45,7 @@ public class InfoDutyShriftReportController {
 				where+=" and a.park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("park_name")) {
-				where+=" and b.park_name ='"+form.getClause()+"'";
+				where+=" and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("emp_no")) {
 				where+=" and emp_no ='"+form.getClause()+"'";

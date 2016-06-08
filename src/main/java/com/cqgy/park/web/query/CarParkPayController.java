@@ -30,11 +30,14 @@ public class CarParkPayController {
 		String couselect="select count(*) cou from info_car_park_pay ";
 		String cwhere="";
 		if (form.getWhere()!=null) {
+			if (form.getWhere().equals("park_name")) {
+				cwhere="a join info_park b on a.park_id=b.park_code and b.park_name like '%"+form.getClause()+"%'";
+			}
 			if (form.getWhere().equals("park_id")) {
 				cwhere="where park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("plate")) {
-				cwhere="where plate='"+form.getClause()+"'";
+				cwhere="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
 				if (form.getClause().equals("月卡")) {
@@ -79,7 +82,7 @@ public class CarParkPayController {
 				cwhere="where card_no="+form.getClause();
 			}
 			if (form.getWhere().equals("emp_name")){
-				cwhere="where emp_name='"+form.getClause()+"'";
+				cwhere="where emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String cousql=couselect+cwhere;
@@ -98,10 +101,10 @@ public class CarParkPayController {
 				where="where park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("park_name")) {
-				where="and b.park_name='"+form.getClause()+"'";
+				where="and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("plate")) {
-				where="where plate='"+form.getClause()+"'";
+				where="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
 				if (form.getClause().equals("月卡")) {
@@ -146,7 +149,7 @@ public class CarParkPayController {
 				where="where card_no="+form.getClause();
 			}
 			if (form.getWhere().equals("emp_name")){
-				where="where emp_name='"+form.getClause()+"'";
+				where="where emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String orderby="";

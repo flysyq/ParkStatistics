@@ -31,6 +31,9 @@ public class GateOpenController {
 		String couselect="select count(*) cou from info_gate_open_hand ";
 		String cwhere="";
 		if (form.getWhere()!=null) {
+			if (form.getWhere().equals("park_name")) {
+				cwhere="a join info_park b on a.park_id=b.park_code and b.park_name like '%"+form.getClause()+"%'";
+			}
 			if (form.getWhere().equals("park_id")) {
 				cwhere="where park_id="+form.getClause();
 			}
@@ -44,7 +47,7 @@ public class GateOpenController {
 				}
 			}
 			if (form.getWhere().equals("open_emp_name")){
-				cwhere="where open_emp_name='"+form.getClause()+"'";
+				cwhere="where open_emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String cousql=couselect+cwhere;
@@ -63,7 +66,7 @@ public class GateOpenController {
 				where="and park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("park_name")) {
-				where="and b.park_name='"+form.getClause()+"'";
+				where="and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("open_type")) {
 				if (form.getClause().equals("手动开闸")) {
@@ -75,7 +78,7 @@ public class GateOpenController {
 				}
 			}
 			if (form.getWhere().equals("open_emp_name")){
-				where="where open_emp_name='"+form.getClause()+"'";
+				where="where open_emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String orderby="";

@@ -29,14 +29,18 @@ public class CardInController {
 		String couselect="select count(*) cou from info_card_in ";
 		String cwhere="";
 		if (form.getWhere()!=null) {
+			if (form.getWhere().equals("park_name")) {
+				cwhere="a join info_park b on a.park_id=b.park_code and b.park_name like '%"+form.getClause()+"%'";
+			}
 			if (form.getWhere().equals("park_id")) {
 				cwhere="where park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("plate")) {
-				cwhere="where plate='"+form.getClause()+"'";
-			}
+				cwhere="where plate like '%"+form.getClause()+"%'";
+			} 
 			if (form.getWhere().equals("card_type")) {
-				if (form.getClause().equals("月卡")) {
+				String clause = form.getClause();
+				if ("月卡".contains(clause)) {
 					cwhere="where card_type=1";
 				}else if (form.getClause().equals("免费卡")) {
 					cwhere="where card_type=2";
@@ -55,7 +59,7 @@ public class CardInController {
 				cwhere="where pay_money="+form.getClause();
 			}
 			if (form.getWhere().equals("accept_emp_name")){
-				cwhere="where accept_emp_name='"+form.getClause()+"'";
+				cwhere="where accept_emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 
@@ -75,10 +79,10 @@ public class CardInController {
 				where="and park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("park_name")) {
-				where="and b.park_name='"+form.getClause()+"'";
+				where="and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("plate")) {
-				where="where plate='"+form.getClause()+"'";
+				where="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
 				if (form.getClause().equals("月卡")) {
@@ -100,7 +104,7 @@ public class CardInController {
 				where="and pay_money="+form.getClause();
 			}
 			if (form.getWhere().equals("accept_emp_name")){
-				where="and accept_emp_name='"+form.getClause()+"'";
+				where="and accept_emp_name like '%"+form.getClause()+"%'";
 			}
 		}
 		String orderby="";
