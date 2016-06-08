@@ -41,15 +41,18 @@ public class CarIoController {
 				cwhere="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
-				if (form.getClause().equals("月卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("月卡".contains(clause)) {
 					cwhere="where card_type=1";
-				}else if (form.getClause().equals("免费卡")) {
+				}else if ("免费卡".contains(clause)) {
 					cwhere="where card_type=2";
-				}else if (form.getClause().equals("储蓄卡")) {
+				}else if ("储蓄卡".contains(clause)) {
 					cwhere="where card_type=3";
-				}else if (form.getClause().equals("临时卡")) {
+				}else if ("临时卡".contains(clause)) {
 					cwhere="where card_type=4";
-				}else{
+				}else {
 					cwhere="where card_type=0";
 				}
 			}
@@ -85,16 +88,18 @@ public class CarIoController {
 				where="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
-				if (form.getClause().equals("月卡")) {
-					where="and card_type=1";
-				}else if (form.getClause().equals("免费卡")) {
-					where="and card_type=2";
-				}else if (form.getClause().equals("储蓄卡")) {
-					where="and card_type=3";
-				}else if (form.getClause().equals("临时卡")) {
-					where="and card_type=4";
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+				}else if ("月卡".contains(clause)) {
+					where="where card_type=1";
+				}else if ("免费卡".contains(clause)) {
+					where="where card_type=2";
+				}else if ("储蓄卡".contains(clause)) {
+					where="where card_type=3";
+				}else if ("临时卡".contains(clause)) {
+					where="where card_type=4";
 				}else{
-					where="and card_type=0";
+					where="where card_type=0";
 				}
 			}
 			if (form.getWhere().equals("card_no")){

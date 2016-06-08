@@ -39,8 +39,7 @@ public class MailTask {
 	InfoMailLogRepository infoMailLogRepository;
 	
 	
-	//@Scheduled(cron="0 0 0 1 * * ")
-	@Scheduled(fixedRate=1000*5)
+	@Scheduled(cron="0 0 0 1 * * ")
 	public void mailTo(){
 		
 		//获取接收邮件的用户的邮件地址

@@ -40,39 +40,48 @@ public class CarParkPayController {
 				cwhere="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
-				if (form.getClause().equals("月卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("月卡".contains(clause)) {
 					cwhere="where card_type=1";
-				}else if (form.getClause().equals("免费卡")) {
+				}else if ("免费卡".contains(clause)) {
 					cwhere="where card_type=2";
-				}else if (form.getClause().equals("储蓄卡")) {
+				}else if ("储蓄卡".contains(clause)) {
 					cwhere="where card_type=3";
-				}else if (form.getClause().equals("临时卡")) {
+				}else if ("临时卡".contains(clause)) {
 					cwhere="where card_type=4";
-				}else{
+				}else {
 					cwhere="where card_type=0";
 				}
 			}
 			if (form.getWhere().equals("pay_type")) {
-				if (form.getClause().equals("月卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("月卡".contains(clause)) {
 					cwhere="where pay_type=1";
-				}else if (form.getClause().equals("免费卡")) {
+				}else if ("免费卡".contains(clause)) {
 					cwhere="where pay_type=2";
-				}else if (form.getClause().equals("储蓄卡")) {
+				}else if ("储蓄卡".contains(clause)) {
 					cwhere="where pay_type=3";
-				}else if (form.getClause().equals("现金")) {
+				}else if ("现金".contains(clause)) {
 					cwhere="where pay_type=4";
-				}else if (form.getClause().equals("会员积分")) {
+				}else if ("会员积分".contains(clause)) {
 					cwhere="where pay_type=5";
 				}else{
 					cwhere="where pay_type=0";
 				}
 			}
 			if (form.getWhere().equals("free_type")) {
-				if (form.getClause().equals("免费卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("免费卡".contains(clause)) {
 					cwhere="where free_type=1";
-				}else if (form.getClause().equals("领导审批")) {
+				}else if ("领导审批".contains(clause)) {
 					cwhere="where free_type=2";
-				}else if (form.getClause().equals("折扣卡")) {
+				}else if ("折扣卡".contains(clause)) {
 					cwhere="where free_type=3";
 				}else{
 					cwhere="where free_type=0";
@@ -107,39 +116,48 @@ public class CarParkPayController {
 				where="where plate like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("card_type")) {
-				if (form.getClause().equals("月卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("月卡".contains(clause)) {
 					where="where card_type=1";
-				}else if (form.getClause().equals("免费卡")) {
+				}else if ("免费卡".contains(clause)) {
 					where="where card_type=2";
-				}else if (form.getClause().equals("储蓄卡")) {
+				}else if ("储蓄卡".contains(clause)) {
 					where="where card_type=3";
-				}else if (form.getClause().equals("临时卡")) {
+				}else if ("临时卡".contains(clause)) {
 					where="where card_type=4";
-				}else{
+				}else {
 					where="where card_type=0";
 				}
 			}
 			if (form.getWhere().equals("pay_type")) {
-				if (form.getClause().equals("月卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("月卡".contains(clause)) {
 					where="where pay_type=1";
-				}else if (form.getClause().equals("免费卡")) {
+				}else if ("免费卡".contains(clause)) {
 					where="where pay_type=2";
-				}else if (form.getClause().equals("储蓄卡")) {
+				}else if ("储蓄卡".contains(clause)) {
 					where="where pay_type=3";
-				}else if (form.getClause().equals("现金")) {
+				}else if ("现金".contains(clause)) {
 					where="where pay_type=4";
-				}else if (form.getClause().equals("会员积分")) {
+				}else if ("会员积分".contains(clause)) {
 					where="where pay_type=5";
 				}else{
-					cwhere="where pay_type=0";
+					where="where pay_type=0";
 				}
 			}
 			if (form.getWhere().equals("free_type")) {
-				if (form.getClause().equals("免费卡")) {
+				String clause = form.getClause();
+				if(clause.equals("卡")){
+
+				}else if ("免费卡".contains(clause)) {
 					where="where free_type=1";
-				}else if (form.getClause().equals("领导审批")) {
+				}else if ("领导审批".contains(clause)) {
 					where="where free_type=2";
-				}else if (form.getClause().equals("折扣卡")) {
+				}else if ("折扣卡".contains(clause)) {
 					where="where free_type=3";
 				}else{
 					where="where free_type=0";

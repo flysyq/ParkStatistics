@@ -38,9 +38,12 @@ public class GateOpenController {
 				cwhere="where park_id="+form.getClause();
 			}
 			if (form.getWhere().equals("open_type")) {
-				if (form.getClause().equals("手动开闸")) {
+				String clause=form.getClause();
+				if(clause.equals("开闸")){
+
+				}else if ("手动开闸".contains(clause)) {
 					cwhere="where open_type=1";
-				}else if (form.getClause().equals("非法开闸")) {
+				}else if ("非法开闸".contains(clause)) {
 					cwhere="where open_type=2";
 				}else{
 					cwhere="where open_type=0";
@@ -69,9 +72,12 @@ public class GateOpenController {
 				where="and b.park_name like '%"+form.getClause()+"%'";
 			}
 			if (form.getWhere().equals("open_type")) {
-				if (form.getClause().equals("手动开闸")) {
+				String clause=form.getClause();
+				if(clause.equals("开闸")){
+
+				}else if ("手动开闸".contains(clause)) {
 					where="where open_type=1";
-				}else if (form.getClause().equals("非法开闸")) {
+				}else if ("非法开闸".contains(clause)) {
 					where="where open_type=2";
 				}else{
 					where="where open_type=0";
