@@ -108,8 +108,9 @@
 		$("#father_div").hide();
 		$("#grade1").click(function() {
 			$("#father_div").hide();
-			$("#father_id").val("0");
+			$("#father_id").val("");
 			$("#father1").html('请选择<span class="caret"></span>');
+			$("#father_list").children().remove();
 		});
 		$("#grade2").click(function() {
 			$("#father_div").show();
@@ -177,7 +178,7 @@
 			}
 		});
 		$("#father1").each(function(){
-			if($(this).val()!="0"){
+			if($(this).val()!=""){
 				$("#father1").html($(this).val()+ '<span class="caret"></span>');
 			}
 		});
