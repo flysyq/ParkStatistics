@@ -72,10 +72,6 @@ public class LoginController {
 			ActionLog actionLog = new ActionLog(null,login_code,1,date);
 			actionLogRepository.save(actionLog);
 			String  li = "\n<ul id='nav_dot'>\n";
-			System.out.println("菜单长度："+menu.size());
-			
-			
-			
 			for (int i = 0; i < menu.size(); i++) {
 
 				if ((Integer)menu.get(i).get("grade")==1) {
@@ -106,7 +102,6 @@ public class LoginController {
 				}
 			}
 			li += "</ul>\n</div>";
-			System.out.println(li);
 			HttpSession session = req.getSession();
 			session.setAttribute("login_id", user.getId());
 			session.setAttribute("loginCode", login_code);

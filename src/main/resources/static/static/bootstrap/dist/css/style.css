@@ -20,9 +20,9 @@ a{ text-decoration:none; color:#333;}
 .ipbox input {
     width: 374px; height:40px; border:1px solid #7775fd;}
 .box{text-align:center; }
-.btn-login{ width:374px; height:50px; margin: 50px 0 0 0; color:white; font-size:26px; background:#4ba9df; border:0; font-family:"微软雅黑";cursor:pointer;}
+.btn-login{ width:200px; height:50px; margin: 50px 0 0 0; color:white; font-size:26px; background:#4ba9df; border:0; font-family:"微软雅黑";cursor:pointer;}
 a.hov :hover{ background-color:#25b5fe;}
-.pic{ position:fixed; left:48%; bottom:7%; z-index:100;}
+.pic{ position:fixed; left:55%; bottom:7%; z-index:100;}
 .pic img{ width:856px; height:592px;}
 
 
